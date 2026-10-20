@@ -1,0 +1,16 @@
+# Evaluation on the locked test set.
+evaluation:
+  checkpoint: experiments/m1_finetune/best
+  test_manifest: data/manifests/test.csv
+  output_dir: experiments/m1_finetune/eval
+  batch_size: 16
+
+metrics:
+  primary: cer
+  secondary: [wer, rtf, latency_ms, model_size_mb, peak_gpu_mem_mb]
+  wer_segmentation: null   # define a consistent Khmer word segmentation before reporting WER
+
+normalization:
+  unicode_form: NFC
+  collapse_whitespace: true
+  remove_punctuation: false   # decide and document in docs/decisions.md

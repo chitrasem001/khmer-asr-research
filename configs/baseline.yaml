@@ -1,0 +1,23 @@
+# M0 — pretrained baseline, no fine-tuning.
+experiment:
+  name: m0_baseline
+  seed: 42
+  output_dir: experiments/m0_baseline
+
+model:
+  name_or_path: openai/whisper-small   # candidate only; confirm after model review
+  revision: null                        # pin a commit hash before reporting results
+  language: khmer
+  task: transcribe
+
+data:
+  dataset: Digital-Divide-Data/khmer-speech-dataset
+  revision: null
+  test_manifest: data/manifests/test.csv
+  sampling_rate: 16000
+
+inference:
+  batch_size: 16
+  num_beams: 1
+  max_new_tokens: 225
+  fp16: true

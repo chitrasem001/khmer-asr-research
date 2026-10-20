@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "khmer-asr"
+version = "0.1.0"
+description = "Fine-tuning and evaluation of pretrained ASR models for Khmer"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.1",
+    "torchaudio>=2.1",
+    "transformers>=4.40",
+    "datasets>=2.19",
+    "accelerate>=0.30",
+    "evaluate>=0.4",
+    "jiwer>=3.0",
+    "librosa>=0.10",
+    "soundfile>=0.12",
+    "numpy",
+    "pandas",
+    "pyarrow",
+    "pyyaml",
+    "python-dotenv",
+    "tqdm",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff", "jupyter"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
