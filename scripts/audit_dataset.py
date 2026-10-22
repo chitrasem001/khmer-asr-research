@@ -7,7 +7,7 @@ def main() -> None:
     parser.add_argument("--dataset", default="Digital-Divide-Data/khmer-speech-dataset")
     parser.add_argument("--max-samples", type=int, default=1000)
     parser.add_argument("--output", default="data/manifests/audit_report.json")
-    args = parser.parse_args()
+    parser.parse_args()
     raise NotImplementedError
 
 

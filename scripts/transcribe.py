@@ -6,7 +6,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--audio", required=True)
     parser.add_argument("--model", default="openai/whisper-small")
-    args = parser.parse_args()
+    parser.parse_args()
     raise NotImplementedError
 
 
