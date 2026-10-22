@@ -7,12 +7,14 @@ from pathlib import Path
 import pandas as pd
 
 from khmer_asr.data.audit import (
+    char_inventory,
     check_audio_sample,
     list_parquet_files,
     load_metadata,
     resolve_revision,
     speaker_table,
     summarize,
+    text_issues,
 )
 
 
@@ -45,6 +47,8 @@ def main() -> None:
         print(f"{args.dataset}@{revision}: reading {len(paths)}/{files_total} files")
         df = load_metadata(paths, workers=args.workers)
     speakers = speaker_table(df)
+    sentences = df["transcript"].dropna().drop_duplicates()
+    inventory = char_inventory(sentences)
     report = {
         "dataset": args.dataset,
         "revision": revision,
@@ -52,6 +56,9 @@ def main() -> None:
         "files_total": files_total,
         "summary": summarize(df),
         "speakers": speakers.to_dict(orient="records"),
+        "unique_raw_transcripts": len(sentences),
+        "text_issues_in_sentences": text_issues(sentences),
+        "distinct_chars": len(inventory),
         "audio_check_first_file": check_audio_sample(paths[0]),
         "elapsed_s": round(time.time() - start, 1),
     }
@@ -60,7 +67,8 @@ def main() -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     speakers.to_csv(out.with_name("audit_speakers.csv"), index=False)
-    print(f"Wrote {out} and {out.with_name('audit_speakers.csv')}")
+    inventory.to_csv(out.with_name("char_inventory.csv"), index=False, encoding="utf-8")
+    print(f"Wrote {out}, audit_speakers.csv and char_inventory.csv")
     if not args.metadata_in:
         meta = Path(args.metadata_out)
         meta.parent.mkdir(parents=True, exist_ok=True)

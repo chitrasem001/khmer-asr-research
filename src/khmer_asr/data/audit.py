@@ -3,6 +3,7 @@
 Only non-audio columns are read, so the full corpus can be audited without downloading audio.
 """
 import io
+import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 
 import numpy as np
@@ -42,6 +43,7 @@ def _read_metadata(path: str) -> pd.DataFrame:
     with fs.open(path, "rb") as f:
         df = pq.ParquetFile(f).read(columns=METADATA_COLUMNS).to_pandas()
     df["source_file"] = path.rsplit("/", 1)[-1]
+    df["row_in_file"] = range(len(df))
     return df
 
 
@@ -85,6 +87,56 @@ def non_khmer_chars(texts: pd.Series) -> dict[str, int]:
                 continue
             counts[ch] = counts.get(ch, 0) + 1
     return dict(sorted(counts.items(), key=lambda kv: -kv[1]))
+
+
+def char_inventory(texts: pd.Series) -> pd.DataFrame:
+    """Every character in the raw transcripts: code point, Unicode name/category, counts."""
+    chars: dict[str, list[int]] = {}
+    for text in texts:
+        for ch in text:
+            chars.setdefault(ch, [0, 0])[0] += 1
+        for ch in set(text):
+            chars[ch][1] += 1
+    rows = [
+        {
+            "char": ch,
+            "codepoint": f"U+{ord(ch):04X}",
+            "name": unicodedata.name(ch, "<unnamed>"),
+            "category": unicodedata.category(ch),
+            "occurrences": occ,
+            "sentences": sent,
+        }
+        for ch, (occ, sent) in chars.items()
+    ]
+    return pd.DataFrame(rows).sort_values("codepoint").reset_index(drop=True)
+
+
+# Non-standard Khmer character orders that make identical-looking text compare unequal.
+ORDER_PATTERNS = {
+    "coeng_ro_before_other_subscript": "\u17d2\u179a\u17d2[\u1780-\u17a2]",
+    "vowel_before_subscript": "[\u17b6-\u17c5]\u17d2",
+    "nikahit_before_u": "\u17c6\u17bb",
+    "deprecated_chars": "[\u17a3\u17a4\u17b4\u17b5]",
+}
+
+
+def text_issues(texts: pd.Series) -> dict[str, int]:
+    """Sentences affected by each formatting issue the normalization rules address."""
+    counts = {
+        name: int(texts.str.contains(pattern, regex=True).sum())
+        for name, pattern in ORDER_PATTERNS.items()
+    }
+    counts.update(
+        {
+            "zero_width_chars": int(texts.str.contains("[\u200b\u200c\u200d\ufeff]").sum()),
+            "latin_letters": int(texts.str.contains("[A-Za-z]").sum()),
+            "arabic_digits": int(texts.str.contains("[0-9]").sum()),
+            "khmer_digits": int(texts.str.contains("[\u17e0-\u17e9]").sum()),
+            "newlines": int(texts.str.contains("\n").sum()),
+            "double_spaces": int(texts.str.contains("  ").sum()),
+        }
+    )
+    return counts
 
 
 def speaker_table(df: pd.DataFrame) -> pd.DataFrame:

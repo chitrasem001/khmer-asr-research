@@ -13,4 +13,5 @@ metrics:
 normalization:
   unicode_form: NFC
   collapse_whitespace: true
-  remove_punctuation: false   # decide and document in docs/decisions.md
+  protocol: v1                # khmer_asr.preprocessing.text.normalize_khmer_text; see docs/decisions.md
+  cer_ignores_spaces: true    # primary CER; also report space-sensitive CER

@@ -20,23 +20,23 @@
     },
     "transcript_chars": {
       "empty": 0,
-      "median": 102.0,
-      "max": 385
+      "median": 100.0,
+      "max": 384
     },
     "duplicates": {
       "rows_with_duplicated_transcript": 450396,
-      "unique_duplicated_transcripts": 112517,
-      "duplicated_transcripts_read_by_2plus_speakers": 112516,
+      "unique_duplicated_transcripts": 112516,
+      "duplicated_transcripts_read_by_2plus_speakers": 112515,
       "duplicated_sentence_ids": 337778,
-      "unique_sentences": 112517,
+      "unique_sentences": 112516,
       "readings_per_sentence": {
-        "4": 112436,
-        "8": 80,
+        "4": 112434,
+        "8": 81,
         "12": 1
       },
       "speakers_per_sentence": {
         "1": 1,
-        "4": 112488,
+        "4": 112487,
         "5": 26,
         "6": 2
       }
@@ -45,36 +45,36 @@
     "topics": 70,
     "subtopics": 2087,
     "top_non_khmer_chars": {
-      "\"": 20856,
-      "e": 5244,
-      "o": 4564,
-      "a": 4192,
-      "i": 3080,
-      "r": 3060,
-      ")": 2940,
-      "(": 2936,
-      ",": 2916,
-      "-": 2680,
-      "n": 2576,
-      "t": 2432,
-      "s": 2244,
-      "l": 2128,
-      ".": 1980,
-      "T": 1976,
-      "c": 1524,
-      "«": 1512,
-      "C": 1508,
-      "»": 1504,
-      "u": 1492,
-      "k": 1384,
-      "S": 1356,
-      "p": 1304,
-      "P": 1276,
-      "g": 1232,
-      "m": 1208,
-      "b": 1156,
-      "d": 1152,
-      "M": 1016
+      "e": 6228,
+      "a": 5108,
+      "o": 4960,
+      "t": 4408,
+      "i": 3932,
+      "r": 3760,
+      "s": 3600,
+      "n": 3108,
+      "c": 3032,
+      "l": 2856,
+      "p": 2580,
+      "g": 2236,
+      "m": 2224,
+      "d": 1808,
+      "u": 1752,
+      "b": 1716,
+      "k": 1624,
+      "f": 1520,
+      "h": 1276,
+      "y": 676,
+      "v": 624,
+      "w": 536,
+      "%": 380,
+      "j": 256,
+      "x": 240,
+      "q": 236,
+      "z": 96,
+      "+": 96,
+      "$": 68,
+      "#": 32
     }
   },
   "speakers": [
@@ -219,6 +219,20 @@
       "group_code": "adt1"
     }
   ],
+  "unique_raw_transcripts": 112519,
+  "text_issues_in_sentences": {
+    "coeng_ro_before_other_subscript": 737,
+    "vowel_before_subscript": 114,
+    "nikahit_before_u": 39,
+    "deprecated_chars": 2,
+    "zero_width_chars": 6233,
+    "latin_letters": 1642,
+    "arabic_digits": 85,
+    "khmer_digits": 4475,
+    "newlines": 500,
+    "double_spaces": 1704
+  },
+  "distinct_chars": 190,
   "audio_check_first_file": [
     {
       "sample_rate": 16000,
@@ -341,5 +355,5 @@
       "duration_col_s": 5.062
     }
   ],
-  "elapsed_s": 120.2
+  "elapsed_s": 206.3
 }

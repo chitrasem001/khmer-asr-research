@@ -1,6 +1,12 @@
 import pandas as pd
 
-from khmer_asr.data.audit import non_khmer_chars, speaker_table, summarize
+from khmer_asr.data.audit import (
+    char_inventory,
+    non_khmer_chars,
+    speaker_table,
+    summarize,
+    text_issues,
+)
 
 
 def _frame() -> pd.DataFrame:
@@ -48,3 +54,18 @@ def test_speaker_table_parses_gender_code():
     table = speaker_table(_frame()).set_index("speaker_id")
     assert table.loc["f-adt1-0001", "gender_code"] == "f"
     assert table.loc["f-adt1-0001", "utterances"] == 2
+
+
+def test_char_inventory_counts_occurrences_and_sentences():
+    inv = char_inventory(pd.Series(["aab", "a"])).set_index("char")
+    assert inv.loc["a", "occurrences"] == 3
+    assert inv.loc["a", "sentences"] == 2
+    assert inv.loc["a", "codepoint"] == "U+0061"
+
+
+def test_text_issues_flags_legacy_order_and_zero_width():
+    issues = text_issues(pd.Series(["កា្លយ", "ក\u200bខ", "abc 12"]))
+    assert issues["vowel_before_subscript"] == 1
+    assert issues["zero_width_chars"] == 1
+    assert issues["latin_letters"] == 1
+    assert issues["arabic_digits"] == 1

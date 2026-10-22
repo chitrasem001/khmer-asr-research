@@ -13,10 +13,11 @@ model:
 
 data:
   dataset: Digital-Divide-Data/khmer-speech-dataset
-  revision: null
-  train_manifest: data/manifests/train.csv
+  revision: e872b0c58b4bbbe30c0244def61e39e7b57ea093
+  train_manifest: data/manifests/train.parquet
   validation_manifest: data/manifests/validation.csv
   test_manifest: data/manifests/test.csv   # locked; never used for model selection
+  test_seen_speakers_manifest: data/manifests/test_seen_speakers.csv
   sampling_rate: 16000
   max_duration_s: 30.0
   min_duration_s: 0.5

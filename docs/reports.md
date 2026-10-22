@@ -85,11 +85,32 @@ The same rules apply to training targets and to both sides of every CER score.
 **Primary CER ignores spaces**, because Khmer word spacing is optional and inconsistent. A
 space-sensitive CER is reported as a secondary metric. 21 unit tests cover the rules.
 
+**Reproducibility:** the character counts come from `scripts/audit_dataset.py`, which saves every
+character with its Unicode name and counts to `data/manifests/char_inventory.csv`, and the
+per-issue sentence counts to `text_issues_in_sentences` in `audit_report.json`.
+
+### Data preparation (option D, provisional)
+`scripts/prepare_dataset.py --config configs/data.yaml` filters clips and writes the split.
+
+| Split | Clips | Hours | Speakers | Purpose |
+|---|---|---|---|---|
+| train | 376,255 | 872.0 | 15 | Fine-tuning |
+| validation | 1,288 | 3.0 | 12 | Checkpoint selection (unseen sentences) |
+| test | 3,712 | 10.0 | 4 | Final results: unseen speakers and sentences |
+| test_seen_speakers | 1,891 | 5.0 | 10 | Unseen sentences, known speakers |
+
+- Dropped 673 clips: 636 missing duration, 1 under 0.5 s, 36 over 30 s.
+- Train has 15 speakers, not 16: every sentence of `f-adt2-0001` (16 clips) was also read by a
+  test speaker.
+- Leakage checks run on every build: no clip, sentence or test speaker is shared with train.
+- Clip IDs are `<file>:<row>`; 4 random test rows were checked against the source files
+  (transcript, speaker and duration all match).
+- The test set is **not locked yet**; it will be locked once the split option is approved.
+
 ### Decisions
 - Logged in `docs/decisions.md`: deadline, budget, GPU choice, environment, normalization v1,
-  space-free primary CER.
-- Split option: **pending** advisor feedback.
+  space-free primary CER, provisional option D, clip IDs.
 
 ### Next
-- Agree on the split option with Dr. Mao Makara.
-- Build `prepare_dataset.py`: filter bad clips, apply the split, lock `test.csv`.
+- Agree on the split option with Dr. Mao Makara, then lock the test set.
+- Choose and pin the M0 model (Whisper small vs. medium on the 8 GB local GPU).

@@ -1,0 +1,20 @@
+# Data preparation: filtering and speaker- and sentence-disjoint splits.
+# See docs/reports.md (split options A–D) and docs/decisions.md.
+data:
+  dataset: Digital-Divide-Data/khmer-speech-dataset
+  revision: e872b0c58b4bbbe30c0244def61e39e7b57ea093
+  metadata: data/processed/metadata.parquet   # written by scripts/audit_dataset.py
+  min_duration_s: 0.5
+  max_duration_s: 30.0
+
+split:
+  option: D                                     # pending advisor approval
+  test_speakers: [f-adt1-0003, f-adt4-0001, m-adt1-0002, m-adt3-0001]
+  test_hours_per_speaker: 2.5                   # 10 h test set
+  validation_hours: 3.0                         # unseen sentences, seen speakers; model selection
+  test_seen_speakers_hours: 5.0                 # unseen sentences read by training speakers
+  seed: 42
+  lock_test: false                              # set true once the split option is approved
+
+output:
+  dir: data/manifests

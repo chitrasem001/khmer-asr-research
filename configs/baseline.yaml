@@ -12,7 +12,7 @@ model:
 
 data:
   dataset: Digital-Divide-Data/khmer-speech-dataset
-  revision: null
+  revision: e872b0c58b4bbbe30c0244def61e39e7b57ea093
   test_manifest: data/manifests/test.csv
   sampling_rate: 16000
 

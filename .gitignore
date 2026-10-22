@@ -44,3 +44,6 @@ outputs/
 Thumbs.db
 .vscode/
 .idea/
+
+# Large, rebuilt by scripts/prepare_dataset.py (hash in split_report.json)
+data/manifests/train.parquet
