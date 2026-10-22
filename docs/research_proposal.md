@@ -65,12 +65,16 @@ submission.
 ## Methodology
 
 **Dataset.** DDD Khmer ASR Cultural Dataset: 450,396 utterances, 61 cultural topics, 16 kHz,
-CC BY-SA 4.0. Its card figures disagree and must be audited before training:
-- Size: 727.94 h, 128 GB (file listing) or 495.9 GB (text); the Mozilla Data Collective V2
-  listing reports 106.53 h.
-- Speakers: 12 (5 female, 7 male) in the text, but only 10 distinct IDs in the viewer.
+CC BY-SA 4.0. Its card figures disagree, so we audited the full corpus (22 Oct 2026, revision
+`e872b0c`; see `docs/reports.md`):
+- 450,396 utterances and **1,073.91 h** of audio (the card says 727.94 h).
+- **20 speakers** with audio: 9 female, 11 male, aged 18–66, 10 provinces (the card says 12).
+- **Every sentence is read by 4 different speakers** (112,517 unique sentences). The top 3
+  speakers hold 61% of the audio.
 
-The low speaker count limits generalization claims (question for the advisor).
+Because sentences repeat across speakers, the test set must hold out both speakers and sentences.
+Split options A–D are compared in `docs/reports.md`; option D (2 F + 2 M test speakers, mixed age)
+keeps 876 h for training.
 
 **Data protocol.**
 1. Audit by streaming, without a full download.
@@ -149,7 +153,7 @@ checkpoints are saved to persistent storage first.
 ## Questions for the advisor
 - What is the official submission deadline, and is there a required thesis template?
 - Is a controlled-comparison study (not a new model) a sufficient contribution?
-- Is the DDD dataset acceptable as the main corpus, given its 10–12 speakers?
+- Is the DDD dataset acceptable with 20 speakers, and is split option D acceptable?
 - Should RQ4 stay in scope or be dropped to save time?
 - Is university GPU access or funding available?
 
