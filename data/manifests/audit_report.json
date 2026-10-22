@@ -1,0 +1,345 @@
+{
+  "dataset": "Digital-Divide-Data/khmer-speech-dataset",
+  "revision": "e872b0c58b4bbbe30c0244def61e39e7b57ea093",
+  "files_read": 4447,
+  "files_total": 4447,
+  "summary": {
+    "rows": 450396,
+    "total_hours": 1073.91,
+    "duration_s": {
+      "missing": 636,
+      "min": 0.44,
+      "p05": 4.505,
+      "median": 8.06,
+      "mean": 8.596,
+      "p95": 14.36,
+      "max": 1190.45,
+      "below_0.5s": 1,
+      "above_30.0s": 36,
+      "hours_above_30.0s": 1.15
+    },
+    "transcript_chars": {
+      "empty": 0,
+      "median": 102.0,
+      "max": 385
+    },
+    "duplicates": {
+      "rows_with_duplicated_transcript": 450396,
+      "unique_duplicated_transcripts": 112517,
+      "duplicated_transcripts_read_by_2plus_speakers": 112516,
+      "duplicated_sentence_ids": 337778,
+      "unique_sentences": 112517,
+      "readings_per_sentence": {
+        "4": 112436,
+        "8": 80,
+        "12": 1
+      },
+      "speakers_per_sentence": {
+        "1": 1,
+        "4": 112488,
+        "5": 26,
+        "6": 2
+      }
+    },
+    "speakers": 20,
+    "topics": 70,
+    "subtopics": 2087,
+    "top_non_khmer_chars": {
+      "\"": 20856,
+      "e": 5244,
+      "o": 4564,
+      "a": 4192,
+      "i": 3080,
+      "r": 3060,
+      ")": 2940,
+      "(": 2936,
+      ",": 2916,
+      "-": 2680,
+      "n": 2576,
+      "t": 2432,
+      "s": 2244,
+      "l": 2128,
+      ".": 1980,
+      "T": 1976,
+      "c": 1524,
+      "«": 1512,
+      "C": 1508,
+      "»": 1504,
+      "u": 1492,
+      "k": 1384,
+      "S": 1356,
+      "p": 1304,
+      "P": 1276,
+      "g": 1232,
+      "m": 1208,
+      "b": 1156,
+      "d": 1152,
+      "M": 1016
+    }
+  },
+  "speakers": [
+    {
+      "speaker_id": "m-adt2-0002",
+      "utterances": 101614,
+      "hours": 256.57,
+      "gender_code": "m",
+      "group_code": "adt2"
+    },
+    {
+      "speaker_id": "f-adt2-0002",
+      "utterances": 104970,
+      "hours": 221.16,
+      "gender_code": "f",
+      "group_code": "adt2"
+    },
+    {
+      "speaker_id": "f-adt1-0002",
+      "utterances": 80880,
+      "hours": 175.1,
+      "gender_code": "f",
+      "group_code": "adt1"
+    },
+    {
+      "speaker_id": "m-adt1-0003",
+      "utterances": 37777,
+      "hours": 98.34,
+      "gender_code": "m",
+      "group_code": "adt1"
+    },
+    {
+      "speaker_id": "m-adt1-0004",
+      "utterances": 37477,
+      "hours": 87.23,
+      "gender_code": "m",
+      "group_code": "adt1"
+    },
+    {
+      "speaker_id": "m-adt1-0005",
+      "utterances": 18949,
+      "hours": 44.98,
+      "gender_code": "m",
+      "group_code": "adt1"
+    },
+    {
+      "speaker_id": "f-adt1-0005",
+      "utterances": 19221,
+      "hours": 41.73,
+      "gender_code": "f",
+      "group_code": "adt1"
+    },
+    {
+      "speaker_id": "f-adt3-0001",
+      "utterances": 8402,
+      "hours": 29.77,
+      "gender_code": "f",
+      "group_code": "adt3"
+    },
+    {
+      "speaker_id": "m-adt4-0001",
+      "utterances": 8517,
+      "hours": 29.58,
+      "gender_code": "m",
+      "group_code": "adt4"
+    },
+    {
+      "speaker_id": "m-adt1-0002",
+      "utterances": 7995,
+      "hours": 23.76,
+      "gender_code": "m",
+      "group_code": "adt1"
+    },
+    {
+      "speaker_id": "f-adt4-0001",
+      "utterances": 5684,
+      "hours": 22.29,
+      "gender_code": "f",
+      "group_code": "adt4"
+    },
+    {
+      "speaker_id": "m-adt3-0001",
+      "utterances": 5866,
+      "hours": 13.93,
+      "gender_code": "m",
+      "group_code": "adt3"
+    },
+    {
+      "speaker_id": "f-adt1-0003",
+      "utterances": 3269,
+      "hours": 6.82,
+      "gender_code": "f",
+      "group_code": "adt1"
+    },
+    {
+      "speaker_id": "m-adt2-0001",
+      "utterances": 3154,
+      "hours": 6.63,
+      "gender_code": "m",
+      "group_code": "adt2"
+    },
+    {
+      "speaker_id": "f-adt1-0004",
+      "utterances": 2742,
+      "hours": 6.15,
+      "gender_code": "f",
+      "group_code": "adt1"
+    },
+    {
+      "speaker_id": "m-adt4-0002",
+      "utterances": 1867,
+      "hours": 5.95,
+      "gender_code": "m",
+      "group_code": "adt4"
+    },
+    {
+      "speaker_id": "m-adt2-0003",
+      "utterances": 1964,
+      "hours": 3.79,
+      "gender_code": "m",
+      "group_code": "adt2"
+    },
+    {
+      "speaker_id": "f-adt2-0001",
+      "utterances": 16,
+      "hours": 0.05,
+      "gender_code": "f",
+      "group_code": "adt2"
+    },
+    {
+      "speaker_id": "m-adt1-0001",
+      "utterances": 16,
+      "hours": 0.04,
+      "gender_code": "m",
+      "group_code": "adt1"
+    },
+    {
+      "speaker_id": "f-adt1-0001",
+      "utterances": 16,
+      "hours": 0.04,
+      "gender_code": "f",
+      "group_code": "adt1"
+    }
+  ],
+  "audio_check_first_file": [
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 8.684,
+      "duration_col_s": 8.684
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 14.571,
+      "duration_col_s": 14.571
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 8.603,
+      "duration_col_s": 8.603
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 4.876,
+      "duration_col_s": 4.876
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 4.087,
+      "duration_col_s": 4.087
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 6.409,
+      "duration_col_s": 6.409
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 3.483,
+      "duration_col_s": 3.483
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 8.638,
+      "duration_col_s": 8.638
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 6.107,
+      "duration_col_s": 6.107
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 9.648,
+      "duration_col_s": 9.648
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 9.671,
+      "duration_col_s": 9.671
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 13.746,
+      "duration_col_s": 13.746
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 12.051,
+      "duration_col_s": 12.051
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 7.872,
+      "duration_col_s": 7.872
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 7.477,
+      "duration_col_s": 7.477
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 6.664,
+      "duration_col_s": 6.664
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 8.208,
+      "duration_col_s": 8.208
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 14.571,
+      "duration_col_s": 14.571
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 8.533,
+      "duration_col_s": 8.533
+    },
+    {
+      "sample_rate": 16000,
+      "channels": 1,
+      "decoded_s": 5.062,
+      "duration_col_s": 5.062
+    }
+  ],
+  "elapsed_s": 120.2
+}

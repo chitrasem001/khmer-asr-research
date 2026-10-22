@@ -15,6 +15,7 @@ pyarrow
 pyyaml
 python-dotenv
 tqdm
+openpyxl
 
 # Dev
 pytest>=8.0
