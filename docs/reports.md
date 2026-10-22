@@ -68,11 +68,28 @@ gender and age while keeping 876 h for training. Option A removes all older voic
 so it would test age generalization rather than general accuracy. The test set itself will be a
 fixed sample of a few hours from the pool, not the whole pool.
 
+### Text normalization protocol (v1)
+Built from the character inventory of all 112,517 sentences (190 distinct characters).
+The same rules apply to training targets and to both sides of every CER score.
+
+| Found in transcripts | Count | Rule |
+|---|---|---|
+| Zero-width spaces | 87,242 | Remove |
+| Khmer and Latin punctuation (។ ៖ " « » ( ) , -) | e.g. ។ in 112,259 | Replace with a space (not spoken) |
+| Spoken marks % & # @, symbols $ + °, repetition sign ៗ | ៗ: 20,476 | Keep (read aloud) |
+| Arabic digits / Khmer digits | 85 / 4,475 sentences | Map Arabic → Khmer |
+| Latin words ("vitamin A", "Beta-Carotene") | 1,642 sentences | Keep, lowercased |
+| Legacy character order (្រ before another subscript; vowel before subscript; ំ before ុ) | 884 sentences | Reorder to the standard order |
+| Newlines, no-break spaces, long runs of spaces | 511 / 88 / 1,704 | Collapse to one space |
+
+**Primary CER ignores spaces**, because Khmer word spacing is optional and inconsistent. A
+space-sensitive CER is reported as a secondary metric. 21 unit tests cover the rules.
+
 ### Decisions
-- Logged in `docs/decisions.md`: deadline, budget, GPU choice, environment.
+- Logged in `docs/decisions.md`: deadline, budget, GPU choice, environment, normalization v1,
+  space-free primary CER.
 - Split option: **pending** advisor feedback.
 
 ### Next
 - Agree on the split option with Dr. Mao Makara.
-- Write the Khmer normalization rules (Latin letters, quotes, brackets).
 - Build `prepare_dataset.py`: filter bad clips, apply the split, lock `test.csv`.
