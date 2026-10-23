@@ -9,8 +9,16 @@ import torch
 
 from khmer_asr.data.audio import clip_path
 from khmer_asr.evaluation.metrics import cer
-from khmer_asr.models.asr import Transcriber
+from khmer_asr.models.asr import SAMPLING_RATE, Transcriber
 from khmer_asr.preprocessing.text import normalize_khmer_text, remove_spaces
+
+
+def _read_16k(path) -> np.ndarray:
+    """Read a clip, failing loudly if it is not 16 kHz (models assume 16 kHz input)."""
+    data, sr = sf.read(path, dtype="float32")
+    if sr != SAMPLING_RATE:
+        raise ValueError(f"{path} is {sr} Hz; re-extract it with scripts/extract_audio.py")
+    return data
 
 
 def transcribe_manifest(
@@ -23,7 +31,7 @@ def transcribe_manifest(
     model_seconds = 0.0
     for start in range(0, len(order), batch_size):
         batch = order.iloc[start : start + batch_size]
-        audio = [sf.read(clip_path(audio_dir, u), dtype="float32")[0] for u in batch["utt_id"]]
+        audio = [_read_16k(clip_path(audio_dir, u)) for u in batch["utt_id"]]
         if transcriber.device == "cuda":
             torch.cuda.synchronize()
         t0 = time.perf_counter()

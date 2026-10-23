@@ -1,0 +1,38 @@
+# M1 — fine-tune Whisper small on Khmer (full fine-tuning). Change one major variable at a time.
+experiment:
+  name: m1_whisper_small
+  seed: 42
+  output_dir: experiments/m1_whisper_small
+
+model:
+  family: whisper
+  name_or_path: openai/whisper-small
+  revision: 973afd24965f72e36ca33b3055d56a652f456b4d
+  language: khmer
+  freeze_encoder: false
+
+data:
+  dataset: Digital-Divide-Data/khmer-speech-dataset
+  revision: e872b0c58b4bbbe30c0244def61e39e7b57ea093
+  train_manifest: data/manifests/train.parquet
+  validation_manifest: data/manifests/validation.csv   # model selection only; never the test set
+  audio_dir: data/processed/audio
+  train_hours: null            # null = all; 10 / 50 / 100 for the scaling experiment (nested)
+  eval_clips: 300              # validation clips scored during training (generation is slow)
+
+training:
+  learning_rate: 1.0e-5
+  warmup_steps: 500
+  max_steps: 5000
+  per_device_train_batch_size: 16
+  per_device_eval_batch_size: 16
+  gradient_accumulation_steps: 1
+  gradient_checkpointing: true
+  fp16: true
+  eval_steps: 500
+  save_steps: 500
+  logging_steps: 25
+  dataloader_num_workers: 4
+
+compute:
+  gpu_price_per_hour: null     # fill in the RunPod price of the pod used, for cost logging

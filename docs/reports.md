@@ -8,6 +8,71 @@ Published results by others are marked as such; everything else is our own measu
 
 ---
 
+## Report 2 — 23 Oct 2026
+
+### Done
+- **M0 zero-shot baseline** of two model families on the test set (unseen speakers and sentences).
+- **Whisper diagnostics** on 40 test clips: language identification and fp16 vs fp32 decoding.
+- **Paper draft** (`paper/khmer_asr_paper_draft.docx`, 5 pages), generated from the result files by
+  `paper/build_paper.py`, so every number in it matches the experiments.
+- **Training code** (`scripts/train.py`) for Whisper (full fine-tuning) and MMS (new Khmer adapter),
+  smoke-tested on the local RTX 4060 before any RunPod spending.
+
+### M0 results (test set; CER ignores spaces; 95% bootstrap interval)
+
+| Model | Clips | CER [95% CI] | CER with spaces | RTF |
+|---|---|---|---|---|
+| **MMS-1B-all (Khmer adapter)** | 3,712 (full) | **9.7% [9.5–9.9%]** | 11.6% | 0.007 |
+| Whisper medium | 400 (sample) | 132.9% [129.7–136.0%] | 150.5% | 0.706 |
+| Whisper small | 400 (sample) | 136.3% [132.5–140.0%] | 186.7% | 0.219 |
+| Whisper large-v3-turbo | 400 (sample) | 177.1% [171.3–183.0%] | 173.4% | 0.146 |
+
+- **MMS** is already usable: 9.7% CER, 7.2–12.9% across the four test speakers. Its released Khmer
+  vocabulary has no symbols for the digits ៤ ៦ ៨ ៩, so it can never output them.
+- **Whisper fails zero-shot**: 1,087 of 1,200 evaluated clips exceed 100% CER because decoding
+  repeats one character until the 440-token limit. Whisper was evaluated on a seeded 100-clip
+  sample per speaker because the looping makes full-set decoding take about 16 GPU-hours.
+
+### Whisper diagnostics (40 clips)
+
+| Model | Detected as Khmer (language not forced) | fp16 = fp32 output |
+|---|---|---|
+| Whisper small | 38 / 40 (2 Vietnamese) | 38 / 40 |
+| Whisper medium | 39 / 40 (1 Vietnamese) | 40 / 40 |
+| Whisper large-v3-turbo | 0 / 40 (29 Vietnamese, 10 Thai, 1 Indonesian) | 39 / 40 |
+
+Small and medium recognize the language as Khmer and still cannot transcribe it; only turbo
+misidentifies it. Precision is not the cause. *(An earlier one-clip spot check had suggested
+all Whisper models mistake Khmer for Vietnamese; the 40-clip check corrected this.)*
+
+### Bug found and fixed: 48 kHz audio
+- The first M0 run showed one speaker at 19% CER. The cause: the 71 files named `*-of-00724` are
+  **48 kHz**, although the dataset declares 16 kHz. Our extraction read raw audio bytes without
+  resampling, so those 129 test clips reached the models at one third of the correct speed
+  (MMS: 128 of them above 50% CER).
+- Fix: all audio is resampled to 16 kHz at extraction; evaluation refuses non-16 kHz clips; the
+  audit now records the sample rate of every upload batch. The first M0 results were discarded and
+  every model was rerun. MMS moved from 11.6% to 9.7% CER.
+- Training is affected the same way (1,794 clips, 4.9 h); they are resampled by the same code.
+
+### Training pipeline (smoke test, 0.31 h of audio, 10 steps, RTX 4060)
+| Model | Setup | Peak GPU memory | Time |
+|---|---|---|---|
+| Whisper small | Full fine-tuning; transcripts over 448 tokens dropped (about 1%) | 4.7 GB at batch 4 | 7.2 min |
+| MMS-1B-all | New Khmer adapter + vocabulary built from training text; base frozen (2.3 M trainable) | 6.5 GB at batch 4 | 2.9 min |
+
+Both runs trained, evaluated on validation, saved the best checkpoint and wrote full run records.
+Whisper uses about 2.2 tokens per Khmer character (median 220 tokens per sentence). Training subsets
+are drawn by whole files (about 40 files ≈ 10 h ≈ 1 GB), nested so 10 h ⊂ 50 h ⊂ 100 h.
+
+### Next
+- Advisor meeting: approve split option D (then lock the test set) and the two models to fine-tune
+  (Whisper small, MMS-1B-all).
+- RunPod pilot: Whisper small on 10 h to measure real time and cost per training hour.
+- M1 full runs for both models.
+
+---
+
 ## Report 1 — 22 Oct 2026
 
 ### Done
@@ -100,8 +165,10 @@ per-issue sentence counts to `text_issues_in_sentences` in `audit_report.json`.
 | test_seen_speakers | 1,891 | 5.0 | 10 | Unseen sentences, known speakers |
 
 - Dropped 673 clips: 636 missing duration, 1 under 0.5 s, 36 over 30 s.
-- Train has 15 speakers, not 16: every sentence of `f-adt2-0001` (16 clips) was also read by a
-  test speaker.
+- Train has 15 speakers, not 16: every sentence of `m-adt4-0002` (male, 66; 1,867 clips, 5.95 h)
+  was also read by a test speaker, so this speaker is not used. *(Corrected 23 Oct: the first
+  version of this report wrongly named `f-adt2-0001`.)* This removes one of the few older voices
+  from training.
 - Leakage checks run on every build: no clip, sentence or test speaker is shared with train.
 - Clip IDs are `<file>:<row>`; 4 random test rows were checked against the source files
   (transcript, speaker and duration all match).

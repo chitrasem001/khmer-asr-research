@@ -43,14 +43,20 @@ def main() -> None:
         spec = ModelSpec(
             entry["name_or_path"], entry["revision"], entry["family"], entry["language"]
         )
-        print(f"== {spec.name_or_path} on {len(manifest)} clips")
+        per_speaker = entry.get("clips_per_speaker")
+        clips = (
+            manifest.groupby("speaker_id").sample(n=per_speaker, random_state=cfg["experiment"]["seed"])
+            if per_speaker
+            else manifest
+        )
+        print(f"== {spec.name_or_path} on {len(clips)} clips")
         if torch.cuda.is_available():
             torch.cuda.reset_peak_memory_stats()
         transcriber = Transcriber(
             spec, device="cuda" if torch.cuda.is_available() else "cpu", fp16=cfg["inference"]["fp16"]
         )
         predictions, model_seconds = transcribe_manifest(
-            transcriber, manifest, args.audio_dir or data_cfg["audio_dir"], entry["batch_size"]
+            transcriber, clips, args.audio_dir or data_cfg["audio_dir"], entry["batch_size"]
         )
         metrics = compute_metrics(predictions, model_seconds, transcriber)
 
@@ -66,6 +72,8 @@ def main() -> None:
             "manifest": manifest_path,
             "manifest_sha256": manifest_sha,
             "limit": args.limit,
+            "clips_per_speaker": per_speaker,
+            "clips_evaluated": len(clips),
             "normalization": "v1 (khmer_asr.preprocessing.text)",
             "seed": cfg["experiment"]["seed"],
             "gpu": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,

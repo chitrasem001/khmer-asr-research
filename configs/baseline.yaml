@@ -10,16 +10,19 @@ models:
     family: whisper
     language: km
     batch_size: 16
+    clips_per_speaker: 100   # zero-shot decoding loops to the token limit; see decisions.md
   - name_or_path: openai/whisper-medium
     revision: abdf7c39ab9d0397620ccaea8974cc764cd0953e
     family: whisper
     language: km
     batch_size: 8
+    clips_per_speaker: 100   # zero-shot decoding loops to the token limit; see decisions.md
   - name_or_path: openai/whisper-large-v3-turbo
     revision: 41f01f3fe87f28c78e2fbf8b568835947dd65ed9
     family: whisper
     language: km
     batch_size: 8
+    clips_per_speaker: 100   # zero-shot decoding loops to the token limit; see decisions.md
   - name_or_path: facebook/mms-1b-all          # CC BY-NC 4.0: research use only
     revision: 3d33597edbdaaba14a8e858e2c8caa76e3cec0cd
     family: mms

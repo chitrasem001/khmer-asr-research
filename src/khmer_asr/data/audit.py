@@ -77,6 +77,44 @@ def check_audio_sample(path: str, max_rows: int = 20) -> list[dict]:
     return rows
 
 
+def file_batch(source_file: str) -> str:
+    """Upload batch of a parquet file: 'v38'…'v314', 'of-00653' or 'of-00724'."""
+    name = source_file.rsplit("/", 1)[-1]
+    if name.startswith("train-v"):
+        return name.split("-")[1]
+    return "of-" + name.split("-of-")[1].removesuffix(".parquet")
+
+
+def sample_rates_by_batch(paths: list[str], every: int = 25) -> dict[str, dict]:
+    """Decode every `every`-th clip of the first and last file of each batch; report sample rates.
+
+    The dataset card states 16 kHz, but batches can differ, so this is checked rather than assumed.
+    """
+    batches: dict[str, list[str]] = {}
+    for p in paths:
+        batches.setdefault(file_batch(p), []).append(p)
+
+    def rates(path: str) -> dict[int, int]:
+        fs = HfFileSystem()
+        with fs.open(path, "rb") as f:
+            col = pq.ParquetFile(f).read(columns=["audio"]).column("audio")
+        counts: dict[int, int] = {}
+        for i in range(0, len(col), every):
+            sr = sf.info(io.BytesIO(col[i].as_py()["bytes"])).samplerate
+            counts[sr] = counts.get(sr, 0) + 1
+        return counts
+
+    picks = [(b, f) for b, files in batches.items() for f in {files[0], files[-1]}]
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        found = list(pool.map(lambda bf: rates(bf[1]), picks))
+    report: dict[str, dict] = {}
+    for (batch, _), counts in zip(picks, found, strict=True):
+        entry = report.setdefault(batch, {"files": len(batches[batch]), "sample_rates": {}})
+        for sr, n in counts.items():
+            entry["sample_rates"][str(sr)] = entry["sample_rates"].get(str(sr), 0) + n
+    return dict(sorted(report.items()))
+
+
 def non_khmer_chars(texts: pd.Series) -> dict[str, int]:
     """Count characters outside the Khmer blocks, excluding spaces."""
     counts: dict[str, int] = {}

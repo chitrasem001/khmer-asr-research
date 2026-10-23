@@ -34,9 +34,9 @@ pytest
 ## Workflow
 
 1. `python scripts/audit_dataset.py` — audit the dataset (streaming, no full download).
-2. `python scripts/prepare_dataset.py --config configs/finetune.yaml` — build manifests and lock splits.
+2. `python scripts/prepare_dataset.py --config configs/data.yaml` — build manifests and lock splits.
 3. `python scripts/evaluate.py --config configs/baseline.yaml` — M0 baseline.
-4. `python scripts/train.py --config configs/finetune.yaml` — M1/M2 fine-tuning (RunPod).
+4. `python scripts/train.py --config configs/m1_whisper_small.yaml` (or `m1_mms.yaml`) — M1/M2 fine-tuning (RunPod).
 5. `python scripts/evaluate.py --config configs/evaluation.yaml` — evaluate on the locked test set.
 6. `python scripts/transcribe.py --audio path/to/file.wav` — single-file inference.
 

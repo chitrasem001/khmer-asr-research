@@ -1,0 +1,29 @@
+{
+  "clips": 40,
+  "seed": 42,
+  "max_new_tokens": 100,
+  "models": {
+    "openai/whisper-small": {
+      "detected_language_without_forcing": {
+        "km": 38,
+        "vi": 2
+      },
+      "fp16_equals_fp32_outputs": 38
+    },
+    "openai/whisper-medium": {
+      "detected_language_without_forcing": {
+        "km": 39,
+        "vi": 1
+      },
+      "fp16_equals_fp32_outputs": 40
+    },
+    "openai/whisper-large-v3-turbo": {
+      "detected_language_without_forcing": {
+        "vi": 29,
+        "th": 10,
+        "id": 1
+      },
+      "fp16_equals_fp32_outputs": 39
+    }
+  }
+}

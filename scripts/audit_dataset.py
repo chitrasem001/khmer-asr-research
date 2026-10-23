@@ -12,6 +12,7 @@ from khmer_asr.data.audit import (
     list_parquet_files,
     load_metadata,
     resolve_revision,
+    sample_rates_by_batch,
     speaker_table,
     summarize,
     text_issues,
@@ -60,6 +61,7 @@ def main() -> None:
         "text_issues_in_sentences": text_issues(sentences),
         "distinct_chars": len(inventory),
         "audio_check_first_file": check_audio_sample(paths[0]),
+        "sample_rates_by_batch": sample_rates_by_batch(paths),
         "elapsed_s": round(time.time() - start, 1),
     }
 

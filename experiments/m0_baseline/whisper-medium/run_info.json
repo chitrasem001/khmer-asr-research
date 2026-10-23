@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-23T21:29:47",
+  "config": "configs/baseline.yaml",
+  "model": {
+    "name_or_path": "openai/whisper-medium",
+    "revision": "abdf7c39ab9d0397620ccaea8974cc764cd0953e",
+    "family": "whisper",
+    "language": "km",
+    "batch_size": 8,
+    "clips_per_speaker": 100
+  },
+  "dataset_revision": "e872b0c58b4bbbe30c0244def61e39e7b57ea093",
+  "manifest": "data/manifests/test.csv",
+  "manifest_sha256": "ea62d3f0ce2e296529cb4046ee7a92466abab769052fdbc249dcd06d19996fc7",
+  "limit": null,
+  "clips_per_speaker": 100,
+  "clips_evaluated": 400,
+  "normalization": "v1 (khmer_asr.preprocessing.text)",
+  "seed": 42,
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "torch": "2.6.0+cu124",
+  "transformers": "5.20.2",
+  "python": "3.12.10"
+}

@@ -2,6 +2,7 @@ import pandas as pd
 
 from khmer_asr.data.audit import (
     char_inventory,
+    file_batch,
     non_khmer_chars,
     speaker_table,
     summarize,
@@ -69,3 +70,9 @@ def test_text_issues_flags_legacy_order_and_zero_width():
     assert issues["zero_width_chars"] == 1
     assert issues["latin_letters"] == 1
     assert issues["arabic_digits"] == 1
+
+
+def test_file_batch_names():
+    assert file_batch("data/train-v313-00459.parquet") == "v313"
+    assert file_batch("train-00653-of-00724.parquet") == "of-00724"
+    assert file_batch("train-00000-of-00653.parquet") == "of-00653"
