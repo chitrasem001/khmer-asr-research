@@ -1,0 +1,37 @@
+# Khmer ASR Studio demo app (app/server.py). Thesis numbers come from the locked test set,
+# not from this demo; the Results tab only displays experiments/*/metrics.json.
+models:
+  - id: mms-zero-shot
+    label: MMS-1B · zero-shot
+    color: "#2B44B8"
+    family: mms
+    name_or_path: facebook/mms-1b-all
+    revision: 3d33597edbdaaba14a8e858e2c8caa76e3cec0cd
+    language: khm
+  - id: whisper-small-zero-shot
+    label: Whisper small · zero-shot
+    color: "#E8590C"
+    family: whisper
+    name_or_path: openai/whisper-small
+    revision: 973afd24965f72e36ca33b3055d56a652f456b4d
+    language: km
+    max_new_tokens: 200   # zero-shot Whisper loops; capped so the demo stays responsive
+  # Fine-tuned checkpoints are added here after M1, e.g.:
+  # - id: mms-finetuned
+  #   label: MMS-1B · fine-tuned
+  #   family: mms
+  #   name_or_path: experiments/m1_mms/best
+  #   revision: null
+  #   language: khm
+
+samples:
+  manifest: data/manifests/test.csv
+  audio_dir: data/processed/audio
+  per_speaker: 6
+  min_duration_s: 4
+  max_duration_s: 12
+  seed: 42
+
+results:
+  test_runs: experiments/m0_baseline
+  fleurs_runs: experiments/m0_fleurs

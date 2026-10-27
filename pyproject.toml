@@ -31,6 +31,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "ruff", "jupyter"]
 paper = ["python-docx>=1.1", "matplotlib>=3.8"]
+demo = ["fastapi>=0.110", "uvicorn[standard]>=0.29", "python-multipart>=0.0.9"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
