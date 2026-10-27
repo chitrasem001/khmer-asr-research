@@ -50,3 +50,6 @@ data/manifests/train.parquet
 
 # Smoke-test runs
 experiments/smoke_*/
+
+# Frontend dependencies
+node_modules/
