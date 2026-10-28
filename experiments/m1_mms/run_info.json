@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-28T15:39:39",
+  "git_commit": "4b8909a368da7a3e2956c4d8563e020d87e52d64",
+  "config": "configs/m1_mms.yaml",
+  "resolved_config": {
+    "experiment": {
+      "name": "m1_mms",
+      "seed": 42,
+      "output_dir": "experiments/m1_mms"
+    },
+    "model": {
+      "family": "mms",
+      "name_or_path": "facebook/mms-1b-all",
+      "revision": "3d33597edbdaaba14a8e858e2c8caa76e3cec0cd",
+      "language": "khm"
+    },
+    "data": {
+      "dataset": "Digital-Divide-Data/khmer-speech-dataset",
+      "revision": "e872b0c58b4bbbe30c0244def61e39e7b57ea093",
+      "train_manifest": "data/manifests/train.parquet",
+      "validation_manifest": "data/manifests/validation.csv",
+      "audio_dir": "data/processed/audio",
+      "train_hours": 10.0,
+      "eval_clips": null
+    },
+    "training": {
+      "learning_rate": 0.001,
+      "warmup_steps": 100,
+      "max_steps": 1000,
+      "per_device_train_batch_size": 16,
+      "per_device_eval_batch_size": 16,
+      "gradient_accumulation_steps": 1,
+      "gradient_checkpointing": true,
+      "fp16": true,
+      "eval_steps": 250,
+      "save_steps": 250,
+      "logging_steps": 25,
+      "dataloader_num_workers": 4
+    },
+    "compute": {
+      "gpu_price_per_hour": 0.59
+    }
+  },
+  "train_clips": 4561,
+  "train_hours": 10.402,
+  "eval_clips": 1288,
+  "setup_notes": {
+    "vocab_size": 111,
+    "trainable_parameters": 2295921
+  },
+  "train_loss": 0.9782545518875122,
+  "best_checkpoint": "experiments/m1_mms/checkpoints/checkpoint-1000",
+  "best_eval_cer": 0.08854905392763376,
+  "final_eval": {
+    "eval_loss": 0.3082578182220459,
+    "eval_cer": 0.08854905392763376,
+    "eval_runtime": 43.765,
+    "eval_samples_per_second": 29.43,
+    "eval_steps_per_second": 1.851,
+    "epoch": 3.4965034965034967
+  },
+  "extract_seconds": 262,
+  "train_seconds": 3083,
+  "peak_gpu_memory_mb": 16065,
+  "gpu": "NVIDIA A40",
+  "gpu_price_per_hour": 0.59,
+  "estimated_gpu_cost_usd": 0.55,
+  "torch": "2.9.1+cu128",
+  "transformers": "5.21.0",
+  "python": "3.12.3"
+}

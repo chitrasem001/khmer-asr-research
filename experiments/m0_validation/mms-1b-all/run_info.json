@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-28T22:09:02",
+  "config": "configs/baseline.yaml",
+  "model": {
+    "name_or_path": "facebook/mms-1b-all",
+    "revision": "3d33597edbdaaba14a8e858e2c8caa76e3cec0cd",
+    "family": "mms",
+    "language": "khm",
+    "batch_size": 8
+  },
+  "dataset_revision": "e872b0c58b4bbbe30c0244def61e39e7b57ea093",
+  "manifest": "data/manifests/validation.csv",
+  "manifest_sha256": "34babad1ec6e3a6b1f0dd752c7d64c3050e9d7d206d66524e797dc30ccc3cdc0",
+  "limit": null,
+  "clips_per_speaker": null,
+  "clips_evaluated": 1288,
+  "normalization": "v1 (khmer_asr.preprocessing.text)",
+  "seed": 42,
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "torch": "2.6.0+cu124",
+  "transformers": "5.20.2",
+  "python": "3.12.10"
+}
