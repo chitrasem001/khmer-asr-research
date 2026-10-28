@@ -42,7 +42,8 @@ def main() -> None:
         seed=split_cfg["seed"],
     )
 
-    test_csv = splits["test"][MANIFEST_COLUMNS].to_csv(index=False).encode("utf-8")
+    # LF line endings everywhere, so the hash is identical on Windows and Linux.
+    test_csv = splits["test"][MANIFEST_COLUMNS].to_csv(index=False, lineterminator="\n").encode("utf-8")
     lock_path = out / "test.lock.json"
     if lock_path.exists():
         lock = json.loads(lock_path.read_text(encoding="utf-8"))
@@ -54,7 +55,9 @@ def main() -> None:
 
     (out / "test.csv").write_bytes(test_csv)
     for name in ("validation", "test_seen_speakers"):
-        splits[name][MANIFEST_COLUMNS].to_csv(out / f"{name}.csv", index=False, encoding="utf-8")
+        splits[name][MANIFEST_COLUMNS].to_csv(
+            out / f"{name}.csv", index=False, encoding="utf-8", lineterminator="\n"
+        )
     # train.parquet is too large for git; it is rebuilt from the config and checked by hash.
     splits["train"][MANIFEST_COLUMNS].to_parquet(out / "train.parquet", index=False)
     train_ids_sha256 = _sha256("\n".join(splits["train"]["utt_id"]).encode("utf-8"))
