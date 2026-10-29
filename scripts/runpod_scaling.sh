@@ -17,6 +17,7 @@ exec > >(tee -a "$LOG") 2>&1
 
 echo "== SCALING START $(date -u)"
 git pull --ff-only
+python -m pip install -q -e .   # the audio prep below needs the package before the first setup
 echo "== PREPARE TEST + FLEURS AUDIO $(date -u)"
 python -u scripts/extract_audio.py --manifest data/manifests/test.csv --workers 8
 python -u scripts/prepare_fleurs.py --split test
