@@ -112,7 +112,74 @@ def load_results() -> list[dict]:
     return results
 
 
+# Fine-tuned runs: (family, label, training hours, run folder). Test/FLEURS results live in
+# experiments/m1_eval[_fleurs]/<run>, training records in experiments/<run>.
+FINETUNED = [
+    ("whisper", "Whisper small", 10, "m1_whisper_small"),
+    ("whisper", "Whisper small", 50, "s_whisper_small_50h"),
+    ("whisper", "Whisper small", 100, "s_whisper_small_100h"),
+    ("mms", "MMS-1B", 10, "m1_mms"),
+    ("mms", "MMS-1B", 50, "s_mms_50h"),
+    ("mms", "MMS-1B", 100, "s_mms_100h"),
+]
+EXPERIMENTS = ROOT / "experiments"
+
+
+def load_finetuned() -> list[dict]:
+    """Test and FLEURS results plus training records for every fine-tuned run that exists."""
+    rows = []
+    for family, label, hours, run in FINETUNED:
+        test_dir = EXPERIMENTS / "m1_eval" / run
+        if not (test_dir / "metrics.json").exists():
+            continue
+        fleurs_dir = EXPERIMENTS / "m1_eval_fleurs" / run
+        rows.append({
+            "family": family, "label": label, "hours": hours, "run": run,
+            "test": load_json(test_dir / "metrics.json"),
+            "test_ci": bootstrap_ci(clip_errors(pd.read_csv(test_dir / "predictions.csv"))),
+            "fleurs": load_json(fleurs_dir / "metrics.json") if (fleurs_dir / "metrics.json").exists() else None,
+            "train": load_json(EXPERIMENTS / run / "run_info.json"),
+        })
+    return rows
+
+
 # ---------------------------------------------------------------- figure
+def scaling_figure(rows: list[dict], zero_shot: dict, path: Path) -> None:
+    """CER against training hours on the test set and FLEURS, one line per model family."""
+    fig, axes = plt.subplots(1, 2, figsize=(6.6, 3.0), dpi=200, sharey=False)
+    series = (("whisper", "Whisper small", ORANGE), ("mms", "MMS-1B", BLUE))
+    for ax, key, title in ((axes[0], "test", "Test set (unseen speakers + sentences)"),
+                           (axes[1], "fleurs", "FLEURS (out of domain)")):
+        for family, label, color in series:
+            pts = [(r["hours"], 100 * r[key]["cer"]) for r in rows if r["family"] == family and r[key]]
+            if not pts:
+                continue
+            xs, ys = zip(*pts)
+            ax.plot(xs, ys, color=color, linewidth=2, marker="o", markersize=5, label=label)
+            ax.annotate(f"{ys[-1]:.1f}%", (xs[-1], ys[-1]), textcoords="offset points",
+                        xytext=(6, 0), va="center", fontsize=6.5, color="#3d3d3a")
+        if zero_shot.get(key) is not None:
+            ax.axhline(100 * zero_shot[key], color=BLUE, linewidth=1, linestyle="--")
+            ax.annotate("MMS zero-shot", (10, 100 * zero_shot[key]), textcoords="offset points",
+                        xytext=(0, 3), fontsize=6, color=BLUE)
+        ax.set_xscale("log")
+        ax.set_xticks([10, 50, 100], ["10 h", "50 h", "100 h"])
+        ax.minorticks_off()
+        ax.set_xlim(8, 150)
+        ax.set_ylim(bottom=0)
+        ax.set_title(title, fontsize=7.5)
+        ax.set_ylabel("CER (%)", fontsize=7)
+        ax.tick_params(labelsize=6.5)
+        ax.grid(axis="y", color="#e4e3dd", linewidth=0.6)
+        ax.set_axisbelow(True)
+        for side in ("top", "right"):
+            ax.spines[side].set_visible(False)
+    axes[0].legend(fontsize=6.5, frameon=False, loc="upper right")
+    fig.tight_layout()
+    fig.savefig(path)
+    plt.close(fig)
+
+
 def speaker_figure(audit: dict, split: dict, path: Path) -> None:
     speakers = pd.DataFrame(audit["speakers"]).sort_values("hours")
     test = set(split["config"]["split"]["test_speakers"])
