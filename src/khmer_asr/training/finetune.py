@@ -69,10 +69,16 @@ def build_whisper(cfg: dict, train: pd.DataFrame, val: pd.DataFrame, audio_dir: 
     if m.get("freeze_encoder"):
         model.freeze_encoder()
 
-    # Whisper's decoder holds at most 448 positions; longer transcripts cannot be learned.
-    lengths = whisper_label_lengths(processor.tokenizer, train["text"].tolist())
-    too_long = int(sum(n > WHISPER_MAX_LABEL_TOKENS for n in lengths))
-    train = train[[n <= WHISPER_MAX_LABEL_TOKENS for n in lengths]]
+    # Whisper's decoder holds at most 448 positions; longer transcripts cannot be learned, and
+    # the trainer cannot compute an eval loss for them either, so both sets are filtered.
+    # The final test evaluation (scripts/evaluate.py) only generates and keeps every clip.
+    def fits(frame):
+        lengths = whisper_label_lengths(processor.tokenizer, frame["text"].tolist())
+        return frame[[n <= WHISPER_MAX_LABEL_TOKENS for n in lengths]]
+
+    n_train, n_val = len(train), len(val)
+    train, val = fits(train), fits(val)
+    dropped = {"dropped_too_long_train": n_train - len(train), "dropped_too_long_eval": n_val - len(val)}
 
     def compute_metrics(pred):
         label_ids = np.where(pred.label_ids != -100, pred.label_ids, processor.tokenizer.pad_token_id)
@@ -94,7 +100,7 @@ def build_whisper(cfg: dict, train: pd.DataFrame, val: pd.DataFrame, audio_dir: 
         compute_metrics=compute_metrics,
         processing_class=processor,
     )
-    return trainer, processor, {"dropped_too_long_for_whisper": too_long}
+    return trainer, processor, dropped
 
 
 def build_mms(cfg: dict, train: pd.DataFrame, val: pd.DataFrame, audio_dir: str, output_dir: str):
