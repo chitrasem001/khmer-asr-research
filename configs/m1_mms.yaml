@@ -35,4 +35,4 @@ training:
   dataloader_num_workers: 4
 
 compute:
-  gpu_price_per_hour: null
+  gpu_price_per_hour: 0.59     # RunPod A40 secure; update if another GPU is used

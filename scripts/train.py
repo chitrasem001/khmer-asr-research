@@ -41,6 +41,7 @@ def main() -> None:
         "--batch-size", type=int, default=None, help="Override train/eval batch size (small GPUs)"
     )
     parser.add_argument("--eval-steps", type=int, default=None, help="Override eval/save steps")
+    parser.add_argument("--warmup-steps", type=int, default=None, help="Override warmup steps")
     parser.add_argument("--output-dir", default=None)
     parser.add_argument("--prepare-only", action="store_true", help="Select and extract audio only")
     args = parser.parse_args()
@@ -58,6 +59,8 @@ def main() -> None:
         cfg["training"]["per_device_eval_batch_size"] = args.batch_size
     if args.eval_steps is not None:
         cfg["training"]["eval_steps"] = cfg["training"]["save_steps"] = args.eval_steps
+    if args.warmup_steps is not None:
+        cfg["training"]["warmup_steps"] = args.warmup_steps
     out = Path(args.output_dir or exp["output_dir"])
     out.mkdir(parents=True, exist_ok=True)
     seed_everything(exp["seed"])
