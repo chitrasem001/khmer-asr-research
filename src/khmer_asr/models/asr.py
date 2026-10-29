@@ -18,7 +18,7 @@ class ModelSpec:
     name_or_path: str
     revision: str | None
     family: str  # "whisper" or "mms"
-    language: str  # Whisper language code ("km") or MMS adapter code ("khm")
+    language: str | None  # Whisper code ("km"), MMS adapter code ("khm"), None for fine-tuned MMS
     max_new_tokens: int = 440  # Whisper decoder limit is 448 positions incl. 4 prompt tokens
 
 
@@ -32,13 +32,16 @@ class Transcriber:
             self.processor = WhisperProcessor.from_pretrained(spec.name_or_path, revision=spec.revision)
             self.model = WhisperForConditionalGeneration.from_pretrained(spec.name_or_path, **kwargs)
         elif spec.family == "mms":
+            # A released checkpoint loads its language adapter by code ("khm"). A fine-tuned
+            # checkpoint already contains its own adapter and vocabulary: language is None.
+            lang = {"target_lang": spec.language} if spec.language else {}
             self.processor = AutoProcessor.from_pretrained(
-                spec.name_or_path, revision=spec.revision, target_lang=spec.language
+                spec.name_or_path, revision=spec.revision, **lang
             )
             self.model = Wav2Vec2ForCTC.from_pretrained(
                 spec.name_or_path,
-                target_lang=spec.language,
-                ignore_mismatched_sizes=True,
+                ignore_mismatched_sizes=bool(lang),
+                **lang,
                 **kwargs,
             )
         else:

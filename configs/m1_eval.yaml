@@ -1,0 +1,27 @@
+# Evaluate fine-tuned (M1) checkpoints on the test set. Same metric and normalization as M0.
+#   python scripts/evaluate.py --config configs/m1_eval.yaml
+#   python scripts/evaluate.py --config configs/m1_eval.yaml \
+#       --manifest data/manifests/fleurs_km_test.csv --audio-dir data/processed/fleurs_audio \
+#       --output-dir experiments/m1_eval_fleurs
+experiment:
+  name: m1_eval
+  seed: 42
+  output_dir: experiments/m1_eval
+
+models:
+  - name_or_path: experiments/m1_mms/best   # MMS-1B, new Khmer adapter, 10 h, 1,000 steps (pilot)
+    revision: null
+    family: mms
+    language: null                          # the checkpoint carries its own adapter and vocab
+    batch_size: 8
+
+data:
+  dataset: Digital-Divide-Data/khmer-speech-dataset
+  revision: e872b0c58b4bbbe30c0244def61e39e7b57ea093
+  test_manifest: data/manifests/test.csv
+  audio_dir: data/processed/audio
+  sampling_rate: 16000
+
+inference:
+  fp16: true
+  decoding: greedy
