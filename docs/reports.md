@@ -8,6 +8,83 @@ Published results by others are marked as such; everything else is our own measu
 
 ---
 
+## Report 3 — 27–29 Oct 2026
+
+### Done
+- **FLEURS Khmer** added as an out-of-domain test (771 clips, 3.15 h, CC BY 4.0), scored with the
+  same normalization and CER as our test set.
+- **First fine-tuning runs (M1 pilots)** on RunPod, 1× A40 48 GB: MMS-1B and Whisper small, each on
+  the same nested 10 h training subset (4,561 clips, 51 files), 1,000 steps, batch 16.
+- **Demo app (Khmer ASR Studio)**: FastAPI backend + React/Vite frontend following the mockup;
+  Compare tab (test clips or uploads, per-model CER and colored error view) and Results tab.
+- **Slide deck** for the advisor meeting (12 slides).
+
+### Zero-shot vs fine-tuned (CER, spaces ignored)
+
+| Model | Our test (unseen speakers + sentences) | FLEURS (out of domain) |
+|---|---|---|
+| MMS-1B zero-shot | 9.71% | 15.49% |
+| **MMS-1B fine-tuned, 10 h** | **8.43%** (−13% rel.) | 16.72% (+8% rel.) |
+| Whisper small zero-shot | 136.3% (400-clip sample) | 124.1% (200-clip sample) |
+| **Whisper small fine-tuned, 10 h** | **19.43%** | 51.26% (7 clips still loop) |
+
+Validation CER during training (validation = unseen sentences, known speakers):
+
+| Step | MMS (1,288 clips) | Whisper small (294 clips) |
+|---|---|---|
+| 250 | 10.93% | 89.33% |
+| 500 | 9.70% | 34.98% |
+| 750 | 9.13% | 20.74% |
+| 1,000 | **8.85%** | **17.86%** |
+
+MMS zero-shot on the same validation clips: 10.20%.
+
+### Findings
+- **MMS improves in-domain but loses out-of-domain.** All four test speakers improve, but FLEURS
+  gets worse for both genders (more substitutions and deletions). Replacing Meta's Khmer adapter
+  with one trained on 10 h of read cultural speech from 15 speakers costs generality. Not a
+  vocabulary effect: only 0.04% of FLEURS characters are outside the new vocabulary.
+- **Whisper learns fast but starts from nothing.** 136% → 17.9% validation CER in 18 minutes of
+  training, still falling steeply at step 1,000, but about twice MMS's error with 10 h of data.
+- **Whisper generalizes much worse.** Test 19.4% but FLEURS 51.3%: having learned Khmer from 10 h
+  of one dataset, it more than doubles its error out of domain, while MMS (pre-trained on Khmer)
+  goes 8.4% → 16.7%. With little data, MMS is both more accurate (about 2× on every test speaker)
+  and more robust, and transcribes about 12× faster (RTF 0.006 vs 0.070) — evidence for RQ4.
+- **The hardest test speaker is the same for both models** (f-adt1-0003: MMS 11.2%, Whisper
+  25.6%), so that voice is genuinely harder, not a model quirk.
+- **Both curves are still falling at step 1,000**, so the data-scaling runs (50 h, 100 h) are the
+  natural next step; Whisper is likely to gain more from them than MMS.
+- The released MMS Khmer vocabulary lacks the digits ៤ ៦ ៨ ៩; the fine-tuned adapter uses a
+  vocabulary built from the training text.
+
+### Cost and time (RunPod A40, $0.59/h)
+
+| Run | Training | Pod total | Notes |
+|---|---|---|---|
+| MMS-1B 10 h | 51.4 min | $0.93 | incl. Hugging Face rate-limit stall and a restart |
+| Whisper small 10 h | 18.0 min | $0.37 | incl. one crashed attempt (fixed) |
+
+Balance 16.29 → 14.98 USD. Laptop (RTX 4060) for comparison: MMS 6.6 s/step at batch 4.
+
+### Problems found and fixed
+- **Hugging Face rate limit (HTTP 429)** on the pod without a login → HF read token on the pod;
+  metadata sent from the laptop instead of re-auditing.
+- **Split hash mismatch on Linux** → only CRLF vs LF line endings; content identical. CSVs are now
+  written with LF everywhere, so the split hash is the same on Windows and Linux (pod check: MATCH).
+- **Whisper crashed at its first evaluation**: validation transcripts over 448 tokens (6 of 300)
+  were not filtered. Now filtered for training/validation; the test evaluation keeps every clip.
+  24 of 3,712 test clips (0.65%) exceed Whisper's limit and count as partial errors.
+- **MMS console log lost** when the first pod was deleted; reconstructed from captured lines
+  (`experiments/m1_mms/pod_log_summary.md`). `scripts/runpod_train.sh` now keeps the console log in
+  the experiment folder (the Whisper run has both its logs).
+
+### Next
+- Data scaling (RQ2): 50 h and 100 h for both models.
+- M2 candidates: start MMS from Meta's Khmer adapter; add FLEURS training data.
+- Advisor meeting: split option D (then lock the test set), the two models, and M2 choice.
+
+---
+
 ## Report 2 — 23 Oct 2026
 
 ### Done

@@ -1,0 +1,33 @@
+compute:
+  gpu_price_per_hour: 0.59
+data:
+  audio_dir: data/processed/audio
+  dataset: Digital-Divide-Data/khmer-speech-dataset
+  eval_clips: 300
+  revision: e872b0c58b4bbbe30c0244def61e39e7b57ea093
+  train_hours: 10.0
+  train_manifest: data/manifests/train.parquet
+  validation_manifest: data/manifests/validation.csv
+experiment:
+  name: m1_whisper_small
+  output_dir: experiments/m1_whisper_small
+  seed: 42
+model:
+  family: whisper
+  freeze_encoder: false
+  language: khmer
+  name_or_path: openai/whisper-small
+  revision: 973afd24965f72e36ca33b3055d56a652f456b4d
+training:
+  dataloader_num_workers: 4
+  eval_steps: 250
+  fp16: true
+  gradient_accumulation_steps: 1
+  gradient_checkpointing: true
+  learning_rate: 1.0e-05
+  logging_steps: 25
+  max_steps: 1000
+  per_device_eval_batch_size: 16
+  per_device_train_batch_size: 16
+  save_steps: 250
+  warmup_steps: 100

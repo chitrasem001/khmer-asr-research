@@ -14,6 +14,11 @@ models:
     family: mms
     language: null                          # the checkpoint carries its own adapter and vocab
     batch_size: 8
+  - name_or_path: experiments/m1_whisper_small/best   # Whisper small, full fine-tune, 10 h, 1,000 steps (pilot)
+    revision: null
+    family: whisper
+    language: km
+    batch_size: 16
 
 data:
   dataset: Digital-Divide-Data/khmer-speech-dataset

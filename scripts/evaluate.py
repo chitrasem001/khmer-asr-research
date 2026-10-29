@@ -60,7 +60,9 @@ def main() -> None:
         )
         metrics = compute_metrics(predictions, model_seconds, transcriber)
 
-        out = out_root / spec.name_or_path.split("/")[-1]
+        # experiments/<run>/best -> <run>; hub ids (org/name) -> name.
+        parts = spec.name_or_path.rstrip("/").split("/")
+        out = out_root / (parts[-2] if parts[-1] == "best" and len(parts) > 1 else parts[-1])
         out.mkdir(parents=True, exist_ok=True)
         predictions.to_csv(out / "predictions.csv", index=False, encoding="utf-8")
         (out / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
