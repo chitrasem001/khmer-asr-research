@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-29T10:50:26",
+  "config": "/workspace/eval_s_whisper_small_100h.yaml",
+  "model": {
+    "name_or_path": "experiments/s_whisper_small_100h/best",
+    "revision": null,
+    "family": "whisper",
+    "language": "km",
+    "batch_size": 16
+  },
+  "dataset_revision": "e872b0c58b4bbbe30c0244def61e39e7b57ea093",
+  "manifest": "data/manifests/fleurs_km_test.csv",
+  "manifest_sha256": "6cb8c1290dda341cf539524234955c43f8479d43d36918024eee5db179cad0cb",
+  "limit": null,
+  "clips_per_speaker": null,
+  "clips_evaluated": 771,
+  "normalization": "v1 (khmer_asr.preprocessing.text)",
+  "seed": 42,
+  "gpu": "NVIDIA A40",
+  "torch": "2.9.1+cu128",
+  "transformers": "5.21.0",
+  "python": "3.12.3"
+}

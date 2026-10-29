@@ -8,6 +8,72 @@ Published results by others are marked as such; everything else is our own measu
 
 ---
 
+## Report 4 — 29–30 Oct 2026 · Data scaling (RQ2)
+
+### Setup
+- One RunPod A40 pod ran four jobs in sequence (`scripts/runpod_scaling.sh`): Whisper small and
+  MMS-1B on nested 50 h and 100 h subsets (10 h ⊂ 50 h ⊂ 100 h, seed 42), each for **3.5 passes**
+  over its subset — the same as the 10 h pilots — so only the amount of data changes.
+- Every model is scored on the same test set (4 unseen speakers, unseen sentences, 3,712 clips) and
+  FLEURS (771 clips), with the same normalization and space-free CER.
+
+| Subset | Clips | Hours | Files | Steps (3.5 passes) |
+|---|---|---|---|---|
+| 10 h | 4,561 | 10.40 | 51 | 1,000 |
+| 50 h | 21,193 | 50.02 | 226 | 4,638 |
+| 100 h | 43,348 | 100.58 | 435 | 9,485 |
+
+### Results (CER, spaces ignored)
+
+| Model | Train data | Validation | **Test** | FLEURS | Training time |
+|---|---|---|---|---|---|
+| Whisper small | zero-shot | — | 136.30% † | 124.13% † | — |
+| Whisper small | 10 h | 17.86% | 19.43% | 51.26% | 18 min |
+| Whisper small | 50 h | 3.81% | 6.40% | 32.82% | 59 min |
+| Whisper small | **100 h** | 2.40% | **4.70%** | 24.48% | 113 min |
+| MMS-1B | zero-shot | 10.20% | 9.71% | 15.49% | — |
+| MMS-1B | 10 h | 8.85% | 8.43% | 16.72% | 51 min |
+| MMS-1B | 50 h | 6.38% | 6.20% | 15.69% | 234 min |
+| MMS-1B | **100 h** | 5.33% | 5.24% | **14.97%** | 464 min |
+
+† seeded sample (400 test / 200 FLEURS clips) because zero-shot Whisper loops to the token limit.
+Whisper validation uses 294 clips, MMS validation all 1,288 — validation columns are not comparable
+across families; the test and FLEURS columns are. Inference speed is not compared here: 10 h models
+were evaluated on the laptop RTX 4060, 50/100 h models on the A40.
+
+### Findings
+- **More data helps both families on the test set.** Whisper 19.43 → 6.40 → 4.70%; MMS 8.43 → 6.20 →
+  5.24%. Doubling 50 → 100 h still cuts test CER by 27% (Whisper) and 15% (MMS): neither curve has
+  flattened at 100 h.
+- **Whisper is far more data-hungry, and overtakes MMS at 100 h.** It is the worst model at 10 h,
+  level with MMS at 50 h (6.40% vs 6.20%) and the best at 100 h (4.70% vs 5.24%).
+- **Out of domain, MMS stays well ahead.** FLEURS: MMS 16.72 → 15.69 → 14.97% (the 100 h model is the
+  first fine-tuned MMS to beat zero-shot, 15.49%); Whisper 51.26 → 32.82 → 24.48%, still above MMS
+  zero-shot. Whisper learns this dataset's speakers and domain faster than Khmer in general.
+- **The in-domain/out-of-domain gap is large** (best test 4.70% vs best FLEURS 14.97%): a test set
+  from the same corpus overstates real-world quality — a key point for the thesis.
+- **Choice depends on the use**: best accuracy on this kind of speech → Whisper-100h (also
+  Apache-2.0, usable commercially); robustness to other speech → MMS-100h (CC BY-NC, research only).
+
+### Cost and logs
+- Pod 14:11 (29 Oct) → 06:00 (30 Oct): **$9.50** (balance 14.94 → 5.44). Total GPU spend so far
+  **$10.80** of the $200 budget.
+- All logs kept: per-run `console.log`, `log_history.json`, `run_info.json`, `config.yaml`, and
+  `experiments/scaling_logs/` (full scaling console, launch log, eval-prep log, upload log).
+- Fix during the run: the audio prep for evaluation ran before the package was installed; it was
+  rerun on the pod and the script fixed (commit 8dea503).
+- **Model backup**: all four checkpoints are in the private Hugging Face repo
+  `chitra168/khmer-asr-thesis-models` (sizes verified against the pod); weights are not in git.
+
+### Next
+- Scaling chart (CER vs hours, test and FLEURS, both models) for the paper and slides.
+- M2 (RQ3): one Khmer-specific strategy — candidates: initialise MMS from Meta's Khmer adapter, or
+  add FLEURS training data (targets the out-of-domain gap).
+- Optional: Whisper on the full 872 h (about 1 pass, ≈ $3) for the best final model.
+- Advisor: approve split option D (lock the test set), the two models, and the M2 choice.
+
+---
+
 ## Report 3 — 27–29 Oct 2026
 
 ### Done

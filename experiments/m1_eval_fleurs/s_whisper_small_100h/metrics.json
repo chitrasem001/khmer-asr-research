@@ -1,0 +1,20 @@
+{
+  "cer": 0.24476774861743497,
+  "cer_with_spaces": 0.2561889728053841,
+  "substitution_rate": 0.12639477849647274,
+  "deletion_rate": 0.08083364274128935,
+  "insertion_rate": 0.037539327379672874,
+  "reference_chars": 102346,
+  "cer_by_speaker": {
+    "female": 0.2296,
+    "male": 0.2511
+  },
+  "clips_with_cer_over_100pct": 5,
+  "empty_hypotheses": 0,
+  "clips": 771,
+  "audio_hours": 3.151,
+  "model_seconds": 157.6,
+  "rtf": 0.013896082176411424,
+  "parameters_millions": 241.7,
+  "peak_gpu_memory_mb": 1658
+}

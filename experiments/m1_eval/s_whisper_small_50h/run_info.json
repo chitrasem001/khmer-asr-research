@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-29T08:34:17",
+  "config": "/workspace/eval_s_whisper_small_50h.yaml",
+  "model": {
+    "name_or_path": "experiments/s_whisper_small_50h/best",
+    "revision": null,
+    "family": "whisper",
+    "language": "km",
+    "batch_size": 16
+  },
+  "dataset_revision": "e872b0c58b4bbbe30c0244def61e39e7b57ea093",
+  "manifest": "data/manifests/test.csv",
+  "manifest_sha256": "7788d6dfb7337c51976c180f9820cc5558f0fdaef98ee05517d7c506924d60f4",
+  "limit": null,
+  "clips_per_speaker": null,
+  "clips_evaluated": 3712,
+  "normalization": "v1 (khmer_asr.preprocessing.text)",
+  "seed": 42,
+  "gpu": "NVIDIA A40",
+  "torch": "2.9.1+cu128",
+  "transformers": "5.21.0",
+  "python": "3.12.3"
+}

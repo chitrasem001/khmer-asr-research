@@ -1,0 +1,52 @@
+nohup: ignoring input
+== UPLOAD s_whisper_small_50h
+== UPLOADED s_whisper_small_50h
+== UPLOAD s_whisper_small_100h
+== UPLOADED s_whisper_small_100h
+== UPLOAD s_mms_50h
+== UPLOADED s_mms_50h
+== FILES 44
+    .gitattributes
+    README.md
+    s_mms_50h/best/added_tokens.json
+    s_mms_50h/best/config.json
+    s_mms_50h/best/model.safetensors
+    s_mms_50h/best/processor_config.json
+    s_mms_50h/best/tokenizer_config.json
+    s_mms_50h/best/training_args.bin
+    s_mms_50h/best/vocab.json
+    s_mms_50h/config.yaml
+    s_mms_50h/console.log
+    s_mms_50h/eval_subset.csv
+    s_mms_50h/log_history.json
+    s_mms_50h/pip_freeze.txt
+    s_mms_50h/run_info.json
+    s_mms_50h/train_subset.csv
+    s_whisper_small_100h/best/config.json
+    s_whisper_small_100h/best/generation_config.json
+    s_whisper_small_100h/best/model.safetensors
+    s_whisper_small_100h/best/processor_config.json
+    s_whisper_small_100h/best/tokenizer.json
+    s_whisper_small_100h/best/tokenizer_config.json
+    s_whisper_small_100h/best/training_args.bin
+    s_whisper_small_100h/config.yaml
+    s_whisper_small_100h/console.log
+    s_whisper_small_100h/eval_subset.csv
+    s_whisper_small_100h/log_history.json
+    s_whisper_small_100h/pip_freeze.txt
+    s_whisper_small_100h/run_info.json
+    s_whisper_small_100h/train_subset.csv
+    s_whisper_small_50h/best/config.json
+    s_whisper_small_50h/best/generation_config.json
+    s_whisper_small_50h/best/model.safetensors
+    s_whisper_small_50h/best/processor_config.json
+    s_whisper_small_50h/best/tokenizer.json
+    s_whisper_small_50h/best/tokenizer_config.json
+    s_whisper_small_50h/best/training_args.bin
+    s_whisper_small_50h/config.yaml
+    s_whisper_small_50h/console.log
+    s_whisper_small_50h/eval_subset.csv
+    s_whisper_small_50h/log_history.json
+    s_whisper_small_50h/pip_freeze.txt
+    s_whisper_small_50h/run_info.json
+    s_whisper_small_50h/train_subset.csv

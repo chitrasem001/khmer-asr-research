@@ -1,0 +1,72 @@
+{
+  "date": "2026-10-29T08:21:41",
+  "git_commit": "e460bd675b2c7d7d5f8da239ee9ffab22a95605b",
+  "config": "configs/m1_whisper_small.yaml",
+  "resolved_config": {
+    "experiment": {
+      "name": "m1_whisper_small",
+      "seed": 42,
+      "output_dir": "experiments/m1_whisper_small"
+    },
+    "model": {
+      "family": "whisper",
+      "name_or_path": "openai/whisper-small",
+      "revision": "973afd24965f72e36ca33b3055d56a652f456b4d",
+      "language": "khmer",
+      "freeze_encoder": false
+    },
+    "data": {
+      "dataset": "Digital-Divide-Data/khmer-speech-dataset",
+      "revision": "e872b0c58b4bbbe30c0244def61e39e7b57ea093",
+      "train_manifest": "data/manifests/train.parquet",
+      "validation_manifest": "data/manifests/validation.csv",
+      "audio_dir": "data/processed/audio",
+      "train_hours": 50.0,
+      "eval_clips": 300
+    },
+    "training": {
+      "learning_rate": 1e-05,
+      "warmup_steps": 100,
+      "max_steps": 4638,
+      "per_device_train_batch_size": 16,
+      "per_device_eval_batch_size": 16,
+      "gradient_accumulation_steps": 1,
+      "gradient_checkpointing": true,
+      "fp16": true,
+      "eval_steps": 1160,
+      "save_steps": 1160,
+      "logging_steps": 25,
+      "dataloader_num_workers": 4
+    },
+    "compute": {
+      "gpu_price_per_hour": 0.59
+    }
+  },
+  "train_clips": 21193,
+  "train_hours": 50.015,
+  "eval_clips": 300,
+  "setup_notes": {
+    "dropped_too_long_train": 195,
+    "dropped_too_long_eval": 6
+  },
+  "train_loss": 0.14643377874652186,
+  "best_checkpoint": "experiments/s_whisper_small_50h/checkpoints/checkpoint-3480",
+  "best_eval_cer": 0.038086532602071906,
+  "final_eval": {
+    "eval_loss": 0.05315391719341278,
+    "eval_cer": 0.038086532602071906,
+    "eval_runtime": 88.0175,
+    "eval_samples_per_second": 3.34,
+    "eval_steps_per_second": 0.216,
+    "epoch": 3.5323686214775325
+  },
+  "extract_seconds": 307,
+  "train_seconds": 3517,
+  "peak_gpu_memory_mb": 8583,
+  "gpu": "NVIDIA A40",
+  "gpu_price_per_hour": 0.59,
+  "estimated_gpu_cost_usd": 0.63,
+  "torch": "2.9.1+cu128",
+  "transformers": "5.21.0",
+  "python": "3.12.3"
+}
