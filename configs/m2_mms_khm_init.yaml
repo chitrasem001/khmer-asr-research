@@ -1,0 +1,40 @@
+# M2 — same as M1 MMS (configs/m1_mms.yaml) except one variable: the adapter and CTC head start
+# from the released `khm` adapter (shared characters only) instead of random initialisation.
+# MMS-1B-all is CC BY-NC 4.0 (research use only).
+experiment:
+  name: m2_mms_khm_init
+  seed: 42
+  output_dir: experiments/m2_mms_khm_init_10h
+
+model:
+  family: mms
+  name_or_path: facebook/mms-1b-all
+  revision: 3d33597edbdaaba14a8e858e2c8caa76e3cec0cd
+  language: khm
+  init_adapter: khm            # M2: start from the released Khmer adapter, not from scratch
+
+data:
+  dataset: Digital-Divide-Data/khmer-speech-dataset
+  revision: e872b0c58b4bbbe30c0244def61e39e7b57ea093
+  train_manifest: data/manifests/train.parquet
+  validation_manifest: data/manifests/validation.csv   # model selection only; never the test set
+  audio_dir: data/processed/audio
+  train_hours: null            # null = all; 10 / 50 / 100 for the scaling experiment (nested)
+  eval_clips: null             # CTC decoding is fast: score the full validation set
+
+training:
+  learning_rate: 1.0e-3        # adapter-only training uses a high rate (MMS recipe)
+  warmup_steps: 100
+  max_steps: 4000
+  per_device_train_batch_size: 16
+  per_device_eval_batch_size: 16
+  gradient_accumulation_steps: 1
+  gradient_checkpointing: true
+  fp16: true
+  eval_steps: 500
+  save_steps: 500
+  logging_steps: 25
+  dataloader_num_workers: 4
+
+compute:
+  gpu_price_per_hour: 0.59     # RunPod A40 secure; update if another GPU is used

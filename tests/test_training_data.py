@@ -35,3 +35,12 @@ def test_ctc_vocab_maps_space_to_delimiter():
     assert " " not in vocab
     assert {"ក", "ខ", "៤", "|", "[UNK]", "[PAD]"} == set(vocab)
     assert vocab["[PAD]"] == len(vocab) - 1
+
+
+def test_head_row_map_copies_shared_tokens_and_specials():
+    from khmer_asr.training.finetune import head_row_map
+
+    new = {"ក": 0, "៤": 1, "|": 2, "[UNK]": 3, "[PAD]": 4}
+    released = {"<pad>": 0, "<s>": 1, "</s>": 2, "<unk>": 3, "|": 4, "ក": 5}
+    # "៤" is missing from the released vocabulary, so its row stays freshly initialised.
+    assert head_row_map(new, released) == {0: 5, 2: 4, 3: 3, 4: 0}

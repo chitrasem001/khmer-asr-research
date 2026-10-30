@@ -103,10 +103,60 @@ def build_whisper(cfg: dict, train: pd.DataFrame, val: pd.DataFrame, audio_dir: 
     return trainer, processor, dropped
 
 
+# Our CTC special tokens and their names in the released MMS vocabularies.
+RELEASED_SPECIAL = {"[PAD]": "<pad>", "[UNK]": "<unk>"}
+
+
+def head_row_map(new_vocab: dict[str, int], released_vocab: dict[str, int]) -> dict[int, int]:
+    """New output-layer row -> released row, for every token both vocabularies share."""
+    rows = {}
+    for token, i in new_vocab.items():
+        old = released_vocab.get(RELEASED_SPECIAL.get(token, token))
+        if old is not None:
+            rows[i] = old
+    return rows
+
+
+def load_released_adapter(model, new_vocab: dict[str, int], m: dict) -> dict:
+    """Start from the released language adapter instead of a random one (M2).
+
+    Adapter weights are copied as they are; output-layer rows are copied for shared tokens, so
+    tokens the released vocabulary lacks (e.g. Khmer digits) keep their fresh initialisation.
+    """
+    from huggingface_hub import hf_hub_download
+    from safetensors.torch import load_file
+
+    lang = m["init_adapter"]
+    weights = load_file(hf_hub_download(m["name_or_path"], f"adapter.{lang}.safetensors",
+                                        revision=m["revision"]))
+    vocab_path = hf_hub_download(m["name_or_path"], "vocab.json", revision=m["revision"])
+    released_vocab = json.loads(Path(vocab_path).read_text(encoding="utf-8"))[lang]
+
+    state = model.state_dict()
+    adapter = {k: v for k, v in weights.items() if not k.startswith("lm_head.")}
+    missing = set(adapter) - set(state)
+    if missing:
+        raise ValueError(f"Released adapter has keys the model lacks: {sorted(missing)[:3]}")
+    rows = head_row_map(new_vocab, released_vocab)
+    with torch.no_grad():
+        model.load_state_dict(adapter, strict=False)
+        new_idx, old_idx = list(rows), list(rows.values())
+        model.lm_head.weight[new_idx] = weights["lm_head.weight"][old_idx].to(model.lm_head.weight.dtype)
+        model.lm_head.bias[new_idx] = weights["lm_head.bias"][old_idx].to(model.lm_head.bias.dtype)
+    return {
+        "init_adapter": lang,
+        "adapter_tensors_copied": len(adapter),
+        "head_rows_copied": len(rows),
+        "head_rows_new": sorted(t for t, i in new_vocab.items() if i not in rows),
+    }
+
+
 def build_mms(cfg: dict, train: pd.DataFrame, val: pd.DataFrame, audio_dir: str, output_dir: str):
-    """Train a new Khmer adapter + CTC head on a vocabulary built from the training text.
+    """Train a Khmer adapter + CTC head on a vocabulary built from the training text.
 
     The released `khm` adapter's vocabulary lacks some Khmer digits, so it cannot learn them.
+    By default the adapter starts from scratch; `model.init_adapter: khm` starts it from the
+    released adapter instead (M2).
     """
     m = cfg["model"]
     vocab = build_ctc_vocab(train["text"])
@@ -134,6 +184,7 @@ def build_mms(cfg: dict, train: pd.DataFrame, val: pd.DataFrame, audio_dir: str,
         ignore_mismatched_sizes=True,
     )
     model.init_adapter_layers()
+    init_notes = load_released_adapter(model, vocab, m) if m.get("init_adapter") else {}
     model.freeze_base_model()
     for param in model._get_adapters().values():
         param.requires_grad = True
@@ -155,7 +206,7 @@ def build_mms(cfg: dict, train: pd.DataFrame, val: pd.DataFrame, audio_dir: str,
         processing_class=processor,
     )
     trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    return trainer, processor, {"vocab_size": len(vocab), "trainable_parameters": trainable}
+    return trainer, processor, {"vocab_size": len(vocab), "trainable_parameters": trainable, **init_notes}
 
 
 BUILDERS = {"whisper": build_whisper, "mms": build_mms}
