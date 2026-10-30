@@ -149,19 +149,21 @@ def _runs(folder: str) -> dict[str, dict]:
 
 @app.get("/api/results")
 def results() -> dict:
-    test = _runs(CFG["results"]["test_runs"])
-    fleurs = _runs(CFG["results"]["fleurs_runs"])
     rows = []
-    for name, run in test.items():
-        m = run["metrics"]
-        f = fleurs.get(name, {}).get("metrics")
-        rows.append({
-            "model": name, "stage": "zero-shot", "clips": m["clips"], "cer": m["cer"],
-            "cer_with_spaces": m["cer_with_spaces"], "rtf": m["rtf"],
-            "params_m": m["parameters_millions"], "peak_vram_mb": m["peak_gpu_memory_mb"],
-            "fleurs_cer": f["cer"] if f else None, "fleurs_clips": f["clips"] if f else None,
-            "sub": m["substitution_rate"], "ins": m["insertion_rate"], "del": m["deletion_rate"],
-        })
+    for group in CFG["results"]:
+        fleurs = _runs(group["fleurs_runs"])
+        names = group.get("names", {})
+        for name, run in _runs(group["test_runs"]).items():
+            m = run["metrics"]
+            f = fleurs.get(name, {}).get("metrics")
+            rows.append({
+                "model": names.get(name, name), "stage": group["stage"], "clips": m["clips"],
+                "cer": m["cer"], "cer_with_spaces": m["cer_with_spaces"], "rtf": m["rtf"],
+                "gpu": run["info"].get("gpu"),
+                "params_m": m["parameters_millions"], "peak_vram_mb": m["peak_gpu_memory_mb"],
+                "fleurs_cer": f["cer"] if f else None, "fleurs_clips": f["clips"] if f else None,
+                "sub": m["substitution_rate"], "ins": m["insertion_rate"], "del": m["deletion_rate"],
+            })
     return {"rows": sorted(rows, key=lambda r: r["cer"])}
 
 

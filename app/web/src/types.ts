@@ -60,6 +60,7 @@ export interface ResultRow {
   cer: number;
   cer_with_spaces: number;
   rtf: number;
+  gpu: string | null;
   params_m: number;
   peak_vram_mb: number;
   fleurs_cer: number | null;

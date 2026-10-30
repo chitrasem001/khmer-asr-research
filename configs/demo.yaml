@@ -16,13 +16,15 @@ models:
     revision: 973afd24965f72e36ca33b3055d56a652f456b4d
     language: km
     max_new_tokens: 200   # zero-shot Whisper loops; capped so the demo stays responsive
-  # Fine-tuned checkpoints are added here after M1, e.g.:
-  # - id: mms-finetuned
-  #   label: MMS-1B · fine-tuned
-  #   family: mms
-  #   name_or_path: experiments/m1_mms/best
-  #   revision: null
-  #   language: khm
+  # Fine-tuned weights are git-ignored; download them from the private HF repo
+  # chitra168/khmer-asr-thesis-models (folder s_whisper_small_100h/best) into experiments/.
+  - id: whisper-small-100h
+    label: Whisper small · fine-tuned 100 h
+    color: "#8F3A0A"
+    family: whisper
+    name_or_path: experiments/s_whisper_small_100h/best
+    revision: null
+    language: km
 
 samples:
   manifest: data/manifests/test.csv
@@ -33,5 +35,16 @@ samples:
   seed: 42
 
 results:
-  test_runs: experiments/m0_baseline
-  fleurs_runs: experiments/m0_fleurs
+  - stage: zero-shot
+    test_runs: experiments/m0_baseline
+    fleurs_runs: experiments/m0_fleurs
+  - stage: fine-tuned
+    test_runs: experiments/m1_eval
+    fleurs_runs: experiments/m1_eval_fleurs
+    names:  # run folder -> label
+      m1_whisper_small: whisper-small 10 h
+      s_whisper_small_50h: whisper-small 50 h
+      s_whisper_small_100h: whisper-small 100 h
+      m1_mms: mms-1b 10 h
+      s_mms_50h: mms-1b 50 h
+      s_mms_100h: mms-1b 100 h

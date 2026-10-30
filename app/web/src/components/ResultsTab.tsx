@@ -28,6 +28,7 @@ export default function ResultsTab() {
               <th className="num">CER w/ spaces</th>
               <th className="num">FLEURS CER</th>
               <th className="num">RTF</th>
+              <th>GPU</th>
               <th className="num">Params</th>
               <th className="num">Peak VRAM</th>
             </tr>
@@ -42,6 +43,7 @@ export default function ResultsTab() {
                 <td className="num">{pct(r.cer_with_spaces)}</td>
                 <td className="num">{r.fleurs_cer == null ? "pending" : pct(r.fleurs_cer)}</td>
                 <td className="num">{r.rtf.toFixed(3)}</td>
+                <td>{r.gpu?.replace(/^NVIDIA (GeForce )?/, "") ?? "—"}</td>
                 <td className="num">{Math.round(r.params_m)} M</td>
                 <td className="num">{(r.peak_vram_mb / 1024).toFixed(1)} GB</td>
               </tr>
@@ -50,8 +52,9 @@ export default function ResultsTab() {
         </table>
       </div>
       <div className="note">
-        Read live from <code>experiments/m0_baseline/*/metrics.json</code> and <code>experiments/m0_fleurs/</code>.
-        Whisper is scored on a seeded 100-clip-per-speaker sample. Fine-tuned models appear here after M1.
+        Read live from <code>experiments/m0_baseline</code>, <code>m1_eval</code> and their FLEURS folders.
+        Zero-shot Whisper is scored on a seeded 100-clip-per-speaker sample. RTF depends on the GPU, so
+        compare it only between rows on the same GPU.
       </div>
     </section>
   );
