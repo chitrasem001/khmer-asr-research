@@ -95,6 +95,19 @@ def bootstrap_ci(errs: pd.DataFrame, n_boot: int = 1000, seed: int = 42) -> tupl
     return float(np.percentile(cers, 2.5)), float(np.percentile(cers, 97.5))
 
 
+def paired_diff_ci(a: pd.DataFrame, b: pd.DataFrame, n_boot: int = 1000,
+                   seed: int = 42) -> tuple[float, float, float]:
+    """CER(a) - CER(b) on the same clips, with a 95% paired bootstrap interval."""
+    if len(a) != len(b):
+        raise ValueError("Paired comparison needs the same clips")
+    rng = np.random.default_rng(seed)
+    ea, eb, n = a["errors"].to_numpy(), b["errors"].to_numpy(), a["ref_chars"].to_numpy()
+    idx = rng.integers(0, len(n), size=(n_boot, len(n)))
+    diffs = (ea[idx].sum(axis=1) - eb[idx].sum(axis=1)) / n[idx].sum(axis=1)
+    return (float((ea.sum() - eb.sum()) / n.sum()),
+            float(np.percentile(diffs, 2.5)), float(np.percentile(diffs, 97.5)))
+
+
 def load_results() -> list[dict]:
     results = []
     for slug, (label, family, license_) in MODEL_LABELS.items():
