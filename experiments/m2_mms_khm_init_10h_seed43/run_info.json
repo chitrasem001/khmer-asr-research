@@ -1,0 +1,84 @@
+{
+  "date": "2026-10-31T05:35:43",
+  "git_commit": "17226ce123eafc854770276fca0e5533169e516c",
+  "config": "configs/m2_mms_khm_init.yaml",
+  "resolved_config": {
+    "experiment": {
+      "name": "m2_mms_khm_init",
+      "seed": 42,
+      "output_dir": "experiments/m2_mms_khm_init_10h"
+    },
+    "model": {
+      "family": "mms",
+      "name_or_path": "facebook/mms-1b-all",
+      "revision": "3d33597edbdaaba14a8e858e2c8caa76e3cec0cd",
+      "language": "khm",
+      "init_adapter": "khm"
+    },
+    "data": {
+      "dataset": "Digital-Divide-Data/khmer-speech-dataset",
+      "revision": "e872b0c58b4bbbe30c0244def61e39e7b57ea093",
+      "train_manifest": "data/manifests/train.parquet",
+      "validation_manifest": "data/manifests/validation.csv",
+      "audio_dir": "data/processed/audio",
+      "train_hours": 10.0,
+      "eval_clips": null
+    },
+    "training": {
+      "learning_rate": 0.001,
+      "warmup_steps": 100,
+      "max_steps": 1000,
+      "per_device_train_batch_size": 16,
+      "per_device_eval_batch_size": 16,
+      "gradient_accumulation_steps": 1,
+      "gradient_checkpointing": true,
+      "fp16": true,
+      "eval_steps": 250,
+      "save_steps": 250,
+      "logging_steps": 25,
+      "dataloader_num_workers": 4,
+      "seed": 43
+    },
+    "compute": {
+      "gpu_price_per_hour": 0.59
+    }
+  },
+  "train_clips": 4561,
+  "train_hours": 10.402,
+  "eval_clips": 1288,
+  "setup_notes": {
+    "vocab_size": 111,
+    "trainable_parameters": 2295921,
+    "init_adapter": "khm",
+    "adapter_tensors_copied": 288,
+    "head_rows_copied": 105,
+    "head_rows_new": [
+      "|",
+      "\u00e8",
+      "\u17e4",
+      "\u17e6",
+      "\u17e8",
+      "\u17e9"
+    ]
+  },
+  "train_loss": 0.5681093339920044,
+  "best_checkpoint": "experiments/m2_mms_khm_init_10h_seed43/checkpoints/checkpoint-1000",
+  "best_eval_cer": 0.07682499924555633,
+  "final_eval": {
+    "eval_loss": 0.2753405272960663,
+    "eval_cer": 0.07682499924555633,
+    "eval_runtime": 44.1504,
+    "eval_samples_per_second": 29.173,
+    "eval_steps_per_second": 1.835,
+    "epoch": 3.4965034965034967
+  },
+  "extract_seconds": 4,
+  "train_seconds": 3119,
+  "peak_gpu_memory_mb": 16066,
+  "gpu": "NVIDIA A40",
+  "gpu_price_per_hour": 0.59,
+  "estimated_gpu_cost_usd": 0.51,
+  "torch": "2.9.1+cu128",
+  "transformers": "5.22.1",
+  "python": "3.12.3"
+}
