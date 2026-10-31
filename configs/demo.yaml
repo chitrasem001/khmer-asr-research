@@ -17,7 +17,14 @@ models:
     language: km
     max_new_tokens: 200   # zero-shot Whisper loops; capped so the demo stays responsive
   # Fine-tuned weights are git-ignored; download them from the private HF repo
-  # chitra168/khmer-asr-thesis-models (folder s_whisper_small_100h/best) into experiments/.
+  # chitra168/khmer-asr-thesis-models (folders <run>/best) into experiments/.
+  - id: whisper-small-872h
+    label: Whisper small · fine-tuned 872 h
+    color: "#5C2306"
+    family: whisper
+    name_or_path: experiments/f_whisper_small_872h/best
+    revision: null
+    language: km
   - id: whisper-small-100h
     label: Whisper small · fine-tuned 100 h
     color: "#8F3A0A"
@@ -48,3 +55,5 @@ results:
       m1_mms: mms-1b 10 h
       s_mms_50h: mms-1b 50 h
       s_mms_100h: mms-1b 100 h
+      m2_mms_khm_init_10h: mms-1b M2 10 h
+      f_whisper_small_872h: whisper-small 872 h
