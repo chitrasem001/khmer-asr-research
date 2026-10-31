@@ -1,0 +1,40 @@
+# Second pass for the main Whisper model: continue from the one-pass full-data checkpoint
+# (experiments/f_whisper_small_872h/best, downloaded from the private HF repo) for one more pass
+# with the same settings; the learning-rate schedule restarts (warm-up then linear decay).
+experiment:
+  name: f_whisper_small_872h_pass2
+  seed: 42
+  output_dir: experiments/f_whisper_small_872h_pass2
+
+model:
+  family: whisper
+  name_or_path: experiments/f_whisper_small_872h/best
+  revision: null
+  language: khmer
+  freeze_encoder: false
+
+data:
+  dataset: Digital-Divide-Data/khmer-speech-dataset
+  revision: e872b0c58b4bbbe30c0244def61e39e7b57ea093
+  train_manifest: data/manifests/train.parquet
+  validation_manifest: data/manifests/validation.csv   # model selection only; never the test set
+  audio_dir: data/processed/audio
+  train_hours: null            # null = all; 10 / 50 / 100 for the scaling experiment (nested)
+  eval_clips: 300              # validation clips scored during training (generation is slow)
+
+training:
+  learning_rate: 1.0e-5
+  warmup_steps: 500
+  max_steps: 5000
+  per_device_train_batch_size: 16
+  per_device_eval_batch_size: 16
+  gradient_accumulation_steps: 1
+  gradient_checkpointing: true
+  fp16: true
+  eval_steps: 500
+  save_steps: 500
+  logging_steps: 25
+  dataloader_num_workers: 4
+
+compute:
+  gpu_price_per_hour: 0.59     # RunPod A40 secure; update if another GPU is used

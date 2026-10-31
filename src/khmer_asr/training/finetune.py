@@ -51,7 +51,8 @@ def _common_args(cfg: dict, output_dir: str) -> dict:
         "metric_for_best_model": "cer",
         "greater_is_better": False,
         "report_to": [],
-        "seed": cfg["experiment"]["seed"],
+        # training.seed varies initialisation and data order only; subsets use experiment.seed
+        "seed": t.get("seed", cfg["experiment"]["seed"]),
         "dataloader_num_workers": t.get("dataloader_num_workers", 2),
         "remove_unused_columns": False,
     }

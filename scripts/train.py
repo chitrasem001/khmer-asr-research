@@ -42,6 +42,10 @@ def main() -> None:
     )
     parser.add_argument("--eval-steps", type=int, default=None, help="Override eval/save steps")
     parser.add_argument("--warmup-steps", type=int, default=None, help="Override warmup steps")
+    parser.add_argument(
+        "--train-seed", type=int, default=None,
+        help="Training seed (init, data order); the subset still uses experiment.seed",
+    )
     parser.add_argument("--output-dir", default=None)
     parser.add_argument("--prepare-only", action="store_true", help="Select and extract audio only")
     args = parser.parse_args()
@@ -61,9 +65,11 @@ def main() -> None:
         cfg["training"]["eval_steps"] = cfg["training"]["save_steps"] = args.eval_steps
     if args.warmup_steps is not None:
         cfg["training"]["warmup_steps"] = args.warmup_steps
+    if args.train_seed is not None:
+        cfg["training"]["seed"] = args.train_seed
     out = Path(args.output_dir or exp["output_dir"])
     out.mkdir(parents=True, exist_ok=True)
-    seed_everything(exp["seed"])
+    seed_everything(cfg["training"].get("seed", exp["seed"]))
 
     train = select_train_hours(
         pd.read_parquet(data["train_manifest"]), data.get("train_hours"), exp["seed"]
