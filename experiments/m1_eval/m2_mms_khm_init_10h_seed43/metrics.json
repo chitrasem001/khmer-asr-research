@@ -1,0 +1,22 @@
+{
+  "cer": 0.0738611492848781,
+  "cer_with_spaces": 0.08556418308258806,
+  "substitution_rate": 0.03705145823789892,
+  "deletion_rate": 0.02145620196467654,
+  "insertion_rate": 0.015353489082302642,
+  "reference_chars": 392940,
+  "cer_by_speaker": {
+    "f-adt1-0003": 0.1006,
+    "f-adt4-0001": 0.0556,
+    "m-adt1-0002": 0.0791,
+    "m-adt3-0001": 0.053
+  },
+  "clips_with_cer_over_100pct": 0,
+  "empty_hypotheses": 0,
+  "clips": 3712,
+  "audio_hours": 9.994,
+  "model_seconds": 92.5,
+  "rtf": 0.0025698353209979512,
+  "parameters_millions": 964.8,
+  "peak_gpu_memory_mb": 4668
+}

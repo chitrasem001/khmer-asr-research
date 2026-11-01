@@ -1,0 +1,29 @@
+== START Sat Oct 31 13:45:41 UTC 2026
+From https://github.com/chitrasem001/khmer-asr-research
+   17226ce..2a4bfc0  main       -> origin/main
+error: The following untracked working tree files would be overwritten by merge:
+	experiments/m1_mms_seed43/best/added_tokens.json
+	experiments/m1_mms_seed43/best/config.json
+	experiments/m1_mms_seed43/best/processor_config.json
+	experiments/m1_mms_seed43/best/tokenizer_config.json
+	experiments/m1_mms_seed43/best/vocab.json
+	experiments/m1_mms_seed43/config.yaml
+	experiments/m1_mms_seed43/console.log
+	experiments/m1_mms_seed43/eval_subset.csv
+	experiments/m1_mms_seed43/log_history.json
+	experiments/m1_mms_seed43/pip_freeze.txt
+	experiments/m1_mms_seed43/run_info.json
+	experiments/m2_mms_khm_init_10h_seed43/best/added_tokens.json
+	experiments/m2_mms_khm_init_10h_seed43/best/config.json
+	experiments/m2_mms_khm_init_10h_seed43/best/processor_config.json
+	experiments/m2_mms_khm_init_10h_seed43/best/tokenizer_config.json
+	experiments/m2_mms_khm_init_10h_seed43/best/vocab.json
+	experiments/m2_mms_khm_init_10h_seed43/config.yaml
+	experiments/m2_mms_khm_init_10h_seed43/console.log
+	experiments/m2_mms_khm_init_10h_seed43/eval_subset.csv
+	experiments/m2_mms_khm_init_10h_seed43/log_history.json
+	experiments/m2_mms_khm_init_10h_seed43/pip_freeze.txt
+	experiments/m2_mms_khm_init_10h_seed43/run_info.json
+Please move or remove them before you merge.
+Aborting
+Updating 17226ce..2a4bfc0

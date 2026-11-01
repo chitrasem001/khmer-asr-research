@@ -15,7 +15,9 @@ export HF_HUB_DISABLE_PROGRESS_BARS=1
 
 cd "$WORKDIR"
 if [ -d khmer-asr-research ]; then
-  git -C khmer-asr-research pull --ff-only
+  # Multi-run scripts set SKIP_PULL=1 after their first setup: pulling mid-round can change the
+  # code between runs, and fails when new commits add files the pod has already written.
+  [ -n "${SKIP_PULL:-}" ] || git -C khmer-asr-research pull --ff-only
 else
   git clone "$REPO_URL"
 fi

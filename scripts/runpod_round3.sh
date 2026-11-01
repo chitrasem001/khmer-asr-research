@@ -63,6 +63,7 @@ PY
 
 echo "== ROUND3 START $(date -u)"
 git pull --ff-only
+export SKIP_PULL=1   # pin the code for the whole round (runpod_setup.sh skips pulls)
 python -m pip install -q -e .
 bash scripts/runpod_setup.sh    # rebuilds train.parquet and checks the split hashes
 echo "== PREPARE EVAL AUDIO $(date -u)"

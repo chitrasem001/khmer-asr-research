@@ -1,0 +1,114 @@
+== AUTOSTOP armed Sat Oct 31 02:59:18 UTC 2026 (deadline 2026-11-01 05:00 UTC)
+== job done Sat Oct 31 13:46:29 UTC 2026
+9d69c762f24347e438f777110b59833a8a2ce3ede06f39c21eb618a011bb66dc  round3_results.tar
+Processing Files (0 / 0)      : |          |  0.00B /  0.00B            
+New Data Upload               : |          |  0.00B /  0.00B            [A
+
+  ...kspace/round3_results.tar:   8%|▊         | 5.48MB / 66.6MB            [A[A
+
+  ...kspace/round3_results.tar:   8%|▊         | 5.48MB / 66.6MB            [A[AProcessing Files (0 / 1)      :   8%|▊         | 5.48MB / 66.6MB,  536kB/s  
+
+  ...kspace/round3_results.tar:   8%|▊         | 5.48MB / 66.6MB            [A[A
+
+  ...kspace/round3_results.tar:   8%|▊         | 5.48MB / 66.6MB            [A[A
+
+  ...kspace/round3_results.tar:   8%|▊         | 5.48MB / 66.6MB            [A[A
+
+  ...kspace/round3_results.tar:  11%|█         | 7.38MB / 66.6MB            [A[AProcessing Files (0 / 1)      :  11%|█         | 7.38MB / 66.6MB,  699kB/s  
+New Data Upload               :   3%|▎         | 1.82MB / 58.5MB,  176kB/s  [A
+
+  ...kspace/round3_results.tar:  11%|█         | 7.38MB / 66.6MB            [A[A
+
+  ...kspace/round3_results.tar:  11%|█         | 7.38MB / 66.6MB            [A[A
+
+  ...kspace/round3_results.tar:  11%|█         | 7.38MB / 66.6MB            [A[A
+
+  ...kspace/round3_results.tar:  20%|█▉        | 13.1MB / 66.6MB            [A[AProcessing Files (0 / 1)      :  20%|█▉        | 13.1MB / 66.6MB, 1.22MB/s  
+New Data Upload               :  12%|█▏        | 7.29MB / 58.5MB,  693kB/s  [A
+
+  ...kspace/round3_results.tar:  31%|███       | 20.7MB / 66.6MB            [A[AProcessing Files (0 / 1)      :  31%|███       | 20.7MB / 66.6MB, 1.93MB/s  
+New Data Upload               :  25%|██▍       | 14.6MB / 58.5MB, 1.38MB/s  [A
+
+  ...kspace/round3_results.tar:  43%|████▎     | 28.3MB / 66.6MB            [A[AProcessing Files (0 / 1)      :  43%|████▎     | 28.3MB / 66.6MB, 2.64MB/s  
+New Data Upload               :  37%|███▋      | 21.9MB / 58.5MB, 2.06MB/s  [A
+
+  ...kspace/round3_results.tar:  85%|████████▌ | 56.9MB / 66.6MB            [A[AProcessing Files (0 / 1)      :  85%|████████▌ | 56.9MB / 66.6MB, 5.33MB/s  
+New Data Upload               :  84%|████████▍ | 49.2MB / 58.5MB, 4.64MB/s  [A
+
+  ...kspace/round3_results.tar: 100%|█████████▉| 66.6MB / 66.6MB            [A[AProcessing Files (0 / 1)      : 100%|█████████▉| 66.6MB / 66.6MB, 6.19MB/s  
+New Data Upload               : 100%|█████████▉| 58.5MB / 58.5MB, 5.47MB/s  [A
+
+  ...kspace/round3_results.tar: 100%|█████████▉| 66.6MB / 66.6MB            [A[A
+
+  ...kspace/round3_results.tar: 100%|█████████▉| 66.6MB / 66.6MB            [A[A
+
+  ...kspace/round3_results.tar: 100%|█████████▉| 66.6MB / 66.6MB            [A[A
+
+  ...kspace/round3_results.tar: 100%|█████████▉| 66.6MB / 66.6MB            [A[A
+
+  ...kspace/round3_results.tar: 100%|█████████▉| 66.6MB / 66.6MB            [A[A
+
+  ...kspace/round3_results.tar: 100%|██████████| 66.6MB / 66.6MB            [A[AProcessing Files (1 / 1)      : 100%|██████████| 66.6MB / 66.6MB, 5.83MB/s  
+New Data Upload               : 100%|██████████| 58.5MB / 58.5MB, 5.16MB/s  [A
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+Validating                    :           |   0%            [A[A[A
+
+  ...kspace/round3_results.tar: 100%|██████████| 66.6MB / 66.6MB            [A[A
+
+
+Validating                    :           |   0%            [A[A[A
+
+  ...kspace/round3_results.tar: 100%|██████████| 66.6MB / 66.6MB            [A[A
+
+
+Validating                    :           |   0%            [A[A[A
+
+  ...kspace/round3_results.tar: 100%|██████████| 66.6MB / 66.6MB            [A[A
+
+
+Validating                    : ██████████| 100%            [A[A[A
+
+  ...kspace/round3_results.tar: 100%|██████████| 66.6MB / 66.6MB            [A[A
+
+
+Validating                    : ██████████| 100%            [A[A[AProcessing Files (1 / 1)      : 100%|██████████| 66.6MB / 66.6MB, 5.64MB/s  
+New Data Upload               : 100%|██████████| 58.5MB / 58.5MB, 4.98MB/s  
+Validating                    : ██████████| 100%            
+  ...kspace/round3_results.tar: 100%|██████████| 66.6MB / 66.6MB            
+Processing Files (0 / 0)      : |          |  0.00B /  0.00B            
+New Data Upload               : |          |  0.00B /  0.00B            [A
+
+  ...round3_results.tar.sha256: 100%|██████████|  85.0B /  85.0B            [A[A
+
+  ...round3_results.tar.sha256: 100%|██████████|  85.0B /  85.0B            [A[AProcessing Files (1 / 1)      : 100%|██████████|  85.0B /  85.0B,  8.37B/s  
+New Data Upload               : 100%|██████████|  85.0B /  85.0B,  8.37B/s  [A
+
+  ...round3_results.tar.sha256: 100%|██████████|  85.0B /  85.0B            [A[A
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+Validating                    :           |   0%            [A[A[A
+
+  ...round3_results.tar.sha256: 100%|██████████|  85.0B /  85.0B            [A[A
+
+
+Validating                    :           |   0%            [A[A[A
+
+  ...round3_results.tar.sha256: 100%|██████████|  85.0B /  85.0B            [A[A
+
+
+Validating                    : ██████████| 100%            [A[A[A
+
+  ...round3_results.tar.sha256: 100%|██████████|  85.0B /  85.0B            [A[A
+
+
+Validating                    : ██████████| 100%            [A[A[AProcessing Files (1 / 1)      : 100%|██████████|  85.0B /  85.0B,  8.07B/s  
+New Data Upload               : 100%|██████████|  85.0B /  85.0B,  8.07B/s  
+Validating                    : ██████████| 100%            
+  ...round3_results.tar.sha256: 100%|██████████|  85.0B /  85.0B            

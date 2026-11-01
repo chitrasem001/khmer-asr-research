@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-31T04:41:20",
+  "config": "/workspace/eval_m1_mms_seed43.yaml",
+  "model": {
+    "name_or_path": "experiments/m1_mms_seed43/best",
+    "revision": null,
+    "family": "mms",
+    "language": null,
+    "batch_size": 8
+  },
+  "dataset_revision": "e872b0c58b4bbbe30c0244def61e39e7b57ea093",
+  "manifest": "data/manifests/test_seen_speakers.csv",
+  "manifest_sha256": "9afd58ef1f00ca3c7ddbb1b73e9d564b6325eaf7c4dad96c7d363e600c135180",
+  "limit": null,
+  "clips_per_speaker": null,
+  "clips_evaluated": 1891,
+  "normalization": "v1 (khmer_asr.preprocessing.text)",
+  "seed": 42,
+  "gpu": "NVIDIA A40",
+  "torch": "2.9.1+cu128",
+  "transformers": "5.22.1",
+  "python": "3.12.3"
+}
