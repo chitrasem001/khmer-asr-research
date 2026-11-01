@@ -61,7 +61,8 @@ test, 15.88 / 15.72% FLEURS. Seed-to-seed differences are ≤ 0.16 points.
   (872 h) is 1.8 points better than the best MMS (M2 100 h) on the test set but 4.3 points worse on
   FLEURS — even with almost 9× more training data.
 - **Unseen-speaker testing matters most for fully fine-tuned models.** On seen speakers Whisper's
-  CER is 27% (100 h) and 34% (872 h) lower than on unseen speakers; MMS changes by only 2–8%.
+  CER is 27% (100 h) and 34% (872 h) lower than on unseen speakers; MMS at 100 h only 8–11%
+  (new adapter 8%, M2 11%).
   A split that lets test speakers into training would make Whisper look about a third better than
   it is on new voices.
 

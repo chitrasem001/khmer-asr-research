@@ -34,7 +34,7 @@ AUTHORS = "Sem Chitra, Dr. Mao Makara"
 AFFILIATION = "Data Science in Computer Science, Royal University of Phnom Penh, Cambodia"
 
 # Validated categorical slots (dataviz reference palette, light surface).
-BLUE, ORANGE, GREY = "#2a78d6", "#eb6834", "#9a9a94"
+BLUE, ORANGE, GREY, GREEN = "#2a78d6", "#eb6834", "#9a9a94", "#1a9e77"
 
 MODEL_LABELS = {
     "whisper-small": ("Whisper small", "Encoder-decoder", "Apache-2.0"),
@@ -125,8 +125,8 @@ def load_results() -> list[dict]:
     return results
 
 
-# Fine-tuned runs: (family, label, training hours, run folder). Test/FLEURS results live in
-# experiments/m1_eval[_fleurs]/<run>, training records in experiments/<run>.
+# Fine-tuned runs: (family, label, training hours, run folder). Test/FLEURS/seen-speaker results
+# live in experiments/m1_eval[_fleurs|_seen]/<run>, training records in experiments/<run>.
 FINETUNED = [
     ("whisper", "Whisper small", 10, "m1_whisper_small"),
     ("whisper", "Whisper small", 50, "s_whisper_small_50h"),
@@ -135,22 +135,48 @@ FINETUNED = [
     ("mms", "MMS-1B", 50, "s_mms_50h"),
     ("mms", "MMS-1B", 100, "s_mms_100h"),
 ]
+# M2: MMS adapter started from the released khm adapter; same subsets and steps as the S runs.
+M2_RUNS = [
+    ("mms_khm", "MMS-1B, khm init (M2)", 10, "m2_mms_khm_init_10h"),
+    ("mms_khm", "MMS-1B, khm init (M2)", 100, "m2_mms_khm_init_100h"),
+]
+# Second training seed (same data subset) for the 10 h MMS runs: seed-42 run -> seed-43 run.
+SEED_PAIRS = {"m1_mms": "m1_mms_seed43", "m2_mms_khm_init_10h": "m2_mms_khm_init_10h_seed43"}
+FULL_RUN = ("whisper_full", "Whisper small, full data", 872, "f_whisper_small_872h")
 EXPERIMENTS = ROOT / "experiments"
+EVAL_DIRS = {"test": "m1_eval", "fleurs": "m1_eval_fleurs", "seen": "m1_eval_seen"}
+ZERO_SHOT = "mms-1b-all"
 
 
-def load_finetuned() -> list[dict]:
-    """Test and FLEURS results plus training records for every fine-tuned run that exists."""
+def eval_dir(run: str, split: str) -> Path:
+    """Result folder of a run on one evaluation set; zero-shot MMS lives in the M0 folders."""
+    if run == ZERO_SHOT and split != "seen":
+        return M0_DIR / run if split == "test" else EXPERIMENTS / "m0_fleurs" / run
+    return EXPERIMENTS / EVAL_DIRS[split] / run
+
+
+def metric(run: str, split: str) -> dict | None:
+    path = eval_dir(run, split) / "metrics.json"
+    return load_json(path) if path.exists() else None
+
+
+def paired(run_a: str, run_b: str, split: str) -> tuple[float, float, float]:
+    """CER(a) - CER(b) on the same clips of one evaluation set, with a paired 95% interval."""
+    a = pd.read_csv(eval_dir(run_a, split) / "predictions.csv").set_index("utt_id").sort_index()
+    b = pd.read_csv(eval_dir(run_b, split) / "predictions.csv").set_index("utt_id").loc[a.index]
+    return paired_diff_ci(clip_errors(a.reset_index()), clip_errors(b.reset_index()))
+
+
+def load_finetuned(runs: list[tuple] = FINETUNED) -> list[dict]:
+    """Test, FLEURS and seen-speaker results plus training records for every run that exists."""
     rows = []
-    for family, label, hours, run in FINETUNED:
-        test_dir = EXPERIMENTS / "m1_eval" / run
-        if not (test_dir / "metrics.json").exists():
+    for family, label, hours, run in runs:
+        if metric(run, "test") is None:
             continue
-        fleurs_dir = EXPERIMENTS / "m1_eval_fleurs" / run
         rows.append({
             "family": family, "label": label, "hours": hours, "run": run,
-            "test": load_json(test_dir / "metrics.json"),
-            "test_ci": bootstrap_ci(clip_errors(pd.read_csv(test_dir / "predictions.csv"))),
-            "fleurs": load_json(fleurs_dir / "metrics.json") if (fleurs_dir / "metrics.json").exists() else None,
+            "test": metric(run, "test"), "fleurs": metric(run, "fleurs"), "seen": metric(run, "seen"),
+            "test_ci": bootstrap_ci(clip_errors(pd.read_csv(eval_dir(run, "test") / "predictions.csv"))),
             "train": load_json(EXPERIMENTS / run / "run_info.json"),
         })
     return rows
@@ -158,34 +184,45 @@ def load_finetuned() -> list[dict]:
 
 # ---------------------------------------------------------------- figure
 def scaling_figure(rows: list[dict], zero_shot: dict, path: Path) -> None:
-    """CER against training hours on the test set and FLEURS, one line per model family."""
+    """CER against training hours on the test set and FLEURS: the scaling runs as lines, M2 and the
+    one-pass full-data Whisper run as separate markers."""
     fig, axes = plt.subplots(1, 2, figsize=(6.6, 3.0), dpi=200, sharey=False)
-    series = (("whisper", "Whisper small", ORANGE), ("mms", "MMS-1B", BLUE))
+    series = (  # family, label, colour, marker, line
+        ("whisper", "Whisper small", ORANGE, "o", "-"),
+        ("whisper_full", "Whisper small, 872 h (1 pass)", ORANGE, "D", ""),
+        ("mms", "MMS-1B, new adapter", BLUE, "o", "-"),
+        ("mms_khm", "MMS-1B, khm init (M2)", GREEN, "s", "--"),
+    )
     for ax, key, title in ((axes[0], "test", "Test set (unseen speakers + sentences)"),
                            (axes[1], "fleurs", "FLEURS (out of domain)")):
-        curves = {}
-        for family, label, color in series:
+        ends = []
+        for family, label, color, marker, line in series:
             pts = [(r["hours"], 100 * r[key]["cer"]) for r in rows if r["family"] == family and r[key]]
-            if pts:
-                curves[family] = (label, color, *zip(*pts))
-        for family, (label, color, xs, ys) in curves.items():
-            ax.plot(xs, ys, color=color, linewidth=2, marker="o", markersize=5, label=label)
-            # Nudge the end label up or down so the two families' labels don't collide.
-            others = [c[3][-1] for f, c in curves.items() if f != family]
-            dy = 0 if not others else (4 if ys[-1] >= others[0] else -4)
-            ax.annotate(f"{ys[-1]:.1f}%", (xs[-1], ys[-1]), textcoords="offset points",
-                        xytext=(6, dy), va="center", fontsize=6.5, color="#3d3d3a")
+            if not pts:
+                continue
+            xs, ys = zip(*pts)
+            ax.plot(xs, ys, color=color, linewidth=2 if line == "-" else 1.4, linestyle=line or "none",
+                    marker=marker, markersize=5, markerfacecolor="white" if marker == "D" else color,
+                    label=label)
+            ends.append((xs[-1], ys[-1]))
+        # Label each series' last point; points sharing an x are spread apart in CER order.
+        for x in {e[0] for e in ends}:
+            here = sorted(y for ex, y in ends if ex == x)
+            for i, y in enumerate(here):
+                dy = 0 if len(here) == 1 else (i - (len(here) - 1) / 2) * 9
+                ax.annotate(f"{y:.1f}%", (x, y), textcoords="offset points", xytext=(6, dy),
+                            va="center", fontsize=6.5, color="#3d3d3a")
         if zero_shot.get(key) is not None:
             zs = 100 * zero_shot[key]
-            ax.axhline(zs, color=BLUE, linewidth=1, linestyle="--")
-            # Put the label on the side of the line away from the fine-tuned MMS curve.
-            mms_above = "mms" in curves and max(curves["mms"][3]) > zs
+            ax.axhline(zs, color=BLUE, linewidth=1, linestyle=":")
+            # Put the label on the side of the line away from the fine-tuned MMS points.
+            mms_above = any(100 * r[key]["cer"] > zs for r in rows if r["family"] == "mms" and r[key])
             ax.annotate("MMS zero-shot", (10, zs), textcoords="offset points",
                         xytext=(0, -8 if mms_above else 3), fontsize=6, color=BLUE)
         ax.set_xscale("log")
-        ax.set_xticks([10, 50, 100], ["10 h", "50 h", "100 h"])
+        ax.set_xticks([10, 50, 100, 872], ["10 h", "50 h", "100 h", "872 h"])
         ax.minorticks_off()
-        ax.set_xlim(8, 150)
+        ax.set_xlim(8, 1400)
         ax.set_ylim(bottom=0)
         ax.set_title(title, fontsize=7.5)
         ax.set_ylabel("CER (%)", fontsize=7)
@@ -194,7 +231,7 @@ def scaling_figure(rows: list[dict], zero_shot: dict, path: Path) -> None:
         ax.set_axisbelow(True)
         for side in ("top", "right"):
             ax.spines[side].set_visible(False)
-    axes[0].legend(fontsize=6.5, frameon=False, loc="upper right")
+    axes[0].legend(fontsize=6, frameon=False, loc="upper right")
     fig.tight_layout()
     fig.savefig(path)
     plt.close(fig)
@@ -313,6 +350,8 @@ def build() -> Path:
     issues = audit["text_issues_in_sentences"]
     results = load_results()
     ft = load_finetuned()
+    m2 = load_finetuned(M2_RUNS)
+    full = load_finetuned([FULL_RUN])
     zero_shot = {"test": load_json(M0_DIR / "mms-1b-all" / "metrics.json")["cer"],
                  "fleurs": load_json(EXPERIMENTS / "m0_fleurs" / "mms-1b-all" / "metrics.json")["cer"]}
     diag = load_json(M0_DIR / "whisper_diagnostics.json")
@@ -340,7 +379,7 @@ def build() -> Path:
     fig_path = OUT / "fig_speakers.png"
     speaker_figure(audit, split, fig_path)
     scaling_path = OUT / "fig_scaling.png"
-    scaling_figure(ft, zero_shot, scaling_path)
+    scaling_figure(ft + m2 + full, zero_shot, scaling_path)
 
     doc = Document()
     sec = doc.sections[0]
@@ -360,15 +399,14 @@ def build() -> Path:
 
     draft = doc.add_paragraph()
     draft.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = draft.add_run(f"DRAFT FOR ADVISOR REVIEW — {date.today():%d %b %Y} — "
-                      "Khmer-specific strategy (M2) pending")
+    r = draft.add_run(f"DRAFT FOR ADVISOR REVIEW — {date.today():%d %b %Y}")
     r.font.size = Pt(8)
     r.font.color.rgb = RGBColor(0xB0, 0x3A, 0x2E)
 
     title = doc.add_paragraph()
     title.alignment = WD_ALIGN_PARAGRAPH.CENTER
     tr = title.add_run("Fine-Tuning Pretrained Models for Khmer Speech Recognition: "
-                       "Leakage-Free Evaluation, Zero-Shot Baselines and Data Scaling")
+                       "Leakage-Free Evaluation, Data Scaling and Adapter Initialisation")
     tr.bold = True
     tr.font.size = Pt(15)
     for text, size in ((AUTHORS, 11), (AFFILIATION, 10)):
@@ -404,6 +442,21 @@ def build() -> Path:
         )
     else:
         scaling_sentence = "Fine-tuning experiments on data quantity are in progress."
+    m2_100 = next((r for r in m2 if r["hours"] == 100), None)
+    if m2_100 and full and full[0]["seen"]:
+        f0 = full[0]
+        seen_gap = 1 - f0["seen"]["cer"] / f0["test"]["cer"]
+        m2_sentence = (
+            "Starting the MMS adapter from Meta's released Khmer adapter instead of from scratch "
+            "lowers CER at both 10 and 100 h and gives the most robust model "
+            f"({pct(m2_100['test']['cer'], 2)} test, {pct(m2_100['fleurs']['cer'], 2)} FLEURS, below "
+            f"zero-shot MMS). Whisper small trained on all {f0['hours']} h reaches "
+            f"{pct(f0['test']['cer'], 2)} on the test set but {pct(f0['fleurs']['cer'], 2)} on FLEURS, "
+            f"and is {pct(seen_gap, 0)} more accurate on speakers seen in training than on new ones, "
+            "so held-out speakers are essential for a fair estimate."
+        )
+    else:
+        m2_sentence = ""
     para(doc, (
         "Khmer remains under-resourced for automatic speech recognition (ASR), and published Khmer "
         "results are hard to compare because they use different test sets, text normalization and "
@@ -412,7 +465,7 @@ def build() -> Path:
         "four different speakers, so a random split leaks test sentences into training. We define a "
         "split that holds out both speakers and every sentence they read, a documented Khmer text "
         "normalization protocol, and a space-insensitive character error rate (CER). "
-        f"{result_sentence} {scaling_sentence}"
+        f"{result_sentence} {scaling_sentence} {m2_sentence}"
     ))
 
     # ---- 1 Introduction
@@ -442,6 +495,10 @@ def build() -> Path:
         "including a diagnosis of Whisper's failure mode (Section 5)."),
         ("A controlled data-scaling study (10, 50, 100 h) for both families, evaluated in and out "
          "of domain (Section 6)."),
+        ("A Khmer-specific strategy, initialising the MMS adapter from the released Khmer adapter, "
+         "tested at two data sizes and two seeds with paired significance tests (Section 7)."),
+        ("A full-data model and a seen- versus unseen-speaker comparison showing how much a random "
+         "split would overstate accuracy (Section 8)."),
     ])
 
     # ---- 2 Related work
@@ -580,6 +637,18 @@ def build() -> Path:
         "are excluded from training (about 1%). Training ran on one NVIDIA A40 (48 GB) at RunPod; "
         "test-set and FLEURS scores use the same evaluation code as the zero-shot baselines."
     ))
+    para(doc, (
+        "M2 changes only the initialisation of the MMS adapter: its 288 adapter tensors are copied "
+        "from the released Khmer adapter, and each output-layer row for a character the released "
+        "vocabulary also contains is copied too (105 of 111); the remaining six (the word "
+        "delimiter, è and the digits \u17e4 \u17e6 \u17e8 \u17e9) start new. Before any training "
+        "this model already scores 10.07% CER on 40 validation clips, against 249.71% for a new "
+        "head. The 10 h runs of both MMS variants are repeated with a second training seed on the "
+        "same data. The final Whisper model trains on the whole training split for one pass "
+        "(24,000 steps); it is reported separately from the 3.5-pass scaling runs. Besides the "
+        "test set and FLEURS, every model is scored on the seen-speaker set (Table 2): new "
+        "sentences read by training speakers."
+    ))
 
     # ---- 5 Results
     doc.add_heading("5. Zero-Shot Results (M0)", level=1)
@@ -670,8 +739,10 @@ def build() -> Path:
         doc.add_picture(str(scaling_path), width=Cm(15.5))
         doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
         cap = doc.add_paragraph(style="Caption")
-        cap.add_run("Figure 2. CER against training hours (log scale). The dashed line is zero-shot "
-                    "MMS; zero-shot Whisper (> 100%) is off the chart.")
+        cap.add_run("Figure 2. CER against training hours (log scale). Solid lines: the scaling runs; "
+                    "dashed: MMS with the adapter started from the released Khmer adapter (M2, "
+                    "Section 7); open diamond: Whisper small trained once on all 872 h (Section 8); "
+                    "dotted: zero-shot MMS. Zero-shot Whisper (> 100%) is off the chart.")
         cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
     w50, m10, m50 = ftr("whisper", 50), ftr("mms", 10), ftr("mms", 50)
@@ -704,47 +775,142 @@ def build() -> Path:
             "USD of GPU time at 0.59 USD per hour."
         ), bold_lead="Cost. ")
 
-    # ---- 7 Planned
-    doc.add_heading("7. Planned Experiments", level=1)
+    # ---- 7 M2
+    doc.add_heading("7. Khmer-Specific Strategy: Adapter Initialisation (M2)", level=1)
+    base = {10: "m1_mms", 100: "s_mms_100h"}
+    if m2:
+        rows7 = []
+        for r in m2:
+            b_run = base[r["hours"]]
+            for run, init in ((b_run, "New adapter"), (r["run"], "Released khm adapter")):
+                cells = [f"{r['hours']} h", init]
+                for split in ("test", "seen", "fleurs"):
+                    m = metric(run, split)
+                    cells.append(pct(m["cer"], 2) if m else "—")
+                rows7.append(cells)
+            diffs = []
+            for split in ("test", "seen", "fleurs"):
+                if metric(b_run, split) and metric(r["run"], split):
+                    d, lo, hi = paired(r["run"], b_run, split)
+                    diffs.append(f"{d * 100:+.2f} [{lo * 100:+.2f}, {hi * 100:+.2f}]")
+                else:
+                    diffs.append("—")
+            rows7.append(["", "Difference (paired 95% CI)", *diffs])
+        add_table(doc, "Table 7. MMS-1B with a new adapter versus an adapter started from the released "
+                       "Khmer adapter, same data and steps. CER on the test set (unseen speakers), the "
+                       "seen-speaker set and FLEURS; differences in CER points with a paired bootstrap "
+                       "interval over the same clips.",
+                  ["Data", "Adapter start", "Test", "Seen speakers", "FLEURS"],
+                  rows7, [1.4, 4.6, 3.4, 3.4, 3.4])
+    m2_10 = next((r for r in m2 if r["hours"] == 10), None)
+    if m2_10 and m2_100:
+        seeds = {k: v for k, v in SEED_PAIRS.items() if metric(v, "test")}
+        seed_moves = [abs(metric(a_, sp)["cer"] - metric(b_, sp)["cer"])
+                      for a_, b_ in seeds.items() for sp in ("test", "fleurs")]
+        zs_d, zs_lo, zs_hi = paired(m2_100["run"], ZERO_SHOT, "fleurs")
+        seed_text = (
+            f"A second training seed changes the 10 h results by at most {max(seed_moves) * 100:.2f} "
+            f"points (M2: {pct(m2_10['test']['cer'], 2)} and "
+            f"{pct(metric(SEED_PAIRS['m2_mms_khm_init_10h'], 'test')['cer'], 2)} on the test set), far "
+            "less than the M2 gain."
+        ) if seeds else ""
+        para(doc, (
+            "Starting from the released adapter is better at both sizes and on all three sets, at "
+            "the same training cost. The gain shrinks with data (about one point at 10 h, 0.6 at "
+            "100 h) but does not vanish. Out of domain it removes the loss seen with a new adapter: "
+            f"at 100 h the M2 model scores {pct(m2_100['fleurs']['cer'], 2)} on FLEURS, "
+            f"{abs(zs_d) * 100:.2f} points [{abs(zs_hi) * 100:.2f}, {abs(zs_lo) * 100:.2f}] below "
+            "zero-shot MMS, the only fine-tuned model in this study that improves on it. "
+            f"{seed_text}"
+        ))
+
+    # ---- 8 Full data and speakers
+    doc.add_heading("8. Full-Data Model and Speaker Familiarity", level=1)
+    picks = [(ZERO_SHOT, "MMS-1B zero-shot", None), ("s_mms_100h", "MMS-1B, new adapter", 100),
+             ("m2_mms_khm_init_100h", "MMS-1B, khm init (M2)", 100),
+             ("s_whisper_small_100h", "Whisper small", 100),
+             (FULL_RUN[3], "Whisper small (1 pass)", FULL_RUN[2])]
+    rows8 = []
+    for run, label, hours in picks:
+        t, se, fl = metric(run, "test"), metric(run, "seen"), metric(run, "fleurs")
+        if not (t and se):
+            continue
+        rows8.append([label, f"{hours} h" if hours else "—", pct(t["cer"], 2), pct(se["cer"], 2),
+                      f"{(se['cer'] / t['cer'] - 1) * 100:+.0f}%", pct(fl["cer"], 2) if fl else "—"])
+    if rows8:
+        add_table(doc, "Table 8. Unseen versus seen speakers: CER on the test set (four held-out "
+                       "speakers) and on new sentences read by training speakers (1,891 clips), the "
+                       "relative change, and FLEURS.",
+                  ["Model", "Data", "Unseen speakers", "Seen speakers", "Change", "FLEURS"],
+                  rows8, [4.4, 1.4, 2.6, 2.6, 1.7, 2.0])
+    if full and m2_100:
+        f0 = full[0]
+        d_t = paired(f0["run"], m2_100["run"], "test")
+        d_f = paired(f0["run"], m2_100["run"], "fleurs")
+        para(doc, (
+            f"Whisper small trained once over all {f0['hours']} h reaches "
+            f"{pct(f0['test']['cer'], 2)} on the test set, {abs(d_t[0]) * 100:.2f} points below the "
+            f"best MMS model, but {pct(f0['fleurs']['cer'], 2)} on FLEURS, {d_f[0] * 100:.2f} points "
+            "above it, despite almost nine times more training data. Its validation CER was still "
+            f"falling when the pass ended ({f0['train']['best_eval_cer'] * 100:.2f}%)."
+        ), bold_lead="Full data. ")
+        def seen_gain(run: str) -> float:
+            return 1 - metric(run, "seen")["cer"] / metric(run, "test")["cer"]
+
+        mms_gains = [seen_gain(r) for r in ("s_mms_100h", "m2_mms_khm_init_100h")]
+        para(doc, (
+            "Zero-shot MMS scores the same on both speaker sets, as it should. At 100 h, fine-tuned "
+            f"MMS, which trains only a small adapter, is {pct(min(mms_gains), 0)}–"
+            f"{pct(max(mms_gains), 0)} better on speakers it has heard; fully fine-tuned Whisper is "
+            f"{pct(seen_gain('s_whisper_small_100h'), 0)} better, and {pct(seen_gain(f0['run']), 0)} "
+            "with the full corpus. A split that let test speakers into training would therefore "
+            "flatter Whisper by about a third and change the comparison between the two families."
+        ), bold_lead="Speaker familiarity. ")
+
+    # ---- 9 Planned
+    doc.add_heading("9. Planned Work", level=1)
     bullets(doc, [
-        ("M2 — One Khmer-specific strategy, chosen to address the out-of-domain gap: initialise the "
-         "MMS adapter from Meta's released Khmer adapter instead of from scratch, or add the FLEURS "
-         "training split to the training data (RQ3)."),
-        ("Optional — Whisper small on the full training split, to see where the in-domain curve "
-         "flattens."),
+        ("MMS from the released Khmer adapter on the full training split, the likely best model "
+         "out of domain."),
+        "A second pass for the full-data Whisper model, whose validation CER was still falling.",
+        ("Error analysis: confused characters, digits, Latin words and the transcripts too long "
+         "for Whisper's decoder."),
     ])
 
-    # ---- 8 Limitations
-    doc.add_heading("8. Limitations", level=1)
+    # ---- 10 Limitations
+    doc.add_heading("10. Limitations", level=1)
     bullets(doc, [
         (f"The corpus has only {s['speakers']} speakers and contains read cultural-domain speech; "
-        "results may not transfer to spontaneous or other-domain speech."),
+         "results may not transfer to spontaneous or other-domain speech."),
         "Whisper zero-shot results use a 400-clip sample; MMS uses the full test set.",
         "MMS-1B-all is licensed CC BY-NC 4.0, which restricts it to non-commercial research.",
-        ("Each configuration is a single training run; we report bootstrap intervals over clips, "
-         "not over training seeds."),
+        ("Only the two 10 h MMS runs were repeated with a second seed; other configurations are "
+         "single runs, with bootstrap intervals over clips."),
+        ("The full-data Whisper model trained for one pass and the scaling runs for 3.5, so it is "
+         "not a point on the same curve."),
         ("Validation sizes differ between families (1,288 clips for MMS, 300 for Whisper), so "
          "validation CERs are not directly comparable; test and FLEURS use identical clips."),
         ("24 test clips (0.65%) have transcripts longer than Whisper's 448-token decoder limit and "
          "count against Whisper."),
         ("Inference speed was measured on different GPUs (laptop RTX 4060 for zero-shot and 10 h "
-         "models, A40 for 50 and 100 h), so it is not compared across runs."),
+         "models, A40 for the rest), so it is not compared across runs."),
         "Training subsets are drawn by whole files, so small subsets cover fewer topics.",
         (f"The split leaves {sp['train']['speakers']} training speakers and excludes "
          f"{excluded_label}, one of only {n_over_60} speakers aged 60 or over."),
         "The split option is provisional until approved; the test set will then be locked.",
     ])
 
-    # ---- 9 Conclusion
-    doc.add_heading("9. Conclusion", level=1)
+    # ---- 11 Conclusion
+    doc.add_heading("11. Conclusion", level=1)
     para(doc, (
         "A full audit of the largest open Khmer speech corpus shows that its sentences are shared "
-        "across speakers, which makes leakage-free evaluation essential. With a split that holds out "
-        "speakers and sentences and a documented normalization protocol, zero-shot Whisper is "
+        "across speakers, which makes leakage-free evaluation essential. Zero-shot Whisper is "
         "unusable for Khmer while MMS with a Khmer adapter is already a strong starting point. "
-        "Fine-tuning on 10–100 h closes the gap for Whisper and lets it overtake MMS in domain, but "
-        "MMS remains far more robust on out-of-domain speech. The next step is a Khmer-specific "
-        "strategy aimed at that robustness gap."
+        "Fine-tuning lets Whisper small overtake MMS in domain, reaching under 3% CER with the full "
+        "corpus, but MMS remains far more robust on other speech. Starting the MMS adapter from the "
+        "released Khmer adapter, rather than from scratch, helps at every data size and gives the "
+        "best out-of-domain model. Which model to use therefore depends on whether the target "
+        "speech resembles the training corpus."
     ))
     para(doc, (
         "Code, configurations and split manifests: github.com/chitrasem001/khmer-asr-research."
