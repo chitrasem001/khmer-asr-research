@@ -1,0 +1,351 @@
+model,set,reference,hypothesis,count,share_of_errors
+MMS-1B zero-shot,test,ម,ំ,658,0.01725403817914831
+MMS-1B zero-shot,test,ត,ដ,649,0.017018040696454795
+MMS-1B zero-shot,test,ឱ,អ,367,0.009623452905391232
+MMS-1B zero-shot,test,ដ,ត,348,0.009125235997482694
+MMS-1B zero-shot,test,ិ,ឹ,320,0.008391021606880638
+MMS-1B zero-shot,test,ត,ទ,296,0.00776169498636459
+MMS-1B zero-shot,test,ូ,ៅ,288,0.007551919446192574
+MMS-1B zero-shot,test,ជ,ច,268,0.007027480595762534
+MMS-1B zero-shot,test,្,ោ,239,0.006267044262638976
+MMS-1B zero-shot,test,ទ,ត,238,0.006240822320117474
+MMS-1B zero-shot,test,ព,ប,226,0.00592615900985945
+MMS-1B zero-shot,test,ច,ជ,219,0.005742605412208937
+MMS-1B zero-shot,test,ណ,ន,217,0.0056901615271659324
+MMS-1B zero-shot,test,គ,ក,202,0.005296832389343403
+MMS-1B zero-shot,test,ស,ះ,199,0.005218166561778897
+MMS-1B zero-shot,test,ក,គ,193,0.005060834906649885
+MMS-1B zero-shot,test,េ,ែ,186,0.004877281308999371
+MMS-1B zero-shot,test,ៀ,ា,182,0.0047723935389133625
+MMS-1B zero-shot,test,ខ,ក,179,0.0046937277113488565
+MMS-1B zero-shot,test,ល,រ,174,0.004562617998741347
+MMS-1B zero-shot,test,រ,ល,172,0.004510174113698343
+MMS-1B zero-shot,test,ឱ,ឲ,167,0.004379064401090833
+MMS-1B zero-shot,test,ំ,ម,166,0.004352842458569331
+MMS-1B zero-shot,test,ន,ណ,159,0.004169288860918817
+MMS-1B zero-shot,test,ិ,េ,153,0.0040119572057898045
+MMS-1B zero-shot,test,្,,2123,0.05566918397314873
+MMS-1B zero-shot,test,រ,,917,0.024045521292217327
+MMS-1B zero-shot,test,់,,782,0.02050555905181456
+MMS-1B zero-shot,test,យ,,549,0.014395846444304593
+MMS-1B zero-shot,test,ត,,483,0.012665198237885462
+MMS-1B zero-shot,test,,្,798,0.02092511013215859
+MMS-1B zero-shot,test,,ា,698,0.018302915880008392
+MMS-1B zero-shot,test,,រ,433,0.011354101111810363
+MMS-1B zero-shot,test,,់,405,0.010619886721208307
+MMS-1B zero-shot,test,,ម,349,0.009151457940004196
+MMS-1B zero-shot,fleurs,ដ,ត,86,0.005426209855511389
+MMS-1B zero-shot,fleurs,ជ,ច,83,0.005236923465202852
+MMS-1B zero-shot,fleurs,ព,ប,77,0.004858350684585779
+MMS-1B zero-shot,fleurs,ម,ំ,75,0.00473215975771342
+MMS-1B zero-shot,fleurs,ក,គ,74,0.004669064294277241
+MMS-1B zero-shot,fleurs,រ,ល,73,0.004605968830841063
+MMS-1B zero-shot,fleurs,ទ,ត,71,0.0044797779039687045
+MMS-1B zero-shot,fleurs,ិ,ឹ,71,0.0044797779039687045
+MMS-1B zero-shot,fleurs,ល,រ,69,0.004353586977096347
+MMS-1B zero-shot,fleurs,ត,ទ,67,0.004227396050223989
+MMS-1B zero-shot,fleurs,ា,ើ,62,0.0039119187330430944
+MMS-1B zero-shot,fleurs,ត,ដ,60,0.0037857278061707365
+MMS-1B zero-shot,fleurs,ន,ណ,59,0.0037226323427345573
+MMS-1B zero-shot,fleurs,ប,ព,55,0.0034702504889898415
+MMS-1B zero-shot,fleurs,ី,ិ,55,0.0034702504889898415
+MMS-1B zero-shot,fleurs,ណ,ន,54,0.0034071550255536627
+MMS-1B zero-shot,fleurs,គ,ក,51,0.003217868635245126
+MMS-1B zero-shot,fleurs,ំ,្,47,0.00296548678150041
+MMS-1B zero-shot,fleurs,ូ,ុ,45,0.0028392958546280523
+MMS-1B zero-shot,fleurs,ើ,ា,43,0.0027131049277556944
+MMS-1B zero-shot,fleurs,a,ា,43,0.0027131049277556944
+MMS-1B zero-shot,fleurs,ក,ខ,43,0.0027131049277556944
+MMS-1B zero-shot,fleurs,ា,ិ,42,0.0026500094643195156
+MMS-1B zero-shot,fleurs,ិ,ី,41,0.0025869140008833364
+MMS-1B zero-shot,fleurs,ូ,ៅ,39,0.0024607230740109785
+MMS-1B zero-shot,fleurs,្,,501,0.03161082718152565
+MMS-1B zero-shot,fleurs,់,,327,0.020632216543630514
+MMS-1B zero-shot,fleurs,រ,,301,0.018991734494289862
+MMS-1B zero-shot,fleurs,ា,,244,0.015395293078427661
+MMS-1B zero-shot,fleurs,a,,207,0.01306076093128904
+MMS-1B zero-shot,fleurs,,្,281,0.017729825225566282
+MMS-1B zero-shot,fleurs,,ា,198,0.01249290176036343
+MMS-1B zero-shot,fleurs,,រ,121,0.007634551075777651
+MMS-1B zero-shot,fleurs,,ត,114,0.007192882831724399
+MMS-1B zero-shot,fleurs,,់,107,0.006751214587671146
+MMS-1B new adapter 100 h,test,ដ,ត,552,0.026819551064036537
+MMS-1B new adapter 100 h,test,ឲ,ឱ,303,0.014721601399280925
+MMS-1B new adapter 100 h,test,ឹ,ិ,224,0.010883296083956856
+MMS-1B new adapter 100 h,test,ត,ដ,173,0.008405402779127392
+MMS-1B new adapter 100 h,test,ច,ជ,146,0.007093576911864736
+MMS-1B new adapter 100 h,test,ល,រ,133,0.006461957049849383
+MMS-1B new adapter 100 h,test,ទ,ត,133,0.006461957049849383
+MMS-1B new adapter 100 h,test,រ,ល,130,0.006316198620153532
+MMS-1B new adapter 100 h,test,ប,ព,130,0.006316198620153532
+MMS-1B new adapter 100 h,test,ក,គ,122,0.00592750947429793
+MMS-1B new adapter 100 h,test,ម,ំ,116,0.005635992614906229
+MMS-1B new adapter 100 h,test,ៀ,ា,108,0.0052473034690506265
+MMS-1B new adapter 100 h,test,ជ,ច,107,0.005198717325818676
+MMS-1B new adapter 100 h,test,ូ,ៅ,105,0.005101545039354776
+MMS-1B new adapter 100 h,test,ព,ប,104,0.005052958896122826
+MMS-1B new adapter 100 h,test,គ,ក,103,0.0050043727528908755
+MMS-1B new adapter 100 h,test,្,់,98,0.0047614420367311245
+MMS-1B new adapter 100 h,test,ំ,្,89,0.004324166747643572
+MMS-1B new adapter 100 h,test,ា,ែ,89,0.004324166747643572
+MMS-1B new adapter 100 h,test,ន,ណ,89,0.004324166747643572
+MMS-1B new adapter 100 h,test,ត,ទ,85,0.004129822174715771
+MMS-1B new adapter 100 h,test,ំ,ម,80,0.00388689145855602
+MMS-1B new adapter 100 h,test,ក,ខ,80,0.00388689145855602
+MMS-1B new adapter 100 h,test,ស,ះ,76,0.003692546885628219
+MMS-1B new adapter 100 h,test,ី,ិ,75,0.0036439607423962685
+MMS-1B new adapter 100 h,test,្,,985,0.04785735108347099
+MMS-1B new adapter 100 h,test,់,,495,0.024050140899815373
+MMS-1B new adapter 100 h,test,រ,,494,0.024001554756583422
+MMS-1B new adapter 100 h,test,ា,,301,0.014624429112817024
+MMS-1B new adapter 100 h,test,៍,,278,0.01350694781848217
+MMS-1B new adapter 100 h,test,,្,490,0.02380721018365562
+MMS-1B new adapter 100 h,test,,ា,349,0.016956563987950635
+MMS-1B new adapter 100 h,test,,រ,292,0.014187153823729473
+MMS-1B new adapter 100 h,test,,់,232,0.011271985229812457
+MMS-1B new adapter 100 h,test,,ក,203,0.0098629870760859
+MMS-1B new adapter 100 h,fleurs,ឹ,ិ,111,0.007244957900920305
+MMS-1B new adapter 100 h,fleurs,ដ,ត,110,0.007179688009921023
+MMS-1B new adapter 100 h,fleurs,រ,ល,82,0.005352131061941126
+MMS-1B new adapter 100 h,fleurs,ល,រ,69,0.0045036224789504605
+MMS-1B new adapter 100 h,fleurs,គ,ក,67,0.004373082696951896
+MMS-1B new adapter 100 h,fleurs,ប,ព,67,0.004373082696951896
+MMS-1B new adapter 100 h,fleurs,ត,ទ,63,0.004112003132954768
+MMS-1B new adapter 100 h,fleurs,ណ,ន,63,0.004112003132954768
+MMS-1B new adapter 100 h,fleurs,ត,ដ,62,0.004046733241955486
+MMS-1B new adapter 100 h,fleurs,ទ,ត,61,0.0039814633509562035
+MMS-1B new adapter 100 h,fleurs,ឱ,ឲ,60,0.003916193459956922
+MMS-1B new adapter 100 h,fleurs,ក,គ,55,0.0035898440049605116
+MMS-1B new adapter 100 h,fleurs,a,ា,51,0.0033287644409633835
+MMS-1B new adapter 100 h,fleurs,ជ,ច,50,0.0032634945499641016
+MMS-1B new adapter 100 h,fleurs,ំ,្,49,0.0031982246589648197
+MMS-1B new adapter 100 h,fleurs,ី,ិ,47,0.0030676848769662555
+MMS-1B new adapter 100 h,fleurs,ព,ប,45,0.002937145094967691
+MMS-1B new adapter 100 h,fleurs,ិ,ី,45,0.002937145094967691
+MMS-1B new adapter 100 h,fleurs,ា,ិ,44,0.0028718752039684093
+MMS-1B new adapter 100 h,fleurs,ម,ំ,43,0.0028066053129691274
+MMS-1B new adapter 100 h,fleurs,ំ,ម,41,0.002676065530970563
+MMS-1B new adapter 100 h,fleurs,ើ,ា,40,0.0026107956399712812
+MMS-1B new adapter 100 h,fleurs,ែ,ា,40,0.0026107956399712812
+MMS-1B new adapter 100 h,fleurs,n,ន,39,0.0025455257489719993
+MMS-1B new adapter 100 h,fleurs,ន,ណ,39,0.0025455257489719993
+MMS-1B new adapter 100 h,fleurs,្,,520,0.033940343319626656
+MMS-1B new adapter 100 h,fleurs,់,,387,0.025259447816722146
+MMS-1B new adapter 100 h,fleurs,រ,,306,0.0199725866457803
+MMS-1B new adapter 100 h,fleurs,ា,,268,0.017492330787807583
+MMS-1B new adapter 100 h,fleurs,a,,229,0.014946805038835585
+MMS-1B new adapter 100 h,fleurs,,្,213,0.013902486782847072
+MMS-1B new adapter 100 h,fleurs,,ា,151,0.009855753540891587
+MMS-1B new adapter 100 h,fleurs,,រ,93,0.006070099862933229
+MMS-1B new adapter 100 h,fleurs,,់,86,0.005613210625938255
+MMS-1B new adapter 100 h,fleurs,,ត,85,0.005547940734938973
+MMS-1B khm init (M2) 100 h,test,ដ,ត,566,0.031148533377359528
+MMS-1B khm init (M2) 100 h,test,ឲ,ឱ,289,0.01590446315557757
+MMS-1B khm init (M2) 100 h,test,ឹ,ិ,211,0.011611909085906114
+MMS-1B khm init (M2) 100 h,test,ត,ដ,162,0.008915304606240713
+MMS-1B khm init (M2) 100 h,test,ច,ជ,134,0.007374387760717627
+MMS-1B khm init (M2) 100 h,test,ក,គ,126,0.006934125804853888
+MMS-1B khm init (M2) 100 h,test,ប,ព,125,0.006879093060370921
+MMS-1B khm init (M2) 100 h,test,រ,ល,124,0.006824060315887954
+MMS-1B khm init (M2) 100 h,test,ម,ំ,109,0.005998569148643443
+MMS-1B khm init (M2) 100 h,test,ូ,ៅ,99,0.005448241703813769
+MMS-1B khm init (M2) 100 h,test,ជ,ច,96,0.005283143470364867
+MMS-1B khm init (M2) 100 h,test,ល,រ,94,0.0051730779813989325
+MMS-1B khm init (M2) 100 h,test,ំ,ម,91,0.00500797974795003
+MMS-1B khm init (M2) 100 h,test,ឱ,ឲ,90,0.004952947003467063
+MMS-1B khm init (M2) 100 h,test,ព,ប,89,0.004897914258984095
+MMS-1B khm init (M2) 100 h,test,ទ,ត,88,0.004842881514501129
+MMS-1B khm init (M2) 100 h,test,ត,ទ,86,0.004732816025535194
+MMS-1B khm init (M2) 100 h,test,យ,ជ,86,0.004732816025535194
+MMS-1B khm init (M2) 100 h,test,ា,ែ,81,0.004457652303120356
+MMS-1B khm init (M2) 100 h,test,ៀ,ា,79,0.0043475868141544215
+MMS-1B khm init (M2) 100 h,test,្,់,78,0.004292554069671455
+MMS-1B khm init (M2) 100 h,test,ន,ណ,74,0.004072423091739585
+MMS-1B khm init (M2) 100 h,test,គ,ក,73,0.004017390347256618
+MMS-1B khm init (M2) 100 h,test,ី,ិ,72,0.00396235760277365
+MMS-1B khm init (M2) 100 h,test,ិ,ឹ,69,0.003797259369324748
+MMS-1B khm init (M2) 100 h,test,្,,825,0.045402014198448075
+MMS-1B khm init (M2) 100 h,test,រ,,430,0.023664080127675968
+MMS-1B khm init (M2) 100 h,test,់,,394,0.021682901326289142
+MMS-1B khm init (M2) 100 h,test,ា,,265,0.014583677287986352
+MMS-1B khm init (M2) 100 h,test,៍,,238,0.013097793186946233
+MMS-1B khm init (M2) 100 h,test,,្,392,0.021572835837323206
+MMS-1B khm init (M2) 100 h,test,,ា,275,0.015134004732816026
+MMS-1B khm init (M2) 100 h,test,,រ,275,0.015134004732816026
+MMS-1B khm init (M2) 100 h,test,,់,216,0.01188707280832095
+MMS-1B khm init (M2) 100 h,test,,ក,129,0.00709922403830279
+MMS-1B khm init (M2) 100 h,fleurs,ឹ,ិ,113,0.007688643940940328
+MMS-1B khm init (M2) 100 h,fleurs,ដ,ត,106,0.007212356263182963
+MMS-1B khm init (M2) 100 h,fleurs,រ,ល,82,0.005579369939443424
+MMS-1B khm init (M2) 100 h,fleurs,ត,ទ,74,0.005035041164863577
+MMS-1B khm init (M2) 100 h,fleurs,គ,ក,68,0.004626794583928693
+MMS-1B khm init (M2) 100 h,fleurs,ល,រ,61,0.004150506906171327
+MMS-1B khm init (M2) 100 h,fleurs,ណ,ន,59,0.004014424712526366
+MMS-1B khm init (M2) 100 h,fleurs,a,ា,57,0.0038783425188814043
+MMS-1B khm init (M2) 100 h,fleurs,ឱ,ឲ,57,0.0038783425188814043
+MMS-1B khm init (M2) 100 h,fleurs,ប,ព,55,0.0037422603252364427
+MMS-1B khm init (M2) 100 h,fleurs,ើ,ា,53,0.0036061781315914814
+MMS-1B khm init (M2) 100 h,fleurs,ព,ប,53,0.0036061781315914814
+MMS-1B khm init (M2) 100 h,fleurs,ជ,ច,52,0.0035381370347690004
+MMS-1B khm init (M2) 100 h,fleurs,ទ,ត,49,0.003334013744301558
+MMS-1B khm init (M2) 100 h,fleurs,ត,ដ,44,0.0029938082601891542
+MMS-1B khm init (M2) 100 h,fleurs,ី,ិ,44,0.0029938082601891542
+MMS-1B khm init (M2) 100 h,fleurs,ា,ិ,42,0.0028577260665441926
+MMS-1B khm init (M2) 100 h,fleurs,ក,គ,42,0.0028577260665441926
+MMS-1B khm init (M2) 100 h,fleurs,s,ស,41,0.002789684969721712
+MMS-1B khm init (M2) 100 h,fleurs,ែ,ា,41,0.002789684969721712
+MMS-1B khm init (M2) 100 h,fleurs,ំ,្,40,0.0027216438728992313
+MMS-1B khm init (M2) 100 h,fleurs,ម,ំ,40,0.0027216438728992313
+MMS-1B khm init (M2) 100 h,fleurs,ា,ី,40,0.0027216438728992313
+MMS-1B khm init (M2) 100 h,fleurs,ំ,ម,39,0.0026536027760767503
+MMS-1B khm init (M2) 100 h,fleurs,ិ,ី,38,0.0025855616792542697
+MMS-1B khm init (M2) 100 h,fleurs,្,,499,0.03395250731441791
+MMS-1B khm init (M2) 100 h,fleurs,់,,332,0.02258964414506362
+MMS-1B khm init (M2) 100 h,fleurs,រ,,282,0.01918758930393958
+MMS-1B khm init (M2) 100 h,fleurs,ា,,248,0.016874192011975233
+MMS-1B khm init (M2) 100 h,fleurs,a,,232,0.01578553446281554
+MMS-1B khm init (M2) 100 h,fleurs,,្,178,0.012111315234401579
+MMS-1B khm init (M2) 100 h,fleurs,,ា,130,0.008845342586922501
+MMS-1B khm init (M2) 100 h,fleurs,,់,97,0.006599986391780635
+MMS-1B khm init (M2) 100 h,fleurs,,រ,87,0.005919575423555827
+MMS-1B khm init (M2) 100 h,fleurs,,ុ,80,0.005443287745798463
+Whisper small 100 h,test,ដ,ត,369,0.019996748496179485
+Whisper small 100 h,test,ត,ដ,293,0.015878176990191298
+Whisper small 100 h,test,ឲ,ឱ,288,0.015607218338481547
+Whisper small 100 h,test,ា,ែ,127,0.006882349753427627
+Whisper small 100 h,test,ម,ំ,119,0.006448815910692028
+Whisper small 100 h,test,ក,គ,117,0.006340432450008129
+Whisper small 100 h,test,ិ,ឹ,112,0.006069473798298379
+Whisper small 100 h,test,ទ,ត,112,0.006069473798298379
+Whisper small 100 h,test,ឹ,ិ,107,0.005798515146588631
+Whisper small 100 h,test,ប,ព,98,0.005310789573511082
+Whisper small 100 h,test,ច,ជ,97,0.005256597843169133
+Whisper small 100 h,test,ឱ,ឲ,82,0.004443721888039885
+Whisper small 100 h,test,រ,ល,80,0.004335338427355986
+Whisper small 100 h,test,្,់,79,0.0042811466970140355
+Whisper small 100 h,test,ំ,្,73,0.003955996314962336
+Whisper small 100 h,test,ល,រ,71,0.0038476128542784373
+Whisper small 100 h,test,ូ,ោ,69,0.0037392293935945373
+Whisper small 100 h,test,ោ,ូ,66,0.003576654202568688
+Whisper small 100 h,test,គ,ក,65,0.0035224624722267383
+Whisper small 100 h,test,ិ,ី,65,0.0035224624722267383
+Whisper small 100 h,test,ើ,ា,62,0.0033598872812008887
+Whisper small 100 h,test,ៀ,ា,61,0.0033056955508589387
+Whisper small 100 h,test,ជ,ច,57,0.0030889286294911397
+Whisper small 100 h,test,្,ា,57,0.0030889286294911397
+Whisper small 100 h,test,ត,ទ,54,0.00292635343846529
+Whisper small 100 h,test,្,,633,0.03430336530645423
+Whisper small 100 h,test,រ,,296,0.016040752181217147
+Whisper small 100 h,test,ា,,270,0.01463176719232645
+Whisper small 100 h,test,់,,253,0.013710507776513304
+Whisper small 100 h,test,ស,,185,0.010025470113260717
+Whisper small 100 h,test,,្,350,0.018967105619682435
+Whisper small 100 h,test,,ា,263,0.014252425079932803
+Whisper small 100 h,test,,រ,220,0.01192218067522896
+Whisper small 100 h,test,,ន,196,0.010621579147022164
+Whisper small 100 h,test,,ម,152,0.008237143011976372
+Whisper small 100 h,fleurs,ត,ដ,97,0.003872100914135164
+Whisper small 100 h,fleurs,ដ,ត,95,0.0037922637818849545
+Whisper small 100 h,fleurs,្,ា,85,0.003393078120633907
+Whisper small 100 h,fleurs,ា,្,85,0.003393078120633907
+Whisper small 100 h,fleurs,ត,ទ,83,0.0033132409883836972
+Whisper small 100 h,fleurs,ើ,ា,81,0.0032334038561334876
+Whisper small 100 h,fleurs,ំ,្,70,0.002794299628757335
+Whisper small 100 h,fleurs,ល,រ,70,0.002794299628757335
+Whisper small 100 h,fleurs,ក,គ,70,0.002794299628757335
+Whisper small 100 h,fleurs,រ,ល,69,0.0027543810626322303
+Whisper small 100 h,fleurs,ែ,ា,67,0.0026745439303820207
+Whisper small 100 h,fleurs,ម,ំ,64,0.0025547882320067065
+Whisper small 100 h,fleurs,ា,ិ,62,0.002474951099756497
+Whisper small 100 h,fleurs,ទ,ត,61,0.002435032533631392
+Whisper small 100 h,fleurs,ឹ,ិ,58,0.0023152768352560776
+Whisper small 100 h,fleurs,ប,ព,51,0.002035846872380344
+Whisper small 100 h,fleurs,ជ,ច,50,0.001995928306255239
+Whisper small 100 h,fleurs,ឡ,ល,49,0.0019560097401301346
+Whisper small 100 h,fleurs,ណ,ន,47,0.001876172607879925
+Whisper small 100 h,fleurs,ិ,ា,45,0.0017963354756297153
+Whisper small 100 h,fleurs,ល,ន,43,0.0017164983433795057
+Whisper small 100 h,fleurs,ី,ិ,43,0.0017164983433795057
+Whisper small 100 h,fleurs,គ,ក,42,0.0016765797772544011
+Whisper small 100 h,fleurs,ម,ប,42,0.0016765797772544011
+Whisper small 100 h,fleurs,ូ,ុ,42,0.0016765797772544011
+Whisper small 100 h,fleurs,្,,594,0.023711628278312243
+Whisper small 100 h,fleurs,ា,,446,0.017803680491796734
+Whisper small 100 h,fleurs,រ,,353,0.01409125384216199
+Whisper small 100 h,fleurs,់,,300,0.011975569837531437
+Whisper small 100 h,fleurs,ន,,280,0.01117719851502934
+Whisper small 100 h,fleurs,,្,433,0.017284739132170372
+Whisper small 100 h,fleurs,,ា,281,0.011217117081154445
+Whisper small 100 h,fleurs,,រ,217,0.008662328849147739
+Whisper small 100 h,fleurs,,ន,208,0.008303061754021795
+Whisper small 100 h,fleurs,,ស,160,0.006386970580016766
+Whisper small 872 h,test,ដ,ត,483,0.04305964161540519
+Whisper small 872 h,test,ឲ,ឱ,314,0.027993224569849335
+Whisper small 872 h,test,ត,ដ,127,0.011322100383346707
+Whisper small 872 h,test,ា,ែ,101,0.009004190068645805
+Whisper small 872 h,test,ម,ំ,83,0.0073994829276990285
+Whisper small 872 h,test,ឹ,ិ,79,0.007042881340821967
+Whisper small 872 h,test,ច,ជ,75,0.0066862797539449055
+Whisper small 872 h,test,ក,គ,64,0.005705625390032986
+Whisper small 872 h,test,ិ,ឹ,54,0.0048141214228403315
+Whisper small 872 h,test,ិ,ី,52,0.004635820629401801
+Whisper small 872 h,test,ំ,្,48,0.004279219042524739
+Whisper small 872 h,test,ទ,ត,44,0.003922617455647677
+Whisper small 872 h,test,រ,ល,42,0.003744316662209147
+Whisper small 872 h,test,ើ,ា,41,0.0036551662654898814
+Whisper small 872 h,test,ឱ,ឲ,40,0.003566015868770616
+Whisper small 872 h,test,ូ,ោ,39,0.0034768654720513507
+Whisper small 872 h,test,ា,ី,37,0.00329856467861282
+Whisper small 872 h,test,ា,េ,36,0.0032094142818935543
+Whisper small 872 h,test,ោ,ូ,36,0.0032094142818935543
+Whisper small 872 h,test,ល,រ,34,0.0030311134884550236
+Whisper small 872 h,test,ៀ,ា,31,0.0027636622982972273
+Whisper small 872 h,test,គ,ក,31,0.0027636622982972273
+Whisper small 872 h,test,្,ឡ,31,0.0027636622982972273
+Whisper small 872 h,test,្,ា,30,0.002674511901577962
+Whisper small 872 h,test,ី,ិ,29,0.0025853615048586965
+Whisper small 872 h,test,្,,388,0.03459035392707498
+Whisper small 872 h,test,រ,,239,0.021306944815904432
+Whisper small 872 h,test,ា,,190,0.016938575376660426
+Whisper small 872 h,test,ន,,124,0.011054649193188909
+Whisper small 872 h,test,ត,,118,0.010519746812873317
+Whisper small 872 h,test,,្,205,0.018275831327449407
+Whisper small 872 h,test,,ា,158,0.014085762681643934
+Whisper small 872 h,test,,រ,125,0.011143799589908175
+Whisper small 872 h,test,,ន,103,0.009182490862084336
+Whisper small 872 h,test,,ម,95,0.008469287688330213
+Whisper small 872 h,fleurs,ដ,ត,96,0.005039634626489579
+Whisper small 872 h,fleurs,្,ា,63,0.0033072602236337866
+Whisper small 872 h,fleurs,ត,ដ,60,0.003149771641555987
+Whisper small 872 h,fleurs,ត,ទ,59,0.0030972754475300543
+Whisper small 872 h,fleurs,ើ,ា,55,0.0028872906714263215
+Whisper small 872 h,fleurs,រ,ល,52,0.0027298020893485224
+Whisper small 872 h,fleurs,ឹ,ិ,50,0.002624809701296656
+Whisper small 872 h,fleurs,ល,រ,49,0.002572313507270723
+Whisper small 872 h,fleurs,a,ា,48,0.0025198173132447896
+Whisper small 872 h,fleurs,ទ,ត,45,0.0023623287311669906
+Whisper small 872 h,fleurs,ម,ំ,44,0.0023098325371410573
+Whisper small 872 h,fleurs,n,ន,43,0.002257336343115124
+Whisper small 872 h,fleurs,ក,គ,43,0.002257336343115124
+Whisper small 872 h,fleurs,ា,្,43,0.002257336343115124
+Whisper small 872 h,fleurs,ំ,្,42,0.002204840149089191
+Whisper small 872 h,fleurs,ែ,ា,41,0.002152343955063258
+Whisper small 872 h,fleurs,ា,ិ,37,0.0019423591789595254
+Whisper small 872 h,fleurs,ណ,ន,35,0.0018373667909076592
+Whisper small 872 h,fleurs,ូ,ុ,35,0.0018373667909076592
+Whisper small 872 h,fleurs,ិ,ី,35,0.0018373667909076592
+Whisper small 872 h,fleurs,ល,ន,35,0.0018373667909076592
+Whisper small 872 h,fleurs,គ,ក,34,0.0017848705968817262
+Whisper small 872 h,fleurs,ី,ិ,34,0.0017848705968817262
+Whisper small 872 h,fleurs,s,ស,33,0.001732374402855793
+Whisper small 872 h,fleurs,ជ,ច,33,0.001732374402855793
+Whisper small 872 h,fleurs,្,,464,0.024358234028032968
+Whisper small 872 h,fleurs,ា,,347,0.01821617932699879
+Whisper small 872 h,fleurs,រ,,299,0.015696362013754003
+Whisper small 872 h,fleurs,់,,239,0.012546590372198015
+Whisper small 872 h,fleurs,ន,,238,0.012494094178172082
+Whisper small 872 h,fleurs,,្,292,0.01532888865557247
+Whisper small 872 h,fleurs,,ា,206,0.010814215969342223
+Whisper small 872 h,fleurs,,រ,163,0.008556879626227098
+Whisper small 872 h,fleurs,,ន,147,0.007716940521812168
+Whisper small 872 h,fleurs,,ប,130,0.006824505223371306

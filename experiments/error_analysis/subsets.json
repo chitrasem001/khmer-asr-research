@@ -1,0 +1,365 @@
+{
+  "too_long_test_clips": 24,
+  "models": {
+    "mms-1b-all|test": {
+      "label": "MMS-1B zero-shot",
+      "cer": 0.09705298518857841,
+      "cer_spelling_variants_merged": 0.0943782765816664,
+      "with_digits": {
+        "clips": 128,
+        "cer": 0.16011355571327182
+      },
+      "without_digits": {
+        "clips": 3584,
+        "cer": 0.09470766794245744
+      },
+      "with_latin": {
+        "clips": 46,
+        "cer": 0.15215865215865215
+      },
+      "without_latin": {
+        "clips": 3666,
+        "cer": 0.09624214315595932
+      },
+      "looping_clips": 0,
+      "empty_hypotheses": 0,
+      "cer_by_speaker": {
+        "f-adt1-0003": 0.12886706192145522,
+        "f-adt4-0001": 0.0722638419962035,
+        "m-adt1-0002": 0.09851244128864525,
+        "m-adt3-0001": 0.07726168791742562
+      },
+      "cer_by_gender": {
+        "f": 0.10860782208668503,
+        "m": 0.08592044052026963
+      },
+      "too_long_for_whisper": {
+        "clips": 24,
+        "cer": 0.11054078826764437
+      },
+      "fits_whisper": {
+        "clips": 3688,
+        "cer": 0.09686310437823399
+      }
+    },
+    "mms-1b-all|fleurs": {
+      "label": "MMS-1B zero-shot",
+      "cer": 0.15485705352431947,
+      "cer_spelling_variants_merged": 0.1538995173235886,
+      "with_digits": {
+        "clips": 127,
+        "cer": 0.17224619081426465
+      },
+      "without_digits": {
+        "clips": 644,
+        "cer": 0.15106800737787826
+      },
+      "with_latin": {
+        "clips": 253,
+        "cer": 0.20632209580366292
+      },
+      "without_latin": {
+        "clips": 518,
+        "cer": 0.12439141999408919
+      },
+      "looping_clips": 0,
+      "empty_hypotheses": 0,
+      "cer_by_speaker": {
+        "female": 0.13474728640873676,
+        "male": 0.16320942582144043
+      },
+      "cer_by_gender": {
+        "f": 0.13474728640873676,
+        "m": 0.16320942582144043
+      }
+    },
+    "s_mms_100h|test": {
+      "label": "MMS-1B new adapter 100 h",
+      "cer": 0.052379498142210004,
+      "cer_spelling_variants_merged": 0.050030539013589864,
+      "with_digits": {
+        "clips": 128,
+        "cer": 0.10170333569907736
+      },
+      "without_digits": {
+        "clips": 3584,
+        "cer": 0.05054507060842022
+      },
+      "with_latin": {
+        "clips": 46,
+        "cer": 0.11758511758511758
+      },
+      "without_latin": {
+        "clips": 3666,
+        "cer": 0.051420042247483484
+      },
+      "looping_clips": 0,
+      "empty_hypotheses": 0,
+      "cer_by_speaker": {
+        "f-adt1-0003": 0.07519264632235344,
+        "f-adt4-0001": 0.0397472866644448,
+        "m-adt1-0002": 0.05410642237837705,
+        "m-adt3-0001": 0.03472643864264994
+      },
+      "cer_by_gender": {
+        "f": 0.0625061588170922,
+        "m": 0.04262293443663274
+      },
+      "too_long_for_whisper": {
+        "clips": 24,
+        "cer": 0.07039413382218149
+      },
+      "fits_whisper": {
+        "clips": 3688,
+        "cer": 0.05212588874408042
+      }
+    },
+    "s_mms_100h|fleurs": {
+      "label": "MMS-1B new adapter 100 h",
+      "cer": 0.14969808297344303,
+      "cer_spelling_variants_merged": 0.1483204033376976,
+      "with_digits": {
+        "clips": 127,
+        "cer": 0.17716126918245864
+      },
+      "without_digits": {
+        "clips": 644,
+        "cer": 0.1437139287201761
+      },
+      "with_latin": {
+        "clips": 253,
+        "cer": 0.21110439603752265
+      },
+      "without_latin": {
+        "clips": 518,
+        "cer": 0.11334754001462148
+      },
+      "looping_clips": 0,
+      "empty_hypotheses": 0,
+      "cer_by_speaker": {
+        "female": 0.137044682692948,
+        "male": 0.15495353468304016
+      },
+      "cer_by_gender": {
+        "f": 0.137044682692948,
+        "m": 0.15495353468304016
+      }
+    },
+    "m2_mms_khm_init_100h|test": {
+      "label": "MMS-1B khm init (M2) 100 h",
+      "cer": 0.046243701328447094,
+      "cer_spelling_variants_merged": 0.04376240647427088,
+      "with_digits": {
+        "clips": 128,
+        "cer": 0.09460610361958836
+      },
+      "without_digits": {
+        "clips": 3584,
+        "cer": 0.04444503101491355
+      },
+      "with_latin": {
+        "clips": 46,
+        "cer": 0.10810810810810811
+      },
+      "without_latin": {
+        "clips": 3666,
+        "cer": 0.045333409082692476
+      },
+      "looping_clips": 0,
+      "empty_hypotheses": 0,
+      "cer_by_speaker": {
+        "f-adt1-0003": 0.06541897546081646,
+        "f-adt4-0001": 0.03626958021185028,
+        "m-adt1-0002": 0.04900481954306317,
+        "m-adt3-0001": 0.030130540376442017
+      },
+      "cer_by_gender": {
+        "f": 0.054985918999237604,
+        "m": 0.03782098367536614
+      },
+      "too_long_for_whisper": {
+        "clips": 24,
+        "cer": 0.062144821264894595
+      },
+      "fits_whisper": {
+        "clips": 3688,
+        "cer": 0.046019845929519854
+      }
+    },
+    "m2_mms_khm_init_100h|fleurs": {
+      "label": "MMS-1B khm init (M2) 100 h",
+      "cer": 0.1436011177769527,
+      "cer_spelling_variants_merged": 0.14232114591679207,
+      "with_digits": {
+        "clips": 127,
+        "cer": 0.16902408388400414
+      },
+      "without_digits": {
+        "clips": 644,
+        "cer": 0.13806152198488725
+      },
+      "with_latin": {
+        "clips": 253,
+        "cer": 0.208397929421657
+      },
+      "without_latin": {
+        "clips": 518,
+        "cer": 0.10524350977616699
+      },
+      "looping_clips": 0,
+      "empty_hypotheses": 0,
+      "cer_by_speaker": {
+        "female": 0.1300859026436705,
+        "male": 0.1492145148799646
+      },
+      "cer_by_gender": {
+        "f": 0.1300859026436705,
+        "m": 0.1492145148799646
+      }
+    },
+    "s_whisper_small_100h|test": {
+      "label": "Whisper small 100 h",
+      "cer": 0.046961368147808824,
+      "cer_spelling_variants_merged": 0.04456914541660304,
+      "with_digits": {
+        "clips": 128,
+        "cer": 0.10745209368346345
+      },
+      "without_digits": {
+        "clips": 3584,
+        "cer": 0.044711627293123925
+      },
+      "with_latin": {
+        "clips": 46,
+        "cer": 0.14373464373464373
+      },
+      "without_latin": {
+        "clips": 3666,
+        "cer": 0.045537415879475886
+      },
+      "looping_clips": 1,
+      "empty_hypotheses": 0,
+      "cer_by_speaker": {
+        "f-adt1-0003": 0.07621847789211805,
+        "f-adt4-0001": 0.030502383677964384,
+        "m-adt1-0002": 0.04739830518867346,
+        "m-adt3-0001": 0.025694866086487217
+      },
+      "cer_by_gender": {
+        "f": 0.05985592257783448,
+        "m": 0.0345380683266126
+      },
+      "too_long_for_whisper": {
+        "clips": 24,
+        "cer": 0.18020164986251147
+      },
+      "fits_whisper": {
+        "clips": 3688,
+        "cer": 0.045085616217401966
+      }
+    },
+    "s_whisper_small_100h|fleurs": {
+      "label": "Whisper small 100 h",
+      "cer": 0.24476774861743497,
+      "cer_spelling_variants_merged": 0.24367342153088542,
+      "with_digits": {
+        "clips": 127,
+        "cer": 0.31156135656162964
+      },
+      "without_digits": {
+        "clips": 644,
+        "cer": 0.23021360147557565
+      },
+      "with_latin": {
+        "clips": 253,
+        "cer": 0.32393514990671884
+      },
+      "without_latin": {
+        "clips": 518,
+        "cer": 0.19790321827995458
+      },
+      "looping_clips": 4,
+      "empty_hypotheses": 0,
+      "cer_by_speaker": {
+        "female": 0.22963974162615702,
+        "male": 0.2510510012169488
+      },
+      "cer_by_gender": {
+        "f": 0.22963974162615702,
+        "m": 0.2510510012169488
+      }
+    },
+    "f_whisper_small_872h|test": {
+      "label": "Whisper small 872 h",
+      "cer": 0.028546342953122614,
+      "cer_spelling_variants_merged": 0.026205018577899933,
+      "with_digits": {
+        "clips": 128,
+        "cer": 0.07672107877927609
+      },
+      "without_digits": {
+        "clips": 3584,
+        "cer": 0.026754652237033126
+      },
+      "with_latin": {
+        "clips": 46,
+        "cer": 0.13057213057213057
+      },
+      "without_latin": {
+        "clips": 3666,
+        "cer": 0.027045103578640747
+      },
+      "looping_clips": 1,
+      "empty_hypotheses": 0,
+      "cer_by_speaker": {
+        "f-adt1-0003": 0.044466163713025635,
+        "f-adt4-0001": 0.020851748272014605,
+        "m-adt1-0002": 0.03144353285996346,
+        "m-adt3-0001": 0.014411725021925387
+      },
+      "cer_by_gender": {
+        "f": 0.036014169169091295,
+        "m": 0.021351441834435134
+      },
+      "too_long_for_whisper": {
+        "clips": 24,
+        "cer": 0.15343721356553622
+      },
+      "fits_whisper": {
+        "clips": 3688,
+        "cer": 0.026788133734209067
+      }
+    },
+    "f_whisper_small_872h|fleurs": {
+      "label": "Whisper small 872 h",
+      "cer": 0.1861235417114494,
+      "cer_spelling_variants_merged": 0.18517577628827703,
+      "with_digits": {
+        "clips": 127,
+        "cer": 0.23472229807219705
+      },
+      "without_digits": {
+        "clips": 644,
+        "cer": 0.17553400368893912
+      },
+      "with_latin": {
+        "clips": 253,
+        "cer": 0.2736947210762803
+      },
+      "without_latin": {
+        "clips": 518,
+        "cer": 0.13428424769400676
+      },
+      "looping_clips": 2,
+      "empty_hypotheses": 0,
+      "cer_by_speaker": {
+        "female": 0.15782113604581474,
+        "male": 0.19787863701736919
+      },
+      "cer_by_gender": {
+        "f": 0.15782113604581474,
+        "m": 0.19787863701736919
+      }
+    }
+  }
+}

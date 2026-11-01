@@ -1,0 +1,81 @@
+model,set,class,chars,sub,del,ins,error_rate
+MMS-1B zero-shot,test,coeng (subscript),35598,935,2123,798,0.10832069217371762
+MMS-1B zero-shot,test,consonant,237149,10667,5386,3303,0.08161957250504957
+MMS-1B zero-shot,test,dependent vowel,91549,5324,1607,1821,0.09559907808932921
+MMS-1B zero-shot,test,diacritic / sign,25004,1567,2045,1052,0.18653015517517196
+MMS-1B zero-shot,test,digit,388,159,16,6,0.46649484536082475
+MMS-1B zero-shot,test,independent vowel,2735,900,51,18,0.3542961608775137
+MMS-1B zero-shot,test,latin,515,242,80,36,0.6951456310679611
+MMS-1B zero-shot,test,other,2,0,0,0,0.0
+MMS-1B zero-shot,fleurs,coeng (subscript),8343,249,501,281,0.1235766510847417
+MMS-1B zero-shot,fleurs,consonant,58559,3871,1788,1125,0.1158489728308202
+MMS-1B zero-shot,fleurs,dependent vowel,24281,2041,734,616,0.13965652156006755
+MMS-1B zero-shot,fleurs,diacritic / sign,6474,496,733,294,0.23524868705591598
+MMS-1B zero-shot,fleurs,digit,538,86,46,15,0.2732342007434944
+MMS-1B zero-shot,fleurs,independent vowel,415,79,15,8,0.2457831325301205
+MMS-1B zero-shot,fleurs,latin,3723,965,1820,73,0.7676604888530755
+MMS-1B zero-shot,fleurs,other,13,8,5,0,1.0
+MMS-1B new adapter 100 h,test,coeng (subscript),35598,388,985,490,0.05233440080903422
+MMS-1B new adapter 100 h,test,consonant,237149,5533,3031,1948,0.04432656262518501
+MMS-1B new adapter 100 h,test,dependent vowel,91549,2812,1052,997,0.053097248468033514
+MMS-1B new adapter 100 h,test,diacritic / sign,25004,750,1243,476,0.09874420092785155
+MMS-1B new adapter 100 h,test,digit,388,65,7,7,0.2036082474226804
+MMS-1B new adapter 100 h,test,independent vowel,2735,426,24,15,0.170018281535649
+MMS-1B new adapter 100 h,test,latin,515,236,78,19,0.6466019417475728
+MMS-1B new adapter 100 h,test,other,2,0,0,0,0.0
+MMS-1B new adapter 100 h,fleurs,coeng (subscript),8343,206,520,213,0.11254944264653002
+MMS-1B new adapter 100 h,fleurs,consonant,58559,3558,1819,871,0.10669581106234738
+MMS-1B new adapter 100 h,fleurs,dependent vowel,24281,1850,900,472,0.132696346937935
+MMS-1B new adapter 100 h,fleurs,diacritic / sign,6474,530,927,183,0.25332097621254246
+MMS-1B new adapter 100 h,fleurs,digit,538,68,47,23,0.25650557620817843
+MMS-1B new adapter 100 h,fleurs,independent vowel,415,105,14,7,0.3036144578313253
+MMS-1B new adapter 100 h,fleurs,latin,3723,1074,1895,26,0.8044587698092935
+MMS-1B new adapter 100 h,fleurs,other,13,8,5,0,1.0
+MMS-1B khm init (M2) 100 h,test,coeng (subscript),35598,307,825,392,0.042811393898533626
+MMS-1B khm init (M2) 100 h,test,consonant,237149,4971,2585,1699,0.039026097516751075
+MMS-1B khm init (M2) 100 h,test,dependent vowel,91549,2563,914,855,0.04731892210728681
+MMS-1B khm init (M2) 100 h,test,diacritic / sign,25004,665,1055,473,0.08770596704527275
+MMS-1B khm init (M2) 100 h,test,digit,388,66,11,7,0.21649484536082475
+MMS-1B khm init (M2) 100 h,test,independent vowel,2735,452,29,10,0.17952468007312614
+MMS-1B khm init (M2) 100 h,test,latin,515,205,72,15,0.566990291262136
+MMS-1B khm init (M2) 100 h,test,other,2,0,0,0,0.0
+MMS-1B khm init (M2) 100 h,fleurs,coeng (subscript),8343,214,499,178,0.10679611650485436
+MMS-1B khm init (M2) 100 h,fleurs,consonant,58559,3453,1753,825,0.10299014668966341
+MMS-1B khm init (M2) 100 h,fleurs,dependent vowel,24281,1817,824,440,0.12688933734195462
+MMS-1B khm init (M2) 100 h,fleurs,diacritic / sign,6474,478,841,183,0.23200494284831635
+MMS-1B khm init (M2) 100 h,fleurs,digit,538,68,37,21,0.2342007434944238
+MMS-1B khm init (M2) 100 h,fleurs,independent vowel,415,101,13,5,0.28674698795180725
+MMS-1B khm init (M2) 100 h,fleurs,latin,3723,1030,1864,40,0.7880741337630943
+MMS-1B khm init (M2) 100 h,fleurs,other,13,9,4,0,1.0
+Whisper small 100 h,test,coeng (subscript),35598,413,633,350,0.0392156862745098
+Whisper small 100 h,test,consonant,237149,5220,2451,1891,0.04032064229661521
+Whisper small 100 h,test,dependent vowel,91549,2841,923,894,0.050879856688767766
+Whisper small 100 h,test,diacritic / sign,25004,712,656,425,0.07170852663573828
+Whisper small 100 h,test,digit,388,103,8,11,0.31443298969072164
+Whisper small 100 h,test,independent vowel,2735,451,36,21,0.18574040219378427
+Whisper small 100 h,test,latin,515,357,50,6,0.8019417475728156
+Whisper small 100 h,test,other,2,1,0,0,0.5
+Whisper small 100 h,fleurs,coeng (subscript),8343,510,594,433,0.1842262974949059
+Whisper small 100 h,fleurs,consonant,58559,6342,3428,2070,0.20218924503492205
+Whisper small 100 h,fleurs,dependent vowel,24281,3158,1416,915,0.22606152959103826
+Whisper small 100 h,fleurs,diacritic / sign,6474,896,842,361,0.32421995675007725
+Whisper small 100 h,fleurs,digit,538,155,44,45,0.45353159851301117
+Whisper small 100 h,fleurs,independent vowel,415,104,29,16,0.35903614457831323
+Whisper small 100 h,fleurs,latin,3723,1766,1912,2,0.9884501745903841
+Whisper small 100 h,fleurs,other,13,5,8,0,1.0
+Whisper small 872 h,test,coeng (subscript),35598,245,388,205,0.023540648351030955
+Whisper small 872 h,test,consonant,237149,3132,1672,1055,0.02470598653167418
+Whisper small 872 h,test,dependent vowel,91549,1597,561,477,0.0287824006816022
+Whisper small 872 h,test,diacritic / sign,25004,369,358,251,0.03911374180131179
+Whisper small 872 h,test,digit,388,58,4,4,0.17010309278350516
+Whisper small 872 h,test,independent vowel,2735,400,21,9,0.15722120658135283
+Whisper small 872 h,test,latin,515,340,50,20,0.7961165048543689
+Whisper small 872 h,test,other,2,1,0,0,0.5
+Whisper small 872 h,fleurs,coeng (subscript),8343,332,464,292,0.13040872587798155
+Whisper small 872 h,fleurs,consonant,58559,4302,2752,1473,0.14561382537270104
+Whisper small 872 h,fleurs,dependent vowel,24281,2176,1117,670,0.16321403566574688
+Whisper small 872 h,fleurs,diacritic / sign,6474,607,618,270,0.23092369477911648
+Whisper small 872 h,fleurs,digit,538,104,36,109,0.4628252788104089
+Whisper small 872 h,fleurs,independent vowel,415,77,19,10,0.25542168674698795
+Whisper small 872 h,fleurs,latin,3723,1645,1920,42,0.9688423314531291
+Whisper small 872 h,fleurs,other,13,7,6,1,1.0769230769230769
