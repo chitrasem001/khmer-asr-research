@@ -499,6 +499,9 @@ def build() -> Path:
          "tested at two data sizes and two seeds with paired significance tests (Section 7)."),
         ("A full-data model and a seen- versus unseen-speaker comparison showing how much a random "
          "split would overstate accuracy (Section 8)."),
+        ("An error analysis showing that the most frequent errors are spelling variants the corpus "
+         "itself mixes, and that digits, Latin words and long transcripts are the weakest points "
+         "(Section 9)."),
     ])
 
     # ---- 2 Related work
@@ -867,18 +870,84 @@ def build() -> Path:
             "flatter Whisper by about a third and change the comparison between the two families."
         ), bold_lead="Speaker familiarity. ")
 
-    # ---- 9 Planned
-    doc.add_heading("9. Planned Work", level=1)
+    # ---- 9 Error analysis
+    doc.add_heading("9. Error Analysis", level=1)
+    ea_dir = EXPERIMENTS / "error_analysis"
+    if (ea_dir / "subsets.json").exists():
+        classes = pd.read_csv(ea_dir / "class_rates.csv")
+        subsets = load_json(ea_dir / "subsets.json")
+        ea_models = [("MMS-1B zero-shot", "mms-1b-all"), ("MMS-1B khm init (M2) 100 h", "m2_mms_khm_init_100h"),
+                     ("Whisper small 872 h", FULL_RUN[3])]
+        test_cls = classes[classes["set"] == "test"]
+        order = ["consonant", "dependent vowel", "coeng (subscript)", "diacritic / sign",
+                 "independent vowel", "digit", "latin"]
+        rows9 = []
+        for cls in order:
+            part = test_cls[test_cls["class"] == cls]
+            if part.empty:
+                continue
+            chars = int(part["chars"].iloc[0])
+            rows9.append([cls, f"{chars:,}"] + [
+                pct(float(part[part["model"] == label]["error_rate"].iloc[0]), 1)
+                for label, _ in ea_models])
+        add_table(doc, "Table 9. Test-set error rate by character class ((S + D + I) / N, counting "
+                       "substitutions and deletions of the class's reference characters and insertions "
+                       "of characters of that class).",
+                  ["Character class", "Characters"] + ["Zero-shot MMS", "M2 100 h", "Whisper 872 h"],
+                  rows9, [4.2, 2.4, 2.9, 2.9, 2.9])
+        m = subsets["models"]
+        best_w, best_m = m[f"{FULL_RUN[3]}|test"], m["m2_mms_khm_init_100h|test"]
+        para(doc, (
+            "The most frequent error of every model is the subscript da written as subscript ta "
+            "(\u17d2\u178a / \u17d2\u178f), and the second is the independent vowel \u17b2 written as "
+            "\u17b1, as in \u17b2\u17d2\u1799 / \u17b1\u17d2\u1799. Both pairs sound the same and the corpus "
+            "itself uses both spellings, so no model can choose correctly from the audio. Treating "
+            "them as equal on both sides lowers test CER by 3–8% relative (Whisper 872 h "
+            f"{pct(best_w['cer'], 2)} → {pct(best_w['cer_spelling_variants_merged'], 2)}; M2 100 h "
+            f"{pct(best_m['cer'], 2)} → {pct(best_m['cer_spelling_variants_merged'], 2)}) without changing "
+            "any ranking; the primary CER keeps protocol v1. The next errors are consonants of the "
+            "two series that share a sound (\u1780/\u1782, \u1785/\u1787, \u1794/\u1796), the final "
+            "m written as nikahit, and added or dropped subscripts."
+        ), bold_lead="Spelling variants. ")
+        ratios = [m[f"{run}|test"][key]["cer"] / m[f"{run}|test"]["cer"]
+                  for _, run in ea_models for key in ("with_digits", "with_latin")]
+        para(doc, (
+            "Digits and Latin letters are rare (under 0.3% of test characters) but are the weakest "
+            f"classes: clips that contain them have {min(ratios):.1f} to {max(ratios):.1f} times the "
+            "model's overall test CER "
+            f"(Whisper 872 h: {pct(best_w['with_digits']['cer'], 2)} with digits, "
+            f"{pct(best_w['with_latin']['cer'], 2)} with Latin words). Whisper 872 h writes "
+            f"{pct(best_w['latin_written_as_other_script'] / best_w['latin_reference_chars'], 0)} of the "
+            f"Latin letters in the test references ({best_w['latin_written_as_other_script']} of "
+            f"{best_w['latin_reference_chars']}) as Khmer characters, M2 "
+            f"{pct(best_m['latin_written_as_other_script'] / best_m['latin_reference_chars'], 0)}: "
+            "Whisper transliterates English words into Khmer script more often. Zero-shot MMS misses almost "
+            "half of all digits, partly because it cannot write four of them."
+        ), bold_lead="Digits and Latin words. ")
+        para(doc, (
+            f"The {subsets['too_long_test_clips']} test transcripts longer than Whisper's decoder "
+            f"limit score {pct(best_w['too_long_for_whisper']['cer'], 1)} for Whisper 872 h against "
+            f"{pct(best_m['too_long_for_whisper']['cer'], 1)} for M2, while the rest score "
+            f"{pct(best_w['fits_whisper']['cer'], 2)}; long-form input needs segmentation before "
+            "Whisper can be used on it. Every model is worse on the two female test speakers "
+            f"(Whisper 872 h {pct(best_w['cer_by_gender']['f'], 2)} vs "
+            f"{pct(best_w['cer_by_gender']['m'], 2)}; M2 {pct(best_m['cer_by_gender']['f'], 2)} vs "
+            f"{pct(best_m['cer_by_gender']['m'], 2)}), mostly because of one speaker, so with four "
+            "test speakers this is a speaker effect rather than evidence of a gender gap."
+        ), bold_lead="Long transcripts and speakers. ")
+
+    # ---- 10 Planned
+    doc.add_heading("10. Planned Work", level=1)
     bullets(doc, [
         ("MMS from the released Khmer adapter on the full training split, the likely best model "
          "out of domain."),
         "A second pass for the full-data Whisper model, whose validation CER was still falling.",
-        ("Error analysis: confused characters, digits, Latin words and the transcripts too long "
-         "for Whisper's decoder."),
+        ("A normalization protocol v2 that unifies the spelling variants found in Section 9, "
+         "decided before the test set is locked."),
     ])
 
-    # ---- 10 Limitations
-    doc.add_heading("10. Limitations", level=1)
+    # ---- 11 Limitations
+    doc.add_heading("11. Limitations", level=1)
     bullets(doc, [
         (f"The corpus has only {s['speakers']} speakers and contains read cultural-domain speech; "
          "results may not transfer to spontaneous or other-domain speech."),
@@ -900,8 +969,8 @@ def build() -> Path:
         "The split option is provisional until approved; the test set will then be locked.",
     ])
 
-    # ---- 11 Conclusion
-    doc.add_heading("11. Conclusion", level=1)
+    # ---- 12 Conclusion
+    doc.add_heading("12. Conclusion", level=1)
     para(doc, (
         "A full audit of the largest open Khmer speech corpus shows that its sentences are shared "
         "across speakers, which makes leakage-free evaluation essential. Zero-shot Whisper is "

@@ -53,6 +53,11 @@ def predictions(run: str, split: str) -> pd.DataFrame:
     return df
 
 
+def latin_chars(errs) -> set[str]:
+    seen = set(errs.hits) | set(errs.deletions) | {r for r, _ in errs.substitutions}
+    return {c for c in seen if char_class(c) == "latin"}
+
+
 def subset_cer(df: pd.DataFrame, mask: pd.Series) -> dict:
     part = df[mask]
     if part.empty:
@@ -99,6 +104,10 @@ def main() -> None:
                 "without_digits": subset_cer(df, ~df["has_digit"]),
                 "with_latin": subset_cer(df, df["has_latin"]),
                 "without_latin": subset_cer(df, ~df["has_latin"]),
+                "latin_reference_chars": sum(errs.reference_count(c) for c in latin_chars(errs)),
+                "latin_written_as_other_script": sum(
+                    n for (r, h), n in errs.substitutions.items()
+                    if char_class(r) == "latin" and char_class(h) != "latin"),
                 "looping_clips": int(sum(is_looping(r, h) for r, h in zip(refs, hyps, strict=True))),
                 "empty_hypotheses": int((df["hypothesis"].str.strip() == "").sum()),
                 "cer_by_speaker": speakers,

@@ -21,6 +21,8 @@
         "clips": 3666,
         "cer": 0.09624214315595932
       },
+      "latin_reference_chars": 515,
+      "latin_written_as_other_script": 216,
       "looping_clips": 0,
       "empty_hypotheses": 0,
       "cer_by_speaker": {
@@ -62,6 +64,8 @@
         "clips": 518,
         "cer": 0.12439141999408919
       },
+      "latin_reference_chars": 3723,
+      "latin_written_as_other_script": 838,
       "looping_clips": 0,
       "empty_hypotheses": 0,
       "cer_by_speaker": {
@@ -93,6 +97,8 @@
         "clips": 3666,
         "cer": 0.051420042247483484
       },
+      "latin_reference_chars": 515,
+      "latin_written_as_other_script": 199,
       "looping_clips": 0,
       "empty_hypotheses": 0,
       "cer_by_speaker": {
@@ -134,6 +140,8 @@
         "clips": 518,
         "cer": 0.11334754001462148
       },
+      "latin_reference_chars": 3723,
+      "latin_written_as_other_script": 913,
       "looping_clips": 0,
       "empty_hypotheses": 0,
       "cer_by_speaker": {
@@ -165,6 +173,8 @@
         "clips": 3666,
         "cer": 0.045333409082692476
       },
+      "latin_reference_chars": 515,
+      "latin_written_as_other_script": 166,
       "looping_clips": 0,
       "empty_hypotheses": 0,
       "cer_by_speaker": {
@@ -206,6 +216,8 @@
         "clips": 518,
         "cer": 0.10524350977616699
       },
+      "latin_reference_chars": 3723,
+      "latin_written_as_other_script": 840,
       "looping_clips": 0,
       "empty_hypotheses": 0,
       "cer_by_speaker": {
@@ -237,6 +249,8 @@
         "clips": 3666,
         "cer": 0.045537415879475886
       },
+      "latin_reference_chars": 515,
+      "latin_written_as_other_script": 334,
       "looping_clips": 1,
       "empty_hypotheses": 0,
       "cer_by_speaker": {
@@ -278,6 +292,8 @@
         "clips": 518,
         "cer": 0.19790321827995458
       },
+      "latin_reference_chars": 3723,
+      "latin_written_as_other_script": 1761,
       "looping_clips": 4,
       "empty_hypotheses": 0,
       "cer_by_speaker": {
@@ -309,6 +325,8 @@
         "clips": 3666,
         "cer": 0.027045103578640747
       },
+      "latin_reference_chars": 515,
+      "latin_written_as_other_script": 319,
       "looping_clips": 1,
       "empty_hypotheses": 0,
       "cer_by_speaker": {
@@ -350,6 +368,8 @@
         "clips": 518,
         "cer": 0.13428424769400676
       },
+      "latin_reference_chars": 3723,
+      "latin_written_as_other_script": 1621,
       "looping_clips": 2,
       "empty_hypotheses": 0,
       "cer_by_speaker": {
