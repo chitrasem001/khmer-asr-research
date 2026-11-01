@@ -8,6 +8,82 @@ Published results by others are marked as such; everything else is our own measu
 
 ---
 
+## Report 5 — 30 Oct – 1 Nov 2026 · Khmer-specific strategy (RQ3), full-data model, robustness checks
+
+### Setup
+- **M2 (RQ3): start the MMS adapter from Meta's released Khmer (`khm`) adapter** instead of from
+  scratch. The 288 adapter tensors are copied as they are; in the output layer, 105 of our 111
+  characters take the released row for the same character, and the 6 characters the released
+  vocabulary lacks (`|`, `è`, ៤ ៦ ៨ ៩) start new. Everything else is identical to the M1/S MMS runs
+  (same subsets, steps, learning rate), so only the initialisation changes. Check before training:
+  the initialised model scores 10.07% on 40 validation clips (zero-shot MMS 10.2%), a scratch head
+  249.71% — the copy is correct.
+- **Main in-domain model:** Whisper small on the **full training split** (872.0 h, 376,255 clips),
+  **one pass** (24,000 steps). Reported separately from the 3.5-pass scaling curve.
+- **Seen-speaker test** (`test_seen_speakers`, 1,891 clips, 5 h): sentences no model trained on,
+  read by 10 training speakers. Compared with the main test set (unseen speakers), it shows how much
+  of a model's accuracy comes from knowing the voice.
+- **Second training seed** (43) for the two 10 h MMS runs, on the same data subset.
+
+### Results (CER, spaces ignored; 95% bootstrap interval for the main test set)
+
+| Model | Train data | Validation | **Test** (unseen speakers) | Seen speakers | **FLEURS** |
+|---|---|---|---|---|---|
+| MMS-1B zero-shot | — | 10.20% | 9.71% [9.5–9.9] | 9.84% | 15.49% |
+| MMS-1B, new adapter (M1/S) | 10 h | 8.85% | 8.43% [8.25–8.64] | — | 16.72% |
+| **MMS-1B, from khm adapter (M2)** | 10 h | 7.82% | **7.45%** [7.26–7.64] | 7.27% | 15.88% |
+| MMS-1B, new adapter (S) | 100 h | 5.33% | 5.24% [5.07–5.42] | 4.83% | 14.97% |
+| **MMS-1B, from khm adapter (M2)** | 100 h | 4.54% | **4.62%** [4.47–4.80] | 4.12% | **14.36%** |
+| Whisper small (S) | 100 h | 2.40% | 4.70% [4.48–4.93] | 3.44% | 24.48% |
+| **Whisper small, full data** | 872 h, 1 pass | 1.26% | **2.85%** [2.66–3.08] | **1.89%** | 18.61% |
+
+Paired bootstrap on the same clips (difference in CER points, 95% interval):
+
+| Comparison | Test | FLEURS | Seen speakers |
+|---|---|---|---|
+| M2 vs new adapter, 10 h | −0.99 [−1.07, −0.91] | −0.85 [−1.06, −0.66] | — |
+| M2 vs new adapter, 100 h | −0.61 [−0.69, −0.54] | −0.61 [−0.80, −0.44] | −0.71 [−0.79, −0.64] |
+| M2 100 h vs zero-shot | −5.08 [−5.21, −4.96] | **−1.13 [−1.39, −0.84]** | −5.72 [−5.90, −5.55] |
+| Whisper 872 h vs best MMS (M2 100 h) | −1.77 [−1.92, −1.59] | +4.25 [+3.27, +5.23] | −2.23 [−2.38, −2.10] |
+
+Second seed (10 h, same data): new adapter 8.43 / 8.46% test, 16.72 / 16.63% FLEURS; M2 7.45 / 7.39%
+test, 15.88 / 15.72% FLEURS. Seed-to-seed differences are ≤ 0.16 points.
+
+### Findings
+- **RQ3 — starting from Meta's Khmer adapter helps at both sizes, in and out of domain**, at no extra
+  training cost. It is worth about 1 point at 10 h and 0.6 points at 100 h on the test set, roughly
+  15× the seed-to-seed noise. **M2 100 h is the first fine-tuned model that is clearly better than
+  zero-shot on FLEURS** (14.36% vs 15.49%): the new-adapter runs had lost Meta's generality; keeping
+  it fixes that.
+- **Full data makes Whisper small near-perfect in domain**: 2.85% test (−39% vs 100 h), 1.89% on seen
+  speakers; validation was still improving at the end of the single pass.
+- **The in-domain / out-of-domain split remains the main result for RQ4**: the best Whisper
+  (872 h) is 1.8 points better than the best MMS (M2 100 h) on the test set but 4.3 points worse on
+  FLEURS — even with almost 9× more training data.
+- **Unseen-speaker testing matters most for fully fine-tuned models.** On seen speakers Whisper's
+  CER is 27% (100 h) and 34% (872 h) lower than on unseen speakers; MMS changes by only 2–8%.
+  A split that lets test speakers into training would make Whisper look about a third better than
+  it is on new voices.
+
+### Cost and logs
+- 30–31 Oct night run (M2 10 h + Whisper 872 h): ≈ $4.70. 31 Oct round 3: $7.60. **Total GPU spend
+  ≈ $23** of the $200 budget.
+- Pods back results up to the private HF repo (sha256 checked) and stop themselves, so nothing is
+  billed while unattended. All per-run logs, predictions and the round logs
+  (`experiments/m2_full_logs/`, `experiments/round3_logs/`) are in git; weights are on HF.
+- **Problem:** the planned second Whisper pass did not run. Logs pushed to GitHub during the round
+  made the pod's `git pull` before that run fail. Fixed: each round now pins its code at the start
+  (`SKIP_PULL`), and nothing is pushed while a pod runs.
+
+### Next
+- Paper and slides: M2 section, full-data model, seen-speaker table, paired tests.
+- Error analysis: which characters are confused; digits, Latin words, over-long clips.
+- Optional (needs a top-up): MMS from the khm adapter on the full 872 h — likely the best model out
+  of domain (≈ $13); Whisper second pass (≈ $4).
+- Advisor: approve split option D (lock the test set) and the M2 strategy.
+
+---
+
 ## Report 4 — 29–30 Oct 2026 · Data scaling (RQ2)
 
 ### Setup
