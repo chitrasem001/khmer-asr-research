@@ -56,7 +56,7 @@ hears Khmer but cannot write it — the gap fine-tuning has to close.
 | MMS-1B, new adapter | 50 h | 6.20% [6.05–6.39] | 15.69% |
 | MMS-1B, new adapter | 100 h | 5.24% [5.07–5.42] | 14.97% |
 
-Figure 5.1 (`paper/fig_scaling.png`) plots these results against training hours.
+![Figure 5.1. CER against training hours (log scale) on the test set and FLEURS. Solid lines: the scaling runs; dashed: MMS with the adapter started from the released Khmer adapter (M2); open diamond: Whisper small trained once on all 872 h; dotted: zero-shot MMS. Zero-shot Whisper (above 100%) is off the chart.](../../paper/fig_scaling.png)
 
 **RQ1.** Fine-tuning reduces CER for both families. Whisper small goes from unusable (136%) to 19.43%
 with 10 hours; MMS from 9.71% to 8.43% (−13% relative), and all four test speakers improve.

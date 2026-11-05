@@ -18,7 +18,7 @@ Automatic speech recognition (ASR) for Khmer sits where three lines of work meet
 speech models that cover many languages, methods for adapting those models cheaply to one
 language, and the practical problems of a low-resource language with its own script. This chapter
 reviews each line, then the small body of Khmer-specific work, and ends with the gap this thesis
-addresses (Section 2.8, Table 2.3).
+addresses (Section 2.9, Table 2.2).
 
 ## 2.2 From pipelines to end-to-end recognition
 
@@ -65,7 +65,7 @@ transcribe anything.
 - **Omnilingual ASR** [18] extends coverage to more than 1,600 languages with models from 300M to
   7B parameters and is designed so communities can add a language from a few samples
   (*published*). It appeared after the models in this thesis were chosen; a community Khmer model
-  built on it is listed in Table 2.2.
+  built on it is listed in Table 2.1.
 
 **Which pretraining adapts better?** Rouditchenko et al. [8] compare self-supervised (XLS-R) and
 weakly supervised (Whisper) pretraining for languages unseen or rare in pretraining and find that
@@ -102,7 +102,7 @@ Whisper (*published*) [7]. This thesis follows the same one-variable-at-a-time d
   with a fixed test split. It is the most common shared yardstick for Khmer results and is used
   here as the out-of-domain test set.
 - **Common Voice** [21] is a crowdsourced multilingual corpus collected and validated by volunteers;
-  some Khmer community models are trained on it (Table 2.2).
+  some Khmer community models are trained on it (Table 2.1).
 - **SEACrowd** [9] collects data and benchmarks for Southeast Asian languages, and
   **SEA-SpeechBench** [5] evaluates speech understanding across the region. On SEA-SpeechBench,
   commercial speech LLMs reach 13–30% CER on Khmer while open 3–30B models range from 77% to 571%
@@ -153,7 +153,7 @@ the DDD corpus or compares model families for Khmer under one protocol.
 
 **Community models (model cards, not peer-reviewed).**
 
-*Table 2.2. Khmer models with reported results (as stated on their cards; not verified by us).*
+*Table 2.1. Khmer models with reported results (as stated on their cards; not verified by us).*
 
 | Model | Base | Training data (as stated) | Reported result |
 |---|---|---|---|
@@ -188,7 +188,7 @@ our FLEURS numbers are only approximately comparable to published ones.
 
 ## 2.9 Research gap
 
-*Table 2.3. What existing Khmer work covers, and what this thesis adds.*
+*Table 2.2. What existing Khmer work covers, and what this thesis adds.*
 
 | Aspect | Prior Khmer work | This thesis |
 |---|---|---|
@@ -200,7 +200,8 @@ our FLEURS numbers are only approximately comparable to published ones.
 | Uncertainty | Single numbers | Bootstrap intervals, paired tests, second seed |
 | Speaker familiarity | Not measured | Seen- vs unseen-speaker test sets |
 
-The searches in Section 2.1 found no controlled study of modern pretrained models fine-tuned on
+Our searches (arXiv, ACL Anthology, IEEE Xplore and the general web; last on 5 Nov 2026) found no
+controlled study of modern pretrained models fine-tuned on
 Khmer that isolates, on one leakage-free test set with a documented normalization protocol, (1) the
 gain from fine-tuning, (2) the effect of data quantity, (3) the effect of a Khmer-specific strategy
 and (4) the difference between model families. The Khmer ASR papers found either use hybrid HMM

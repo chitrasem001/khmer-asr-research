@@ -49,6 +49,8 @@ text it has memorized. Section 3.2 builds a split that prevents this.
 Speaker hours are very unbalanced: the three largest speakers hold 61% of the audio
 (256.6, 221.2 and 175.1 h), while three speakers have only 16 clips each (about 0.05 h).
 
+![Figure 3.1. Hours of audio per speaker (log scale) and each speaker's role in the split. Speaker m-adt4-0002 is not used for training because every sentence it read was also read by a test speaker.](../../paper/fig_speakers.png)
+
 *Table 3.2. Speakers, hours and role in the split (group codes from the dataset; adt4 = aged 60
 or over).*
 
