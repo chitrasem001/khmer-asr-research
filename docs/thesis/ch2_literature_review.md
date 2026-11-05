@@ -2,7 +2,9 @@
 
 Draft for the thesis *An Experimental Study of Fine-Tuning Strategies for Pretrained Models in Khmer
 ASR* (Sem Chitra; advisor Dr. Mao Makara). Last literature search: **5 Nov 2026** (arXiv, ACL
-Anthology, general web; IEEE Xplore not searched directly — repeat before submission).
+Anthology, IEEE Xplore through web search, general web; repeat before submission). Three sources
+[26–28] could only be checked through their abstracts and listings; their full texts are still to be
+read.
 
 Conventions: numbers reported by other authors are marked *published*; numbers from this thesis
 are marked *ours*. Model cards are not peer-reviewed and are marked as such. References are listed
@@ -23,7 +25,11 @@ addresses (Section 2.8, Table 2.3).
 Classical ASR combined an acoustic model (hidden Markov models with Gaussian mixtures, later with
 neural networks), a pronunciation lexicon and an n-gram language model. The first Khmer
 broadcast-news recognizer was built this way and had to choose between word and sub-word units
-because written Khmer does not mark word boundaries [6].
+because written Khmer does not mark word boundaries [6]. Later Khmer systems kept the hybrid design
+with neural acoustic models: a DNN-HMM isolated-word recognizer for a 194-word vocabulary recorded on
+mobile phones reached 93.31% word accuracy for unseen speakers (*published*) [27], and a convolutional
+time-delay neural network (CNN-TDNN) acoustic model for large-vocabulary continuous Khmer ASR improved
+on a plain TDNN by 14% relative on average (*published*) [26].
 
 End-to-end models replace this pipeline with one network trained from audio and text pairs. Two
 families matter for this thesis:
@@ -138,8 +144,12 @@ numbers are hard to compare (Section 2.7).
 **Peer-reviewed work.** Beyond the HMM-era broadcast-news system [6], the most relevant recent
 results come from multilingual studies: BuzzASR [4] trains one Whisper-large-v3 model per language
 and reports, for Khmer FLEURS, 103.19% CER zero-shot and 25.99% after full fine-tuning
-(*published*). No peer-reviewed study we found fine-tunes a modern pretrained model on the DDD
-corpus.
+(*published*). Hybrid HMM-based systems are covered in Section 2.2 [26, 27]. One application paper
+builds a voice-first Khmer tutoring system (InnerEcho) around a fine-tuned Whisper small model and
+reports 3.1% CER and 6.8% WER on "Khmer educational speech" (*published*) [28]; from its abstract, the
+training data, the test set and whether its speakers are held out are not described, so the number
+cannot be compared with ours. No peer-reviewed study we found fine-tunes a modern pretrained model on
+the DDD corpus or compares model families for Khmer under one protocol.
 
 **Community models (model cards, not peer-reviewed).**
 
@@ -193,9 +203,10 @@ our FLEURS numbers are only approximately comparable to published ones.
 The searches in Section 2.1 found no controlled study of modern pretrained models fine-tuned on
 Khmer that isolates, on one leakage-free test set with a documented normalization protocol, (1) the
 gain from fine-tuning, (2) the effect of data quantity, (3) the effect of a Khmer-specific strategy
-and (4) the difference between model families. Recent Khmer work in the searched venues concerns
-scene-text recognition rather than speech [25]. This thesis addresses that gap with research
-questions RQ1–RQ4.
+and (4) the difference between model families. The Khmer ASR papers found either use hybrid HMM
+systems [6, 26, 27] or fine-tune a pretrained model inside an application without a controlled
+comparison [28]; other recent Khmer work in these venues concerns scene-text recognition rather than
+speech [25]. This thesis addresses that gap with research questions RQ1–RQ4.
 
 ---
 
@@ -236,10 +247,12 @@ questions RQ1–RQ4.
 16. A. Conneau, A. Baevski, R. Collobert, A. Mohamed, M. Auli. Unsupervised cross-lingual
     representation learning for speech recognition. arXiv:2006.13979, 2020 (Interspeech 2021).
     https://arxiv.org/abs/2006.13979
-17. A. Babu, C. Wang, et al. XLS-R: Self-supervised cross-lingual speech representation learning at
-    scale. arXiv:2111.09296, 2021. https://arxiv.org/abs/2111.09296
-18. Omnilingual ASR team (FAIR at Meta). Omnilingual ASR: Open-source multilingual speech recognition
-    for 1600+ languages. arXiv:2511.09690, 2025. https://arxiv.org/abs/2511.09690
+17. A. Babu, C. Wang, A. Tjandra, K. Lakhotia, Q. Xu, N. Goyal, K. Singh, P. von Platen, Y. Saraf,
+    J. Pino, A. Baevski, A. Conneau, M. Auli. XLS-R: Self-supervised cross-lingual speech
+    representation learning at scale. arXiv:2111.09296, 2021. https://arxiv.org/abs/2111.09296
+18. Omnilingual ASR team, FAIR at Meta (G. Keren et al.; contributors listed alphabetically).
+    Omnilingual ASR: Open-source multilingual speech recognition for 1600+ languages.
+    arXiv:2511.09690, 2025. https://arxiv.org/abs/2511.09690
 19. N. Houlsby et al. Parameter-efficient transfer learning for NLP. ICML 2019 (PMLR 97),
     arXiv:1902.00751. https://arxiv.org/abs/1902.00751
 20. E. J. Hu, Y. Shen, et al. LoRA: Low-rank adaptation of large language models. arXiv:2106.09685,
@@ -251,12 +264,26 @@ questions RQ1–RQ4.
     https://huggingface.co/gagan3012/wav2vec2-xlsr-khmer
 23. M. Bisani, H. Ney. Bootstrap estimates for confidence intervals in ASR performance evaluation.
     ICASSP 2004, vol. 1, pp. 409–412. https://doi.org/10.1109/ICASSP.2004.1326009
-24. Statistical testing on ASR performance via blockwise bootstrap. arXiv:1912.09508.
-    https://arxiv.org/abs/1912.09508
-25. KhmerST: A low-resource Khmer scene text detection and recognition benchmark. ACCV 2024,
-    arXiv:2410.18277. https://arxiv.org/abs/2410.18277
+24. Z. Liu, F. Peng. Statistical testing on ASR performance via blockwise bootstrap. Interspeech (year to confirm),
+    arXiv:1912.09508. https://arxiv.org/abs/1912.09508
+25. V. Nom, S. Bakkali, M. M. Luqman, M. Coustaty, J.-M. Ogier. KhmerST: A low-resource Khmer scene
+    text detection and recognition benchmark. ACCV 2024, pp. 1777–1792; arXiv:2410.18277.
+    https://arxiv.org/abs/2410.18277
+26. N. Srun, S. Leang, Y. K. Thu, S. Sam. Convolutional time delay neural network for Khmer automatic
+    speech recognition. 17th Int. Joint Symposium on Artificial Intelligence and Natural Language
+    Processing (iSAI-NLP), 2022, pp. 1–6. https://ieeexplore.ieee.org/document/9960286
+    (open copy: https://hal.univ-grenoble-alpes.fr/hal-03865538). *Full text not yet read.*
+27. C. Lim. Towards deep learning on speech recognition for Khmer language. M.S. thesis, University of
+    Missouri–Columbia, 2016. https://mospace.umsystem.edu/handle/10355/56110 *Full text not yet read.*
+28. RAG-powered Khmer audio learning and AI conversational tutor for inclusive education. IEEE Xplore
+    document 11702923. https://ieeexplore.ieee.org/abstract/document/11702923/ *Authors, venue, year
+    and full text not yet read (page not accessible to automated tools).*
 
 ### To verify before submission
-- Repeat the gap search, including IEEE Xplore and the Interspeech 2026 / ICASSP 2027 programmes.
-- Author lists marked "et al." or missing in [17], [18], [24], [25]: copy them from the papers.
+- Read the full texts of [26]–[28] in a browser (IEEE Xplore through the university library; HAL and
+  MOSpace are open access) and complete [28]'s authors, venue and year; check [26]'s data and test
+  setup.
+- Repeat the gap search before submission, including the Interspeech 2026 / ICASSP 2027 programmes.
 - Omnilingual ASR training-data figures reported by secondary sources (not used here).
+- [24]: the venue (Interspeech; year not stated) comes from the authors' institution's publication page; confirm in
+  the paper.
