@@ -61,7 +61,7 @@ Published results by others are marked as such; everything else is our own measu
 
 ### Setup
 - **M2 (RQ3): start the MMS adapter from Meta's released Khmer (`khm`) adapter** instead of from
-  scratch. The 288 adapter tensors are copied as they are; in the output layer, 105 of our 111
+  scratch. The 288 adapter tensors are copied as they are; in the output layer, 105 of our 111 (10 h; 110 of 116 at 100 h)
   characters take the released row for the same character, and the 6 characters the released
   vocabulary lacks (`|`, `è`, ៤ ៦ ៨ ៩) start new. Everything else is identical to the M1/S MMS runs
   (same subsets, steps, learning rate), so only the initialisation changes. Check before training:

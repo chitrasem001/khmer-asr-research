@@ -645,8 +645,8 @@ def build() -> Path:
     para(doc, (
         "M2 changes only the initialisation of the MMS adapter: its 288 adapter tensors are copied "
         "from the released Khmer adapter, and each output-layer row for a character the released "
-        "vocabulary also contains is copied too (105 of 111); the remaining six (the word "
-        "delimiter, è and the digits \u17e4 \u17e6 \u17e8 \u17e9) start new. Before any training "
+        "vocabulary also contains is copied too (105 of 111 at 10 h, 110 of 116 at 100 h); the "
+        "remaining six (the word delimiter, è and the digits \u17e4 \u17e6 \u17e8 \u17e9) start new. Before any training "
         "this model already scores 10.07% CER on 40 validation clips, against 249.71% for a new "
         "head. The 10 h runs of both MMS variants are repeated with a second training seed on the "
         "same data. The final Whisper model trains on the whole training split for one pass "
@@ -845,7 +845,9 @@ def build() -> Path:
     if rows8:
         add_table(doc, "Table 8. Unseen versus seen speakers: CER on the test set (four held-out "
                        "speakers) and on new sentences read by training speakers (1,891 clips), the "
-                       "relative change, and FLEURS.",
+                       "relative change, and FLEURS. 73 seen-speaker clips are read by the speaker "
+                       "excluded from training; removing them changes no value by more than 0.05 "
+                       "points.",
                   ["Model", "Data", "Unseen speakers", "Seen speakers", "Change", "FLEURS"],
                   rows8, [4.4, 1.4, 2.6, 2.6, 1.7, 2.0])
     if full and m2_100:
