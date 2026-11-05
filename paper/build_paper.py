@@ -67,6 +67,8 @@ REFERENCES = [
     "Digital-Divide-Data/khmer-speech-dataset, revision e872b0c."),
     "sengtha, “whisper-base-khmer,” model card, Hugging Face, accessed Oct. 2026.",
     "Darayut, “Omnilingual-ASR-Khm,” model card, Hugging Face, accessed Oct. 2026.",
+    ("M. Bisani and H. Ney, “Bootstrap estimates for confidence intervals in ASR performance "
+     "evaluation,” in Proc. ICASSP, 2004, vol. 1, pp. 409–412."),
 ]
 
 
@@ -955,6 +957,10 @@ def build() -> Path:
         "MMS-1B-all is licensed CC BY-NC 4.0, which restricts it to non-commercial research.",
         ("Only the two 10 h MMS runs were repeated with a second seed; other configurations are "
          "single runs, with bootstrap intervals over clips."),
+        ("Bootstrap intervals and paired tests resample clips. Errors from one speaker are "
+         "correlated, and resampling sentences gives narrower intervals than resampling speakers "
+         "[13], so the intervals may be optimistic; with four test speakers, speaker-level "
+         "resampling would be very wide."),
         ("The full-data Whisper model trained for one pass and the scaling runs for 3.5, so it is "
          "not a point on the same curve."),
         ("Validation sizes differ between families (1,288 clips for MMS, 300 for Whisper), so "
