@@ -163,7 +163,7 @@ test sentences, since the corpus has no official split and every sentence is rea
 is not enough: a held-out speaker's sentences are also read by training speakers, so a model can be
 tested on text it memorized. Our split holds out both speakers and every sentence they read
 (Chapter 3), and we measure the size of the effect directly: fine-tuned Whisper is 27–34% more
-accurate on speakers it trained on than on new ones (*ours*, Chapter 4).
+accurate on speakers it trained on than on new ones (*ours*, Chapter 5).
 
 **Uncertainty.** Bisani and Ney [23] introduced bootstrap confidence intervals for ASR error rates
 and showed that resampling sentences gives narrower intervals than resampling speakers. This thesis
