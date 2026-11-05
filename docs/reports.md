@@ -8,6 +8,55 @@ Published results by others are marked as such; everything else is our own measu
 
 ---
 
+## Report 6 — 1 Nov 2026 · Error analysis
+
+### Setup
+- Character-level analysis of the saved predictions (no new training or inference) for five
+  models: MMS zero-shot, MMS new adapter 100 h, M2 100 h, Whisper small 100 h and 872 h, on the
+  test set and FLEURS. Same normalization and space-free alignment as the primary CER.
+- Code: `src/khmer_asr/evaluation/error_analysis.py` (5 unit tests), `scripts/error_analysis.py`;
+  outputs in `experiments/error_analysis/` (`class_rates.csv`, `confusions.csv`, `subsets.json`).
+
+### Error rate by character class (test set, (S + D + I) / N)
+
+| Class | Characters | MMS zero-shot | M2 100 h | Whisper 872 h |
+|---|---|---|---|---|
+| Consonant | 237,149 | 8.2% | 3.9% | 2.5% |
+| Dependent vowel | 91,549 | 9.6% | 4.7% | 2.9% |
+| Subscript sign (coeng) | 35,598 | 10.8% | 4.3% | 2.4% |
+| Diacritic / sign | 25,004 | 18.7% | 8.8% | 3.9% |
+| Independent vowel | 2,735 | 35.4% | 18.0% | 15.7% |
+| Digit | 388 | 46.6% | 21.6% | 17.0% |
+| Latin letter | 515 | 69.5% | 56.7% | 79.6% |
+
+### Findings
+- **The two most frequent errors of every model are spelling variants, not recognition errors.**
+  Subscript da vs ta (្ដ / ្ត: 84–93% of all ដ↔ត errors follow the subscript sign) and the two
+  forms of the vowel in ឲ្យ / ឱ្យ. They sound the same and the corpus mixes both (test references:
+  ្ដ 643 vs ្ត 2,610; ឲ 337 vs ឱ 1,166). Counting them as equal lowers test CER by 3–8% relative
+  (Whisper 872 h 2.85 → 2.62%, M2 100 h 4.62 → 4.38%); rankings do not change.
+- **Next: sounds the script writes two ways** — consonant pairs of the two series (ក/គ, ច/ជ, ប/ព),
+  final m vs nikahit (ម/ំ), and added or dropped subscripts.
+- **Digits and Latin words are the weakest points.** Clips containing them have 1.6–4.6× the
+  model's overall CER (Whisper 872 h: 7.67% with digits, 13.06% with Latin words). Whisper writes
+  62% of Latin letters as Khmer characters (it transliterates English words), M2 32%.
+- **Long transcripts:** the 24 test clips too long for Whisper's decoder score 15.3% for Whisper
+  872 h vs 6.2% for M2 (other clips: 2.68%). Long audio must be segmented before Whisper.
+- **Speakers:** every model is worse on the female test speakers (Whisper 872 h 3.60% vs 2.14%;
+  M2 5.50% vs 3.78%), mostly because of one speaker (f-adt1-0003). With four test speakers this is
+  a speaker effect, not evidence of a gender gap.
+
+### Decision needed
+- **Normalization v2:** unify ្ដ/្ត and ឲ/ឱ in the primary CER? Fairer to all models, but it changes
+  every reported number and must be decided **before the test set is locked**. Until then the
+  primary CER keeps protocol v1 and the merged CER is reported as a sensitivity check.
+
+### Next
+- Paper §9 (done), slide, advisor meeting (split D, M2, normalization v2, deadline/template).
+- Thesis: literature review chapter; chapters 3–5 from the paper.
+
+---
+
 ## Report 5 — 30 Oct – 1 Nov 2026 · Khmer-specific strategy (RQ3), full-data model, robustness checks
 
 ### Setup
