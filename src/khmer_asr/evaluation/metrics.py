@@ -9,6 +9,7 @@ def cer(
     hypotheses: list[str],
     normalize: bool = True,
     ignore_spaces: bool = True,
+    protocol: str | None = None,
 ) -> float:
     """Corpus-level Character Error Rate.
 
@@ -16,8 +17,8 @@ def cer(
     pass ignore_spaces=False for the secondary, space-sensitive CER.
     """
     if normalize:
-        references = [normalize_khmer_text(r) for r in references]
-        hypotheses = [normalize_khmer_text(h) for h in hypotheses]
+        references = [normalize_khmer_text(r, protocol=protocol) for r in references]
+        hypotheses = [normalize_khmer_text(h, protocol=protocol) for h in hypotheses]
     if ignore_spaces:
         references = [remove_spaces(r) for r in references]
         hypotheses = [remove_spaces(h) for h in hypotheses]

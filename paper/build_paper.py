@@ -9,7 +9,6 @@ import json
 from datetime import date
 from pathlib import Path
 
-import jiwer
 import matplotlib
 
 matplotlib.use("Agg")
@@ -23,7 +22,7 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Cm, Pt, RGBColor
 
-from khmer_asr.preprocessing.text import normalize_khmer_text, remove_spaces
+from khmer_asr.evaluation.stats import bootstrap_ci, clip_errors, paired_diff_ci
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "paper"
@@ -75,39 +74,6 @@ REFERENCES = [
 # ---------------------------------------------------------------- data
 def load_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
-
-
-def clip_errors(pred: pd.DataFrame) -> pd.DataFrame:
-    """Per-clip character edit counts on normalized, space-free text."""
-    rows = []
-    for ref, hyp in zip(pred["reference"], pred["hypothesis"].fillna(""), strict=True):
-        r = remove_spaces(normalize_khmer_text(ref))
-        h = remove_spaces(normalize_khmer_text(hyp))
-        o = jiwer.process_characters([r], [h])
-        rows.append((o.substitutions + o.deletions + o.insertions, o.hits + o.substitutions + o.deletions))
-    return pd.DataFrame(rows, columns=["errors", "ref_chars"])
-
-
-def bootstrap_ci(errs: pd.DataFrame, n_boot: int = 1000, seed: int = 42) -> tuple[float, float]:
-    """95% bootstrap interval for corpus CER, resampling clips."""
-    rng = np.random.default_rng(seed)
-    e, n = errs["errors"].to_numpy(), errs["ref_chars"].to_numpy()
-    idx = rng.integers(0, len(e), size=(n_boot, len(e)))
-    cers = e[idx].sum(axis=1) / n[idx].sum(axis=1)
-    return float(np.percentile(cers, 2.5)), float(np.percentile(cers, 97.5))
-
-
-def paired_diff_ci(a: pd.DataFrame, b: pd.DataFrame, n_boot: int = 1000,
-                   seed: int = 42) -> tuple[float, float, float]:
-    """CER(a) - CER(b) on the same clips, with a 95% paired bootstrap interval."""
-    if len(a) != len(b):
-        raise ValueError("Paired comparison needs the same clips")
-    rng = np.random.default_rng(seed)
-    ea, eb, n = a["errors"].to_numpy(), b["errors"].to_numpy(), a["ref_chars"].to_numpy()
-    idx = rng.integers(0, len(n), size=(n_boot, len(n)))
-    diffs = (ea[idx].sum(axis=1) - eb[idx].sum(axis=1)) / n[idx].sum(axis=1)
-    return (float((ea.sum() - eb.sum()) / n.sum()),
-            float(np.percentile(diffs, 2.5)), float(np.percentile(diffs, 97.5)))
 
 
 def load_results() -> list[dict]:
@@ -752,14 +718,18 @@ def build() -> Path:
 
     w50, m10, m50 = ftr("whisper", 50), ftr("mms", 10), ftr("mms", 50)
     if all((w10, w50, w100, m10, m50, m100)):
+        def gap(w: dict, m: dict) -> str:  # paired Whisper - MMS on the same test clips
+            d, lo, hi = paired(w["run"], m["run"], "test")
+            return f"{d * 100:+.2f} points [{lo * 100:+.2f}, {hi * 100:+.2f}]"
+
         para(doc, (
             "Fine-tuning helps both families in domain. Whisper small goes from unusable zero-shot "
             f"to {pct(w10['test']['cer'])} test CER with 10 h and {pct(w100['test']['cer'])} with "
             f"100 h. MMS starts from a strong zero-shot model ({pct(zero_shot['test'])}) and improves "
-            f"steadily to {pct(m100['test']['cer'])}. At 10 h MMS is clearly better; at 50 h the two "
-            f"are tied (Whisper {pct(w50['test']['cer'], 2)}, MMS {pct(m50['test']['cer'], 2)}, "
-            "overlapping intervals); at 100 h Whisper is significantly better (non-overlapping "
-            "intervals). Neither curve has flattened at 100 h."
+            f"steadily to {pct(m100['test']['cer'])}. At 10 h MMS is clearly better; at 50 h MMS is "
+            f"still slightly but significantly better (Whisper {pct(w50['test']['cer'], 2)}, MMS "
+            f"{pct(m50['test']['cer'], 2)}; Whisper − MMS {gap(w50, m50)}, paired); at 100 h Whisper "
+            f"is significantly better ({gap(w100, m100)}). Neither curve has flattened at 100 h."
         ), bold_lead="In domain. ")
         para(doc, (
             "On FLEURS the picture changes. Fine-tuned MMS stays close to its zero-shot score "

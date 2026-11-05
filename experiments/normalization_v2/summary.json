@@ -1,0 +1,17 @@
+{
+  "split_check": {
+    "v1": {
+      "distinct_train_sentences": 94060,
+      "test_clips_with_sentence_in_train": 0,
+      "test_seen_speakers_clips_with_sentence_in_train": 0,
+      "validation_clips_with_sentence_in_train": 0
+    },
+    "v2": {
+      "distinct_train_sentences": 94059,
+      "test_clips_with_sentence_in_train": 0,
+      "test_seen_speakers_clips_with_sentence_in_train": 0,
+      "validation_clips_with_sentence_in_train": 0
+    }
+  },
+  "runs_rescored": 38
+}

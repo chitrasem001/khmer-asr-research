@@ -96,18 +96,10 @@ def char_errors(references: list[str], hypotheses: list[str]) -> CharErrors:
     return errs
 
 
-# Spellings the corpus uses interchangeably for the same sound: subscript da/ta and the two forms
-# of the independent vowel qoo (as in ឲ្យ / ឱ្យ). No model can tell them apart from audio.
-SPELLING_VARIANTS = {COENG + "ដ": COENG + "ត", "ឲ": "ឱ"}
-
-
 def merge_spelling_variants(text: str) -> str:
-    """Normalize, then map each spelling variant to one form (sensitivity analysis only; the
-    primary CER keeps protocol v1)."""
-    text = normalize_khmer_text(text)
-    for old, new in SPELLING_VARIANTS.items():
-        text = text.replace(old, new)
-    return text
+    """Normalize with protocol v2, which merges same-sound spelling variants (sensitivity analysis
+    while the primary CER keeps protocol v1)."""
+    return normalize_khmer_text(text, protocol="v2")
 
 
 def is_looping(reference: str, hypothesis: str, factor: float = 1.5) -> bool:

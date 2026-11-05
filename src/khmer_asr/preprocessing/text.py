@@ -11,6 +11,13 @@ Rules (in order):
     symbols such as $ + and the repetition sign ៗ are kept. All of these are read aloud.
  6. Arabic digits mapped to Khmer digits; Latin letters lowercased.
  7. All whitespace (newlines, no-break spaces) collapsed to one space and stripped.
+
+Protocol v2 (proposed, not yet adopted) adds one rule after 4:
+ 4b. Spelling variants that sound the same and that the corpus uses interchangeably are merged:
+     subscript da -> subscript ta (U+17D2 U+178A -> U+17D2 U+178F) and qoo type two -> type one
+     (U+17B2 -> U+17B1, as in ឲ្យ / ឱ្យ). Found by the error analysis (docs/decisions.md).
+
+PROTOCOL is the default for training, splitting and scoring; changing it changes every number.
 """
 import re
 import unicodedata
@@ -32,6 +39,11 @@ _VOWEL_BEFORE_SUBSCRIPT = re.compile(f"({_VOWEL})({_SUBSCRIPT})")
 _NIKAHIT_BEFORE_U = re.compile("\u17c6\u17bb")
 # Unicode classes these as punctuation, but they are read aloud.
 _SPOKEN_PUNCTUATION = frozenset("%&#@")
+# Same-sound spellings merged by protocol v2.
+_SPELLING_VARIANTS = (("្ដ", "្ត"), ("ឲ", "ឱ"))
+
+PROTOCOLS = ("v1", "v2")
+PROTOCOL = "v1"  # the protocol in use; v2 awaits the advisor's decision
 
 
 def _fix_order(text: str) -> str:
@@ -57,13 +69,20 @@ def normalize_khmer_text(
     remove_punctuation: bool = True,
     map_digits: bool = True,
     lowercase_latin: bool = True,
+    protocol: str | None = None,
 ) -> str:
-    """Normalize a Khmer transcript for training and evaluation."""
+    """Normalize a Khmer transcript for training and evaluation (protocol defaults to PROTOCOL)."""
+    protocol = protocol or PROTOCOL
+    if protocol not in PROTOCOLS:
+        raise ValueError(f"Unknown normalization protocol {protocol!r}; expected one of {PROTOCOLS}")
     text = unicodedata.normalize(unicode_form, text).translate(_DEPRECATED)
     if remove_zero_width:
         text = _ZERO_WIDTH.sub("", text)
     if fix_order:
         text = _fix_order(text)
+    if protocol == "v2":
+        for old, new in _SPELLING_VARIANTS:
+            text = text.replace(old, new)
     if remove_punctuation:
         text = _strip_punctuation(text)
     if map_digits:

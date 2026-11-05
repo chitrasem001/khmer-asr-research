@@ -28,7 +28,8 @@ language but its decoding loops, giving CER above 100%. After fine-tuning on 10 
 **RQ2 — How does the amount of data matter?** Every increase helped and no curve flattened within
 the range studied. From 10 to 50 to 100 hours, Whisper fell from 19.43% to 6.40% to 4.70% and MMS
 from 8.43% to 6.20% to 5.24%. Whisper is far more data-hungry: it is the weaker model at 10 hours,
-statistically tied with MMS at 50 hours, and significantly better at 100 hours. Trained once over the
+still slightly but significantly behind MMS at 50 hours (by 0.20 points), and significantly better at
+100 hours. Trained once over the
 full 872 hours it reaches 2.85% — and its validation error was still falling.
 
 **RQ3 — Does a Khmer-specific strategy help beyond plain fine-tuning?** Yes. Starting the MMS

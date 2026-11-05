@@ -65,9 +65,11 @@ with 10 hours; MMS from 9.71% to 8.43% (−13% relative), and all four test spea
 cuts test CER by 27% (Whisper) and 15% (MMS), and the full 872 hours take Whisper to 2.85%, with its
 its lowest validation CER at the final evaluation of the single pass (1.26% at step 24,000, after
 1.43% at 16,000 and a rise to 1.92% at 20,000).
-Whisper is far more data-hungry: the weaker model at 10 hours, statistically tied with MMS at 50 hours
-(6.40% vs 6.20%, overlapping intervals), and significantly better at 100 hours (4.70% vs 5.24%,
-non-overlapping intervals).
+Whisper is far more data-hungry: clearly the weaker model at 10 hours, still slightly but
+significantly behind MMS at 50 hours (6.40% vs 6.20%; Whisper − MMS +0.20 points [+0.05, +0.34],
+paired on the same clips — the separate intervals overlap, but the paired test is the right one for
+two models scored on the same clips), and significantly better at 100 hours (4.70% vs 5.24%; −0.54
+points [−0.71, −0.38]).
 
 **Out of domain** the picture differs. Fine-tuned MMS with a new adapter stays close to zero-shot on
 FLEURS and is first *worse* than it (16.72% at 10 h vs 15.49%), recovering only at 100 hours (14.97%):

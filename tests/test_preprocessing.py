@@ -55,3 +55,21 @@ def test_cer_identical_is_zero():
 
 def test_cer_ignores_normalization_differences():
     assert cer(["សួស្តី  ពិភពលោក"], ["សួស្តី ពិភពលោក"]) == 0.0
+
+
+def test_protocol_v2_merges_spelling_variants_and_v1_does_not():
+    from khmer_asr.preprocessing.text import normalize_khmer_text
+
+    assert normalize_khmer_text("ស្ដាប់", protocol="v2") == normalize_khmer_text("ស្តាប់", protocol="v2")
+    assert normalize_khmer_text("ឲ្យ", protocol="v2") == normalize_khmer_text("ឱ្យ", protocol="v2")
+    assert normalize_khmer_text("ស្ដាប់", protocol="v1") != normalize_khmer_text("ស្តាប់", protocol="v1")
+    assert normalize_khmer_text("ដើម", protocol="v2") == "ដើម"  # full da is kept
+
+
+def test_unknown_protocol_is_rejected():
+    import pytest
+
+    from khmer_asr.preprocessing.text import normalize_khmer_text
+
+    with pytest.raises(ValueError):
+        normalize_khmer_text("ក", protocol="v3")

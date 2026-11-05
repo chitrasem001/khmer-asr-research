@@ -1,0 +1,17 @@
+comparison,set,diff_v1,significant_v1,diff_v2,significant_v2
+"M2 vs new adapter, 10 h",test,"-0.99 [-1.07, -0.91]",True,"-0.99 [-1.07, -0.92]",True
+"M2 vs new adapter, 10 h",fleurs,"-0.85 [-1.06, -0.66]",True,"-0.85 [-1.06, -0.65]",True
+"M2 vs new adapter, 100 h",test,"-0.61 [-0.69, -0.54]",True,"-0.63 [-0.70, -0.55]",True
+"M2 vs new adapter, 100 h",fleurs,"-0.61 [-0.80, -0.44]",True,"-0.60 [-0.78, -0.42]",True
+"M2 vs new adapter, 100 h",seen,"-0.71 [-0.79, -0.64]",True,"-0.70 [-0.78, -0.63]",True
+M2 100 h vs zero-shot MMS,test,"-5.08 [-5.21, -4.96]",True,"-5.06 [-5.18, -4.94]",True
+M2 100 h vs zero-shot MMS,fleurs,"-1.13 [-1.39, -0.84]",True,"-1.16 [-1.43, -0.87]",True
+M2 100 h vs zero-shot MMS,seen,"-5.72 [-5.90, -5.55]",True,"-5.70 [-5.87, -5.53]",True
+Whisper 872 h vs M2 100 h,test,"-1.77 [-1.92, -1.59]",True,"-1.76 [-1.90, -1.58]",True
+Whisper 872 h vs M2 100 h,fleurs,"+4.25 [+3.27, +5.23]",True,"+4.29 [+3.31, +5.27]",True
+Whisper 872 h vs M2 100 h,seen,"-2.23 [-2.38, -2.10]",True,"-2.25 [-2.39, -2.12]",True
+Whisper 100 h vs MMS new adapter 100 h,test,"-0.54 [-0.71, -0.38]",True,"-0.55 [-0.71, -0.38]",True
+Whisper 100 h vs MMS new adapter 100 h,fleurs,"+9.51 [+8.33, +10.73]",True,"+9.54 [+8.35, +10.75]",True
+Whisper 100 h vs MMS new adapter 100 h,seen,"-1.39 [-1.54, -1.25]",True,"-1.40 [-1.55, -1.26]",True
+Whisper 50 h vs MMS new adapter 50 h,test,"+0.20 [+0.05, +0.34]",True,"+0.19 [+0.05, +0.33]",True
+Whisper 50 h vs MMS new adapter 50 h,fleurs,"+17.12 [+15.50, +18.78]",True,"+17.10 [+15.46, +18.75]",True
