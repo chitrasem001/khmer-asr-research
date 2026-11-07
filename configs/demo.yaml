@@ -18,6 +18,13 @@ models:
     max_new_tokens: 200   # zero-shot Whisper loops; capped so the demo stays responsive
   # Fine-tuned weights are git-ignored; download them from the private HF repo
   # chitra168/khmer-asr-thesis-models (folders <run>/best) into experiments/.
+  - id: mms-m2-100h
+    label: MMS-1B · M2 (Khmer-adapter start) 100 h
+    color: "#0F7A5C"
+    family: mms
+    name_or_path: experiments/m2_mms_khm_init_100h/best
+    revision: null
+    language: null   # the fine-tuned checkpoint carries its own adapter and vocabulary
   - id: whisper-small-872h
     label: Whisper small · fine-tuned 872 h
     color: "#5C2306"
@@ -56,4 +63,7 @@ results:
       s_mms_50h: mms-1b 50 h
       s_mms_100h: mms-1b 100 h
       m2_mms_khm_init_10h: mms-1b M2 10 h
+      m2_mms_khm_init_100h: mms-1b M2 100 h
+      m1_mms_seed43: mms-1b 10 h (seed 43)
+      m2_mms_khm_init_10h_seed43: mms-1b M2 10 h (seed 43)
       f_whisper_small_872h: whisper-small 872 h
