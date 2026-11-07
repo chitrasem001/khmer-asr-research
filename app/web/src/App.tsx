@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import { getModels } from "./api";
 import Header, { type Tab } from "./components/Header";
 import CompareTab from "./components/CompareTab";
+import LiveTab from "./components/LiveTab";
 import ResultsTab from "./components/ResultsTab";
 import type { ModelsResponse } from "./types";
 
-const tabFromHash = (): Tab => (window.location.hash === "#results" ? "results" : "compare");
+const tabFromHash = (): Tab => {
+  const hash = window.location.hash.slice(1);
+  return hash === "results" || hash === "live" ? hash : "compare";
+};
 
 export default function App() {
   const [tab, setTabState] = useState<Tab>(tabFromHash);
@@ -33,7 +37,9 @@ export default function App() {
       <Header tab={tab} onTab={setTab} models={models} />
       <main>
         {error && <div className="error">{error}</div>}
-        {models && (tab === "compare" ? <CompareTab models={models.models} /> : <ResultsTab />)}
+        {models && tab === "compare" && <CompareTab models={models.models} />}
+        {models && tab === "live" && <LiveTab models={models.models} />}
+        {models && tab === "results" && <ResultsTab />}
       </main>
     </>
   );

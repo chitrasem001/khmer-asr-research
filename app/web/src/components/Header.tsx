@@ -1,9 +1,10 @@
 import type { ModelsResponse } from "../types";
 
-export type Tab = "compare" | "results";
+export type Tab = "compare" | "live" | "results";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "compare", label: "Compare" },
+  { id: "live", label: "Live" },
   { id: "results", label: "Results" },
 ];
 
