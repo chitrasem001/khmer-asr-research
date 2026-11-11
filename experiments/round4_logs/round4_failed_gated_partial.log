@@ -1,0 +1,20 @@
+# Round 4 (pod zd4mk8mv5w8xfl, A40), 2026-11-11 — FAILED before training
+# Partial record: status lines captured by the local monitor; the full launch log was lost when the
+# pod was deleted (copy-back failed and was not checked before deletion).
+
+Traceback (most recent call last):
+    raise HTTPStatusError(message, request=request, response=self)
+httpx2.HTTPStatusError: Client error '403 Forbidden' for url 'https://huggingface.co/datasets/Digital-Divide-Data/khmer-speech-dataset/resolve/e872b0c58b4bbbe30c0244def61e39e7b57ea093/data/train-00000
+    raise _format(GatedRepoError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+huggingface_hub.errors.GatedRepoError: 403 Client Error. (Request ID: Root=1-6af47443-7f3e16c3474877134a2ab687;89e2efe6-5976-48cd-80e0-cd389af1a2a6)
+== PREPARE EVAL AUDIO Wed Nov 11 13:57:28 UTC 2026
+huggingface_hub.errors.GatedRepoError: 403 Client Error. (Request ID: Root=1-6af4744b-4b2ca8d144a3bea82b1ba4e9;7dff3ea5-a845-4d9f-9724-184cafdd4503)
+huggingface_hub.errors.GatedRepoError: 403 Client Error. (Request ID: Root=1-6af4744e-0f74ecb65e7a42af541834db;af69bcfb-db7f-497e-a5d1-30fe6954d25f)
+== RUN f_mms_khm_init_872h START Wed Nov 11 13:58:08 UTC 2026
+== START Wed Nov 11 13:58:08 UTC 2026
+huggingface_hub.errors.GatedRepoError: 403 Client Error. (Request ID: Root=1-6af47479-76e78dcd59d9fb537d3ebeb0;0199159f-9e8e-4355-92dd-9653820b64e2)
+== RUN f_mms_khm_init_872h FAILED Wed Nov 11 13:58:24 UTC 2026
+== PACK Wed Nov 11 13:58:24 UTC 2026
+== ROUND4 DONE Wed Nov 11 13:58:24 UTC 2026
+pod job finished
+
